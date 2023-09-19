@@ -1,0 +1,12 @@
+Writing: 0: Smashing Pumpkins
+Writing: 1: Soundgarden
+Writing: 2: Pearl Jam
+Writing: 3: Nirvana
+Writing: 4: Mother Love Bone
+Writing: 5: Hole
+Writing: 6: Mudhoney
+Writing: 7: Dinosaur Jr
+Writing: 8: Screaming Trees
+Writing: 9: L7
+Writing: 10: Melvins
+Writing: 11: Alice In Chains
