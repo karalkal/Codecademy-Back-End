@@ -4,6 +4,8 @@ const hat = '^';
 const hole = 'O';
 const fieldCharacter = '░';
 const pathCharacter = '*';
+// The player will begin in the upper-left of the field, and the player’s path is represented by *
+// Will put it at random position to make it more challneging
 
 
 class Field {
@@ -30,10 +32,7 @@ class Field {
         this.field = [randomizedArray]
 
         let matrix = this.createTwoDimetionalMatrix(randomizedArray, width, height)
-        for (let r of matrix) {
-            console.log(r.join(""))
-        }
-        this.field = matrix
+        return new this(matrix)
     }
 
     static randomizeArray(initilArray) {       // credit to https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -81,7 +80,8 @@ if (typeof matrixWidth === "NaN" || typeof matrixHeight === "NaN" || typeof perc
     return
 } else {
     // newField.generateField(matrixWidth, matrixHeight, percentageHoles)   // static method, cannot call it with an instance
-    Field.generateField(matrixWidth, matrixHeight, percentageHoles)
+    let newMatrix = Field.generateField(matrixWidth, matrixHeight, percentageHoles)
+    newMatrix.print()
 }
 
 
