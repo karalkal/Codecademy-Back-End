@@ -9,6 +9,7 @@ const holeChar = colors.bgBlack('O');
 const fieldChar = colors.gray('░');
 const positionChar = colors.bgBlack('⌖')
 const pathChar = ' ';
+const deadChar = colors.magenta("x")
 
 // The player will begin in the upper-left of the field, and the player’s path is represented by *
 // Will put it at random position to make it more challneging
@@ -97,6 +98,7 @@ class Field {
                 direction = "Error!"
         }
         if (this.field[this.yPosition][this.xPosition] === holeChar) {
+            this.field[this.yPosition][this.xPosition] = deadChar
             throw new Error("Ya dead! Down in a whole!")
         }
 
@@ -134,8 +136,9 @@ try {
         try {
             newMatrix.move(nextMove)
         } catch (error) {
-            console.clear()
+            // console.clear()
             console.log(colors.inverse.red(error.message + "\n"))
+            newMatrix.print()
             break
         }
 
