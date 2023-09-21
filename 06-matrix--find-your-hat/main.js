@@ -1,9 +1,11 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
 const hatChar = '^';
-const holeChar = '◉';
+const holeChar = 'O';
 const fieldChar = '░';
-const pathChar = '*';
+const positionChar = '⌖'
+const pathChar = ' ';
+
 // The player will begin in the upper-left of the field, and the player’s path is represented by *
 // Will put it at random position to make it more challneging
 
@@ -26,7 +28,7 @@ class Field {
         const totalArea = width * height
         const holesCount = Math.round(percentageHoles / 100 * totalArea)              // percent of area (round) 
         const accessibleCount = totalArea - holesCount - 2                            // minus current position and target positiin
-        const array = [hatChar, pathChar]
+        const array = [hatChar, positionChar]
             .concat(new Array(holesCount).fill(holeChar))
             .concat(new Array(accessibleCount).fill(fieldChar))
         // 2. shuffle it
@@ -64,7 +66,7 @@ class Field {
             for (let col = 0; col < width; col++) {
                 let item = originalArray.pop()      // will basically reverse it around but who cares
                 // find initial position of *
-                if (item === pathChar) {
+                if (item === positionChar) {
                     xInitial = col
                     yInitial = row
                 }
@@ -81,18 +83,22 @@ class Field {
         switch (nextMove) {
             case "w" || "W":
                 direction = "UP";
+                this.field[this.yPosition][this.xPosition] = pathChar
                 this.yPosition--
                 break;
             case "d" || "D":
                 direction = "RIGHT";
+                this.field[this.yPosition][this.xPosition] = pathChar
                 this.xPosition++
                 break;
             case "s" || "S":
                 direction = "DOWN";
+                this.field[this.yPosition][this.xPosition] = pathChar
                 this.yPosition++
                 break;
             case "a" || "A":
                 direction = "LEFT";
+                this.field[this.yPosition][this.xPosition] = pathChar
                 this.xPosition--
                 break;
             default:
@@ -101,7 +107,9 @@ class Field {
         if (this.field[this.yPosition][this.xPosition] === holeChar) {
             throw new Error("Ya dead!")
         }
-        this.field[this.yPosition][this.xPosition] = pathChar
+
+        console.log(direction)
+        this.field[this.yPosition][this.xPosition] = positionChar
     }
 }
 
@@ -123,6 +131,7 @@ if (typeof matrixWidth === "NaN" || typeof matrixHeight === "NaN" || typeof perc
     // newField.generateField(matrixWidth, matrixHeight, percentageHoles)   // static method, cannot call it with an instance
     let newMatrix = Field.generateField(matrixWidth, matrixHeight, percentageHoles)
     console.clear()
+    console.log("Godspeed!")
 
     while (true) {
         newMatrix.print()
