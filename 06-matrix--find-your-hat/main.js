@@ -9,10 +9,10 @@ const pathCharacter = '*';
 
 
 class Field {
-    constructor(field) {        // will receive two-dimentional matrix
+    constructor(field, xPosition, yPosition) {
         this.field = field
-        this.xPosition = null
-        this.yPosition = null
+        this.xPosition = xPosition
+        this.yPosition = yPosition
     }
 
     print() {
@@ -31,10 +31,12 @@ class Field {
             .concat(new Array(accessibleCount).fill(fieldCharacter))
         // 2. shuffle it
         let randomizedArray = this.randomizeArray(array)
-        // 3. make it two dimensional
-        let { matrix, xInitial: xPosition, yInitial: yPosition } = this.createMatrixFindInitialPOsition(randomizedArray, width, height)
-
-        console.log(matrix, xPosition, yPosition)
+        // 3. make it two dimensional and determine initial X and Y
+        let initialData = this.createMatrixFindInitialPosition(randomizedArray, width, height)
+        let matrix = initialData.matrix
+        let xPosition = initialData.xInitial
+        let yPosition = initialData.yInitial
+        // 4. update this        
         return new this(matrix, xPosition, yPosition)
     }
 
@@ -52,7 +54,7 @@ class Field {
         return initilArray;
     }
 
-    static createMatrixFindInitialPOsition(originalArray, width, height) {
+    static createMatrixFindInitialPosition(originalArray, width, height) {
         let matrix = []
         let xInitial = null
         let yInitial = null
@@ -63,11 +65,8 @@ class Field {
                 let item = originalArray.pop()      // will basically reverse it around but who cares
                 // find initial position of *
                 if (item === pathCharacter) {
-                    console.log("OPPPA")
-
                     xInitial = row
                     yInitial = col
-                    console.log(xInitial, yInitial)
                 }
                 newRow.push(item)
             }
