@@ -1,9 +1,9 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
-const hat = '^';
-const hole = 'O';
-const fieldCharacter = '░';
-const pathCharacter = '*';
+const hatChar = '^';
+const holeChar = '◉';
+const fieldChar = '░';
+const pathChar = '*';
 // The player will begin in the upper-left of the field, and the player’s path is represented by *
 // Will put it at random position to make it more challneging
 
@@ -26,9 +26,9 @@ class Field {
         const totalArea = width * height
         const holesCount = Math.round(percentageHoles / 100 * totalArea)              // percent of area (round) 
         const accessibleCount = totalArea - holesCount - 2                            // minus current position and target positiin
-        const array = [hat, pathCharacter]
-            .concat(new Array(holesCount).fill(hole))
-            .concat(new Array(accessibleCount).fill(fieldCharacter))
+        const array = [hatChar, pathChar]
+            .concat(new Array(holesCount).fill(holeChar))
+            .concat(new Array(accessibleCount).fill(fieldChar))
         // 2. shuffle it
         let randomizedArray = this.randomizeArray(array)
         // 3. make it two dimensional and determine initial X and Y
@@ -64,9 +64,9 @@ class Field {
             for (let col = 0; col < width; col++) {
                 let item = originalArray.pop()      // will basically reverse it around but who cares
                 // find initial position of *
-                if (item === pathCharacter) {
-                    xInitial = row
-                    yInitial = col
+                if (item === pathChar) {
+                    xInitial = col
+                    yInitial = row
                 }
                 newRow.push(item)
             }
@@ -77,25 +77,31 @@ class Field {
 
     move(nextMove) {
         let direction = ""
+
         switch (nextMove) {
             case "w" || "W":
                 direction = "UP";
+                this.yPosition--
                 break;
             case "d" || "D":
-                direction = "LEFT";
+                direction = "RIGHT";
+                this.xPosition++
                 break;
             case "s" || "S":
                 direction = "DOWN";
+                this.yPosition++
                 break;
             case "a" || "A":
-                direction = "RIGHT";
+                direction = "LEFT";
+                this.xPosition--
                 break;
             default:
                 direction = "Error!"
         }
-
-        console.log("moved", direction);
-
+        if (this.field[this.yPosition][this.xPosition] === holeChar) {
+            throw new Error("Ya dead!")
+        }
+        this.field[this.yPosition][this.xPosition] = pathChar
     }
 }
 
@@ -129,7 +135,7 @@ if (typeof matrixWidth === "NaN" || typeof matrixHeight === "NaN" || typeof perc
             break
         }
         if (!(["a", "s", "d", "w", "A", "S", "D", "W"].includes(nextMove))) {
-            console.log("Ain't gonna work.")
+            console.log("Opps.")
             continue
         }
         // if neither break, nor continue
