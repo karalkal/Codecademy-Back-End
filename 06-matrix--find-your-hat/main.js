@@ -67,14 +67,14 @@ class Field {
 console.log('Your goal is to find your hat, marked with an ^.\nExit by pressing "c", landing on (and falling in) a hole \or moving "outside" the field.')
 console.log('Use WASD to change position.')
 
-let matrixWidth = Number(prompt("Set width (4-26): "))
-let matrixHeight = Number(prompt("Set height  (4-26): "));
-let percentageHoles = Number(prompt("Set hole percentage (8-62): "))
+let matrixWidth = Number(prompt("Set width (8-26): "))
+let matrixHeight = Number(prompt("Set height  (8-26): "));
+let percentageHoles = Number(prompt("Set hole percentage (8-26): "))
 
 if (typeof matrixWidth === "NaN" || typeof matrixHeight === "NaN" || typeof percentageHoles === "NaN"
-    || matrixWidth < 4 || matrixWidth > 26
-    || matrixHeight < 4 || matrixHeight > 26
-    || percentageHoles < 8 || percentageHoles > 62
+    || matrixWidth < 8 || matrixWidth > 26
+    || matrixHeight < 8 || matrixHeight > 26
+    || percentageHoles < 8 || percentageHoles > 26
 ) {
     console.log("Ain't happening")
     return
@@ -82,6 +82,16 @@ if (typeof matrixWidth === "NaN" || typeof matrixHeight === "NaN" || typeof perc
     // newField.generateField(matrixWidth, matrixHeight, percentageHoles)   // static method, cannot call it with an instance
     let newMatrix = Field.generateField(matrixWidth, matrixHeight, percentageHoles)
     newMatrix.print()
+    while (true) {
+        let nextMove = prompt("NextMove: ")
+        console.clear()
+        newMatrix.print()
+        console.log("moved", nextMove)
+        if (nextMove === "c") {
+            break
+        }
+    }
+
 }
 
 
