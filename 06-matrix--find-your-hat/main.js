@@ -1,9 +1,10 @@
 const prompt = require('prompt-sync')({ sigint: true });
+var colors = require("colors/safe");
 
-const hatChar = '^';
-const holeChar = 'O';
-const fieldChar = '░';
-const positionChar = '⌖'
+const hatChar = colors.bgBlack('^');
+const holeChar = colors.bgBlack('O');
+const fieldChar = colors.gray('░');
+const positionChar = colors.bgBlack('⌖')
 const pathChar = ' ';
 
 // The player will begin in the upper-left of the field, and the player’s path is represented by *
@@ -79,7 +80,7 @@ class Field {
 
     move(nextMove) {
         let direction = ""
-
+        // set direction to print afterwards, replace current position with pathChar, resert position in axis to change afterwards
         switch (nextMove) {
             case "w" || "W":
                 direction = "UP";
@@ -105,50 +106,60 @@ class Field {
                 direction = "Error!"
         }
         if (this.field[this.yPosition][this.xPosition] === holeChar) {
-            throw new Error("Ya dead!")
+            throw new Error("Ya dead! Down in a whole!")
         }
 
-        console.log(direction)
+        console.log(colors.cyan("Moved", direction, "\n"))
         this.field[this.yPosition][this.xPosition] = positionChar
     }
 }
 
 
-console.log('Your goal is to find your hat, marked with an ^.\nExit by pressing "c", landing on (and falling in) a hole \or moving "outside" the field.')
-console.log('Use WASD to change position.')
+console.log(colors.blue('\nYour goal is to find your hat, marked with an ^.'))
+console.log(colors.blue('Avoid falling into the holes ("O") and moving outside the field.'))
+console.log(colors.blue('Exit by pressing "c"'))
+console.log(colors.blue('Use WASD to change position.\n'))
 
-let matrixWidth = Number(prompt("Set width (8-26): "))
-let matrixHeight = Number(prompt("Set height  (8-26): "));
-let percentageHoles = Number(prompt("Set hole percentage (8-26): "))
+let matrixWidth = Number(prompt(colors.green("Set width (8-26): ")))
+let matrixHeight = Number(prompt(colors.green("Set height 8-26): ")))
+let percentageHoles = Number(prompt(colors.green("Set hole percentage (8-26): ")))
+
 
 if (typeof matrixWidth === "NaN" || typeof matrixHeight === "NaN" || typeof percentageHoles === "NaN"
     || matrixWidth < 8 || matrixWidth > 26
     || matrixHeight < 8 || matrixHeight > 26
     || percentageHoles < 8 || percentageHoles > 26) {
-    console.log("Ain't gonna work.")
+    console.log(colors.red("\nAin't gonna work.\n"))
     return
 } else {
     // newField.generateField(matrixWidth, matrixHeight, percentageHoles)   // static method, cannot call it with an instance
     let newMatrix = Field.generateField(matrixWidth, matrixHeight, percentageHoles)
     console.clear()
-    console.log("Godspeed!")
+    console.log(colors.america("Godspeed!!!\n"))
 
     while (true) {
         newMatrix.print()
+        console.log()
 
-        let nextMove = prompt("NextMove: ")
+        let nextMove = prompt(colors.green("Next Move: "))
         console.clear()
         if (nextMove === "c") {
             console.clear()
-            console.log("Thanks, see ya later.")
+            console.log(colors.blue("Thanks, see ya later."))
             break
         }
         if (!(["a", "s", "d", "w", "A", "S", "D", "W"].includes(nextMove))) {
-            console.log("Opps.")
+            console.log(colors.red("Opps...\n"))
             continue
         }
         // if neither break, nor continue
-        newMatrix.move(nextMove)
+        try {
+            newMatrix.move(nextMove)
+        } catch (error) {
+            console.clear()
+            console.log(colors.inverse.red(error.message + "\n"))
+            break
+        }
 
     }
 }
