@@ -9,7 +9,7 @@ const holeChar = colors.bgBlack('O');
 const fieldChar = colors.gray('░');
 const positionChar = colors.bgBlack('⌖')
 const pathChar = ' ';
-const deadChar = colors.magenta("x")
+const deadChar = colors.magenta("✝")
 
 // The player will begin in the upper-left of the field, and the player’s path is represented by *
 // Will put it at random position to make it more challneging
@@ -24,8 +24,8 @@ class Field {
 
     print() {
         for (let r of this.field) {
-            console.log(r.join(""))
-            // console.log(r.join(""), this.xPosition, this.yPosition)
+            // console.log(r.join(""))
+            console.log(r.join(""), "X-pos:", this.xPosition, "Y-pos:", this.yPosition, "X-len", this.field[0].length, "Y-len", this.field.length)
         }
     }
 
@@ -48,7 +48,7 @@ class Field {
         return new this(matrix, xPosition, yPosition)
     }
 
-    
+
     static createMatrixFindInitialPosition(originalArray, width, height) {
         let matrix = []
         let xInitial = null
@@ -76,53 +76,80 @@ class Field {
         switch (nextMove) {
             case "w" || "W":
                 direction = "UP";
+                // out of bounds
+                if (this.yPosition === 0) {
+                    this.field[this.yPosition][this.xPosition] = deadChar
+
+                    throw new Error("Gone in Heaven!")
+                }
+                // otherwise keep going
                 this.field[this.yPosition][this.xPosition] = pathChar
                 this.yPosition--
                 break;
             case "d" || "D":
                 direction = "RIGHT";
+                if (this.xPosition === this.field[0].length - 1) {
+                    this.field[this.yPosition][this.xPosition] = deadChar
+
+                    throw new Error("Went too far!")
+                }
                 this.field[this.yPosition][this.xPosition] = pathChar
                 this.xPosition++
                 break;
             case "s" || "S":
                 direction = "DOWN";
+                if (this.yPosition === this.field.length - 1) {
+                    this.field[this.yPosition][this.xPosition] = deadChar
+
+                    throw new Error("Gone in the Under World!")
+                }
                 this.field[this.yPosition][this.xPosition] = pathChar
                 this.yPosition++
                 break;
             case "a" || "A":
                 direction = "LEFT";
+                if (this.xPosition === 0) {
+                    this.field[this.yPosition][this.xPosition] = deadChar
+
+                    throw new Error("Gone Leftfield!")
+                }
                 this.field[this.yPosition][this.xPosition] = pathChar
                 this.xPosition--
                 break;
             default:
                 direction = "Error!"
         }
+        // fell in hole
         if (this.field[this.yPosition][this.xPosition] === holeChar) {
             this.field[this.yPosition][this.xPosition] = deadChar
-            throw new Error("Ya dead! Down in a whole!")
+            throw new Error("Down in a whole!")
         }
 
         console.log(colors.cyan("Moved", direction, "\n"))
         this.field[this.yPosition][this.xPosition] = positionChar
     }
+
 }
 
 displayIntro();
 
 try {
+    // If input is valid set up and start Gamepad, else, go to catch below
     const { matrixWidth, matrixHeight, percentageHoles } = getAndCheckInput();
 
     // newField.generateField(matrixWidth, matrixHeight, percentageHoles)   // static method, cannot call it with an instance
-    let newMatrix = Field.generateField(matrixWidth, matrixHeight, percentageHoles)
+    let matrix = Field.generateField(matrixWidth, matrixHeight, percentageHoles)
     console.clear()
     console.log(colors.america("Godspeed!!!\n"))
 
     while (true) {
-        newMatrix.print()
-        console.log()
-
+        // Print matrix and get user input
+        matrix.print()
         let nextMove = prompt(colors.green("Next Move: "))
+
+        // After getting user input, clear matrix. At next iteration it will display again in its new state
         console.clear()
+
         if (nextMove === "c" || nextMove === "C") {
             console.clear()
             console.log(colors.blue("Thanks, see ya later.\n"))
@@ -134,14 +161,12 @@ try {
         }
         // if neither break, nor continue
         try {
-            newMatrix.move(nextMove)
+            matrix.move(nextMove)
         } catch (error) {
-            // console.clear()
             console.log(colors.inverse.red(error.message + "\n"))
-            newMatrix.print()
+            matrix.print()
             break
         }
-
     }
 }
 catch (error) {

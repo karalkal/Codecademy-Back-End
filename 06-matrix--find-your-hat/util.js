@@ -15,7 +15,7 @@ function getAndCheckInput() {
     let matrixHeight = Number(prompt(colors.green("Set height 8-26): ")))
     let percentageHoles = Number(prompt(colors.green("Set hole percentage (8-26): ")))
 
-    if (typeof matrixWidth === "NaN" || typeof matrixHeight === "NaN" || typeof percentageHoles === "NaN"
+    if (isNaN(matrixWidth) || isNaN(matrixHeight) || isNaN(percentageHoles)
         || matrixWidth < 8 || matrixWidth > 26
         || matrixHeight < 8 || matrixHeight > 26
         || percentageHoles < 8 || percentageHoles > 26) {
