@@ -10,9 +10,7 @@ const fieldChar = colors.gray('░');
 const positionChar = colors.bgBlack('⌖')
 const pathChar = ' ';
 const deadChar = colors.magenta("✝")
-
-// The player will begin in the upper-left of the field, and the player’s path is represented by *
-// Will put it at random position to make it more challneging
+const trophyChar = colors.red("◯")
 
 
 class Field {
@@ -24,8 +22,8 @@ class Field {
 
     print() {
         for (let r of this.field) {
-            // console.log(r.join(""))
-            console.log(r.join(""), "X-pos:", this.xPosition, "Y-pos:", this.yPosition, "X-len", this.field[0].length, "Y-len", this.field.length)
+            console.log(r.join(""))
+            // console.log(r.join(""), "X-pos:", this.xPosition, "Y-pos:", this.yPosition, "X-len", this.field[0].length, "Y-len", this.field.length)
         }
     }
 
@@ -80,6 +78,7 @@ class Field {
                 if (this.yPosition === 0) {
                     this.field[this.yPosition][this.xPosition] = deadChar
 
+
                     throw new Error("Gone in Heaven!")
                 }
                 // otherwise keep going
@@ -91,6 +90,7 @@ class Field {
                 if (this.xPosition === this.field[0].length - 1) {
                     this.field[this.yPosition][this.xPosition] = deadChar
 
+
                     throw new Error("Went too far!")
                 }
                 this.field[this.yPosition][this.xPosition] = pathChar
@@ -101,6 +101,7 @@ class Field {
                 if (this.yPosition === this.field.length - 1) {
                     this.field[this.yPosition][this.xPosition] = deadChar
 
+
                     throw new Error("Gone in the Under World!")
                 }
                 this.field[this.yPosition][this.xPosition] = pathChar
@@ -110,6 +111,7 @@ class Field {
                 direction = "LEFT";
                 if (this.xPosition === 0) {
                     this.field[this.yPosition][this.xPosition] = deadChar
+
 
                     throw new Error("Gone Leftfield!")
                 }
@@ -122,7 +124,12 @@ class Field {
         // fell in hole
         if (this.field[this.yPosition][this.xPosition] === holeChar) {
             this.field[this.yPosition][this.xPosition] = deadChar
-            throw new Error("Down in a whole!")
+            throw new Error("Down in a hole!")
+        }
+        // won (doesn't make sense to throw error but it's easier)
+        if (this.field[this.yPosition][this.xPosition] === hatChar) {
+            this.field[this.yPosition][this.xPosition] = trophyChar
+            throw new Error("Well done buddy!")
         }
 
         console.log(colors.cyan("Moved", direction, "\n"))
@@ -163,7 +170,12 @@ try {
         try {
             matrix.move(nextMove)
         } catch (error) {
-            console.log(colors.inverse.red(error.message + "\n"))
+            if (error.message === "Well done buddy!") {
+                console.log(colors.rainbow(error.message + "\n"))
+            }
+            else {
+                console.log(colors.inverse.red(error.message + "\n"))
+            }
             matrix.print()
             break
         }
