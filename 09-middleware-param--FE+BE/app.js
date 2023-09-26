@@ -30,7 +30,7 @@ let nextSnackId = 24;
 // bodyParser
 app.use(bodyParser.json());
 
-// Looging
+// Logging
 app.use(morgan('dev'));
 
 app.param('snackId', (req, res, next, id) => {
@@ -64,7 +64,6 @@ app.post('/snacks/', (req, res, next) => {
 });
 
 app.get('/snacks/:snackId', (req, res, next) => {
-    console.log("here", req.foundItem)
     res.send(req.foundItem);
 });
 
