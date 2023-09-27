@@ -20,7 +20,7 @@ let nextOnesIDWillBe = 11
 minionsRouter.param("minionId", (req, res, next, id) => {
     const idToFind = id;        // not a number in this bloody DB
     const foundItem = minions.find(mn => mn.id === idToFind);
-    console.log("found:", foundItem)
+
     if (foundItem) {
         req.foundItem = foundItem;
         next()
@@ -28,13 +28,13 @@ minionsRouter.param("minionId", (req, res, next, id) => {
     } else {
         res.status(404).send("Not Found.");
     }
-})
+});
 
 
 minionsRouter.get("/", (req, res, next) => {
     let minions = getAllFromDatabase('minions')
     res.status(200).send(minions)
-})
+});
 
 minionsRouter.post("/", (req, res, next) => {
     const newMinion = {
@@ -44,15 +44,23 @@ minionsRouter.post("/", (req, res, next) => {
     addToDatabase("minions", newMinion);
     nextOnesIDWillBe++
     res.status(201).send(newMinion)
-})
+});
 
 
-minionsRouter.get('/:minionId', (req, res, next) => {
+minionsRouter.get('/:ideaId', (req, res, next) => {
     res.status(200).send(req.foundItem);
 });
 
-minionsRouter.delete('/:minionId', (req, res, next) => {
-    console.log("found", req.foundItem)
+minionsRouter.put("/:ideaId", (req, res, next) => {
+    const updatedMinion = {
+        id: req.foundItem.id,
+        ...req.body,
+    }
+    updateInstanceInDatabase("minions", updatedMinion);
+    res.status(200).send(updatedMinion)
+});
+
+minionsRouter.delete('/:ideaId', (req, res, next) => {
     deleteFromDatabasebyId("minions", req.foundItem.id)
     res.status(204).send("");
 });
