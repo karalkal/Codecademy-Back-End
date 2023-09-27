@@ -12,9 +12,9 @@ const {
 
 // you need to set mergeParams: true on the router,
 // if you want to access params from the parent router
-const minionsRouter = express.Router({ mergeParams: true });
+const ideasRouter = express.Router({ mergeParams: true });
 
-minionsRouter.get('/:minionId', (req, res, next) => {
+ideasRouter.get('/:minionId', (req, res, next) => {
     // Get a single minion based on the minionId that's passed in to the getFromDatabase function
     const getMinion = getFromDatabaseById('minions', req.params.minionId);
     //If getFromDatabase returns false, ie if there's an invalid id, send a 404 response 
@@ -26,15 +26,15 @@ minionsRouter.get('/:minionId', (req, res, next) => {
 
 });
 
-minionsRouter.get("/", (req, res, next) => {
-    let minions = getAllFromDatabase('minions')
-    console.log(minions)
-    res.status(200).send(minions)
+ideasRouter.get("/", (req, res, next) => {
+    let ideas = getAllFromDatabase('ideas')
+    console.log(ideas)
+    res.status(200).send(ideas)
 })
 
-minionsRouter.post("/", (req, res, next) => {
-    res.status(201).send(minion)
+ideasRouter.post("/", (req, res, next) => {
+    res.status(201).send(idea)
 })
 
 
-module.exports = minionsRouter
+module.exports = ideasRouter
