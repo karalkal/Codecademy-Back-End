@@ -28,5 +28,7 @@ app.use("/api", apiRouter);
 if (!module.parent) {
   // Add your code to start the server listening at PORT below:
   app.listen(PORT, console.log("I'm all ears at port", PORT))
-
 }
+
+
+module.exports = app;

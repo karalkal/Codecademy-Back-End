@@ -1,13 +1,11 @@
 const express = require('express');
 
 const {
-    createMeeting,
     getAllFromDatabase,
     getFromDatabaseById,
     addToDatabase,
     updateInstanceInDatabase,
     deleteFromDatabasebyId,
-    deleteAllFromDatabase,
 } = require("./db")
 
 // you need to set mergeParams: true on the router,
@@ -15,11 +13,13 @@ const {
 const minionsRouter = express.Router({ mergeParams: true });
 
 let minions = getAllFromDatabase('minions')
-let nextOnesIDWillBe = 11
+let nextIdWillBe = minions.length + 1
 
 minionsRouter.param("minionId", (req, res, next, id) => {
     const idToFind = id;        // not a number in this bloody DB
     const foundItem = minions.find(mn => mn.id === idToFind);
+    // can also use 
+    // const foundItem = getFromDatabaseById("minions", id)
 
     if (foundItem) {
         req.foundItem = foundItem;
@@ -38,20 +38,20 @@ minionsRouter.get("/", (req, res, next) => {
 
 minionsRouter.post("/", (req, res, next) => {
     const newMinion = {
-        id: nextOnesIDWillBe.toString(),  // default ids starting from 1, and yes it is a string
+        id: nextIdWillBe.toString(),  // default ids starting from 1, and yes it is a string
         ...req.body,
     }
     addToDatabase("minions", newMinion);
-    nextOnesIDWillBe++
+    nextIdWillBe++
     res.status(201).send(newMinion)
 });
 
 
-minionsRouter.get('/:ideaId', (req, res, next) => {
+minionsRouter.get('/:minionId', (req, res, next) => {
     res.status(200).send(req.foundItem);
 });
 
-minionsRouter.put("/:ideaId", (req, res, next) => {
+minionsRouter.put("/:minionId", (req, res, next) => {
     const updatedMinion = {
         id: req.foundItem.id,
         ...req.body,
@@ -60,7 +60,7 @@ minionsRouter.put("/:ideaId", (req, res, next) => {
     res.status(200).send(updatedMinion)
 });
 
-minionsRouter.delete('/:ideaId', (req, res, next) => {
+minionsRouter.delete('/:minionId', (req, res, next) => {
     deleteFromDatabasebyId("minions", req.foundItem.id)
     res.status(204).send("");
 });
