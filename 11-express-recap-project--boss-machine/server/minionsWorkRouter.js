@@ -22,22 +22,6 @@ let jobs = getAllFromDatabase('work')
 let nextIdWillBe = jobs.length + 1
 
 
-minionsWorkRouter.param("workId", (req, res, next, id) => {
-    console.log("PARAM:", req.params)
-
-    // const idToFind = id;        // not a number in this bloody DB
-    // const foundItem = jobs.find(j => j.id === idToFind);
-
-    // if (foundItem) {
-    //     req.foundItem = foundItem;
-    //     next()
-
-    // } else {
-    //     res.status(404).send("Not Found.");
-    // }
-});
-
-
 minionsWorkRouter.get("/", (req, res, next) => {
     // const { minionId } = req.params;
     const searchedID = req.params.minionId;
@@ -47,7 +31,8 @@ minionsWorkRouter.get("/", (req, res, next) => {
 });
 
 minionsWorkRouter.post("/", (req, res, next) => {
-    const { minionId } = req.params;
+    const { minionId } = req.params;        // we have this in req.body too
+    console.log("CREATE body", req.body)
     const newWork = {
         id: nextIdWillBe.toString(),  // default ids starting from 1, and yes it is a string
         ...req.body,
@@ -58,16 +43,12 @@ minionsWorkRouter.post("/", (req, res, next) => {
     res.status(201).send(newWork)
 });
 
-
-minionsWorkRouter.get('/:workId', (req, res, next) => {
-    res.status(200).send(req.foundItem);
-});
-
 minionsWorkRouter.put("/:workId", (req, res, next) => {
+    console.log(req.params, "UPDATE body", req.body)
     const updatedWork = {
-        id: req.foundItem.id,
         ...req.body,
     }
+    console.log(updatedWork)
     updateInstanceInDatabase("work", updatedWork);
     res.status(200).send(updatedWork)
 });

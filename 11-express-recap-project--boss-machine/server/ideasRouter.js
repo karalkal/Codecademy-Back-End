@@ -8,7 +8,7 @@ const {
     deleteFromDatabasebyId,
 } = require("./db")
 
-const checkMillionDollarIdea = require('./checkMillionDollarIdea')
+const { checkMillionDollarIdea } = require('./validators')
 
 // you need to set mergeParams: true on the router,
 // if you want to access params from the parent router
