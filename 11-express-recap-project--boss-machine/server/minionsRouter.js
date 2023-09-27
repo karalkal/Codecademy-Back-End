@@ -1,5 +1,7 @@
 const express = require('express');
 
+const minionsWorkRouter = require('./minionsWorkRouter');
+
 const {
     getAllFromDatabase,
     getFromDatabaseById,
@@ -29,6 +31,9 @@ minionsRouter.param("minionId", (req, res, next, id) => {
         res.status(404).send("Not Found.");
     }
 });
+
+// if /work in route, use minionsWorkRouter
+minionsRouter.use("/:minionId/work", minionsWorkRouter);
 
 
 minionsRouter.get("/", (req, res, next) => {
