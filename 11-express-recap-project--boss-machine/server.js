@@ -22,8 +22,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // Mount your existing apiRouter at the '/api' path.
-app.use("/api", apiRouter)
-
+app.use("/api", apiRouter);
 
 // This conditional is here for testing purposes:
 if (!module.parent) {
