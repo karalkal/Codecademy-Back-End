@@ -31,8 +31,8 @@ minionsWorkRouter.get("/", (req, res, next) => {
 });
 
 minionsWorkRouter.post("/", (req, res, next) => {
-    const { minionId } = req.params;        // we have this in req.body too
-    console.log("CREATE body", req.body)
+    const { minionId } = req.params;        // Have this in req.body too, compare and validate just in case??
+    // console.log("CREATE body", req.body)
     const newWork = {
         id: nextIdWillBe.toString(),  // default ids starting from 1, and yes it is a string
         ...req.body,
@@ -44,7 +44,7 @@ minionsWorkRouter.post("/", (req, res, next) => {
 });
 
 minionsWorkRouter.put("/:workId", (req, res, next) => {
-    console.log(req.params, "UPDATE body", req.body)
+    // console.log(req.params, "UPDATE body", req.body)
     const updatedWork = {
         ...req.body,
     }
@@ -54,7 +54,7 @@ minionsWorkRouter.put("/:workId", (req, res, next) => {
 });
 
 minionsWorkRouter.delete('/:workId', (req, res, next) => {
-    deleteFromDatabasebyId("work", req.foundItem.id)
+    deleteFromDatabasebyId("work", req.params.id)
     res.status(204).send("");
 });
 
