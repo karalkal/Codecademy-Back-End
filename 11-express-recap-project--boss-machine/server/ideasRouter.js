@@ -8,6 +8,8 @@ const {
     deleteFromDatabasebyId,
 } = require("./db")
 
+const checkMillionDollarIdea = require('./checkMillionDollarIdea')
+
 // you need to set mergeParams: true on the router,
 // if you want to access params from the parent router
 const ideasRouter = express.Router({ mergeParams: true });
@@ -37,7 +39,7 @@ ideasRouter.get("/", (req, res, next) => {
     res.status(200).send(ideas)
 });
 
-ideasRouter.post("/", (req, res, next) => {
+ideasRouter.post("/", checkMillionDollarIdea, (req, res, next) => {
     const newIdea = {
         id: nextIdWillBe.toString(),  // default ids starting from 1, and yes it is a string
         ...req.body,

@@ -20,8 +20,9 @@ meetingsRouter.get("/", (req, res, next) => {
 })
 
 meetingsRouter.post("/", (req, res, next) => {
-    let meeting = createMeeting()
-    res.status(201).send(meeting)
+    let newMeeting = createMeeting()
+    addToDatabase("meetings", newMeeting);
+    res.status(201).send(newMeeting)
 })
 
 meetingsRouter.delete("/", (req, res, next) => {
