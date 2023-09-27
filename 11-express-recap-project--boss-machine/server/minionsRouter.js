@@ -14,27 +14,48 @@ const {
 // if you want to access params from the parent router
 const minionsRouter = express.Router({ mergeParams: true });
 
-minionsRouter.get('/:minionId', (req, res, next) => {
-    // Get a single minion based on the minionId that's passed in to the getFromDatabase function
-    const getMinion = getFromDatabaseById('minions', req.params.minionId);
-    //If getFromDatabase returns false, ie if there's an invalid id, send a 404 response 
-    if (!getMinion) {
-        res.status(404).send("Not found");
-    }
-    // Otherwise, send back the minion that was requested 
-    res.status(200).send(getMinion);
+let minions = getAllFromDatabase('minions')
+let nextOnesIDWillBe = 11
 
-});
+minionsRouter.param("minionId", (req, res, next, id) => {
+    const idToFind = id;        // not a number in this bloody DB
+    const foundItem = minions.find(mn => mn.id === idToFind);
+    console.log("found:", foundItem)
+    if (foundItem) {
+        req.foundItem = foundItem;
+        next()
+
+    } else {
+        res.status(404).send("Not Found.");
+    }
+})
+
 
 minionsRouter.get("/", (req, res, next) => {
     let minions = getAllFromDatabase('minions')
-    console.log(minions)
     res.status(200).send(minions)
 })
 
 minionsRouter.post("/", (req, res, next) => {
-    res.status(201).send(minion)
+    const newMinion = {
+        id: nextOnesIDWillBe.toString(),  // default ids starting from 1, and yes it is a string
+        ...req.body,
+    }
+    addToDatabase("minions", newMinion);
+    nextOnesIDWillBe++
+    res.status(201).send(newMinion)
 })
+
+
+minionsRouter.get('/:minionId', (req, res, next) => {
+    res.status(200).send(req.foundItem);
+});
+
+minionsRouter.delete('/:minionId', (req, res, next) => {
+    console.log("found", req.foundItem)
+    deleteFromDatabasebyId("minions", req.foundItem.id)
+    res.status(204).send("");
+});
 
 
 module.exports = minionsRouter
