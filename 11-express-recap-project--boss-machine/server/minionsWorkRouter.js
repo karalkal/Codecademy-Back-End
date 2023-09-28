@@ -8,6 +8,8 @@ const {
     deleteFromDatabasebyId,
 } = require("./db")
 
+const { checkReqBodyAndParamIDsMatch, confirmWorkIdInMinionsArray } = require("./validators")
+
 const minionsWorkRouter = express.Router({ mergeParams: true });
 /*
 Work:
@@ -18,19 +20,26 @@ Work:
     minionId: string
 */
 
-let jobs = getAllFromDatabase('work')
-let nextIdWillBe = jobs.length + 1
+let allJobs = getAllFromDatabase('work')
+let nextIdWillBe = allJobs.length + 1
+// attach all jobs to req, so it is accessible to all routes
+// next() IS CRUCIAL HERE
+minionsWorkRouter.use(["/", "/:workId"], (req, res, next) => {
+    // const { minionId } = req.params;
+    req.allJobs = allJobs
+    next()
+});
 
 
 minionsWorkRouter.get("/", (req, res, next) => {
     // const { minionId } = req.params;
     const searchedID = req.params.minionId;
-    let allJobs = getAllFromDatabase('work');
+    let allJobs = req.allJobs;
     const thisGuysJobs = allJobs.filter(j => j.minionId === searchedID)
     res.status(200).send(thisGuysJobs)
 });
 
-minionsWorkRouter.post("/", (req, res, next) => {
+minionsWorkRouter.post("/", checkReqBodyAndParamIDsMatch, (req, res, next) => {
     const { minionId } = req.params;        // Have this in req.body too, compare and validate just in case??
     // console.log("CREATE body", req.body)
     const newWork = {
@@ -43,8 +52,9 @@ minionsWorkRouter.post("/", (req, res, next) => {
     res.status(201).send(newWork)
 });
 
-minionsWorkRouter.put("/:workId", (req, res, next) => {
-    // console.log(req.params, "UPDATE body", req.body)
+minionsWorkRouter.put("/:workId", checkReqBodyAndParamIDsMatch, (req, res, next) => {
+    // params are { minionId: '10', workId: '11' }
+    // console.log("UPDATE body", req.body)
     const updatedWork = {
         ...req.body,
     }
@@ -53,8 +63,9 @@ minionsWorkRouter.put("/:workId", (req, res, next) => {
     res.status(200).send(updatedWork)
 });
 
-minionsWorkRouter.delete('/:workId', (req, res, next) => {
-    deleteFromDatabasebyId("work", req.params.id)
+minionsWorkRouter.delete('/:workId', confirmWorkIdInMinionsArray, (req, res, next) => {
+    // params are { minionId: '10', workId: '11' }
+    deleteFromDatabasebyId("work", req.params.workId)
     res.status(204).send("");
 });
 
