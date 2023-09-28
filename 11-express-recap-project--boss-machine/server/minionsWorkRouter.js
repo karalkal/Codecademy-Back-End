@@ -25,7 +25,6 @@ let nextIdWillBe = allJobs.length + 1
 // attach all jobs to req, so it is accessible to all routes
 // next() IS CRUCIAL HERE
 minionsWorkRouter.use(["/", "/:workId"], (req, res, next) => {
-    // const { minionId } = req.params;
     req.allJobs = allJobs
     next()
 });
@@ -64,7 +63,6 @@ minionsWorkRouter.put("/:workId", checkReqBodyAndParamIDsMatch, (req, res, next)
 });
 
 minionsWorkRouter.delete('/:workId', confirmWorkIdInMinionsArray, (req, res, next) => {
-    // params are { minionId: '10', workId: '11' }
     deleteFromDatabasebyId("work", req.params.workId)
     res.status(204).send("");
 });

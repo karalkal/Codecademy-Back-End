@@ -23,19 +23,19 @@ const checkReqBodyAndParamIDsMatch = (req, res, next) => {
 }
 
 const confirmWorkIdInMinionsArray = (req, res, next) => {
-    console.log(req.allJobs)
+    // get guys's array of jobs
     const minionID = req.params.minionId;
-    const workId = req.params.id
-    // let allJobs = getAllFromDatabase('work');
-    // const thisMinionsJobs = allJobs.filter(j => j.minionId === minionID)
-
-    // console.log(allJobsminionID, workId, thisMinionsJobs)
-    // if (idFromBody !== workId) {
-    //     res.status(400).send("")
-    // }
-    // else {
-    //     next()
-    // }
+    const idsOfJobsOfMinion = req.allJobs
+        .filter(j => j.minionId === minionID)
+        .map(job => job.id)
+    // check if job with this id is in the array
+    const workId = req.params.workId
+    if (!idsOfJobsOfMinion.includes(workId)) {
+        res.status(400).send("")
+    }
+    else {
+        next()
+    }
 }
 
 module.exports = {
