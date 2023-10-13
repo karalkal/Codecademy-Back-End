@@ -51,7 +51,9 @@ router.post("/login", async (req, res) => {
         }
 
         // Compare passwords:
-        const matchedPassword = bcrypt.compare(password, user.password)
+        // I think await is crucial here as otherwise matchedPassword is Promise, i.e. TRUE
+        const matchedPassword = await bcrypt.compare(password, user.password)
+        console.log("Password matches:", matchedPassword)
 
         if (!matchedPassword) {
             console.log("Passwords did not match!");
@@ -61,7 +63,8 @@ router.post("/login", async (req, res) => {
         //   token: null,
         //   message: "Invalid password",
         // });
-
+        console.log(user);
+        // it seem to redirect but ulr remains, don't know why
         res.render("profile", { user });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -77,7 +80,10 @@ router.get("/register", (req, res) => {
 });
 
 router.get("/profile", (req, res) => {
-    res.render("profile");
+    // res.render("profile");       // original
+    res.render("profile", {
+        user: req.unpipe
+    });
 });
 
 module.exports = router

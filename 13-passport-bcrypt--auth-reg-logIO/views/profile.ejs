@@ -17,29 +17,30 @@
         <div class="avatar">
             <a href="#"><img src="https://thumb.ibb.co/g2jNUe/logo.png" alt="logo" border="0" color="blue" /></a>
         </div>
-        <div class="card"">
-                <div class=" card-header">
-            Password was hashed and a match was found!
+        <div class="card">
+            <div class=" card-header">
+                I am in profile.ejs<br>
+                Password was hashed and a match was found!
+            </div>
+            <table class="card-table table">
+                <thead>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Hashed Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <%= user.email %>
+                        </td>
+                        <td>
+                            <%= user.password %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <table class="card-table table">
-            <thead>
-                <tr>
-                    <th scope="col">Email</th>
-                    <th scope="col">Hashed Password</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <%= user.email %>
-                    </td>
-                    <td>
-                        <%= user.password %>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
