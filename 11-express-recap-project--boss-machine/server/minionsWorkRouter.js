@@ -57,7 +57,6 @@ minionsWorkRouter.put("/:workId", checkReqBodyAndParamIDsMatch, (req, res, next)
     const updatedWork = {
         ...req.body,
     }
-    console.log(updatedWork)
     updateInstanceInDatabase("work", updatedWork);
     res.status(200).send(updatedWork)
 });
