@@ -1,22 +1,16 @@
 # GitHub OAuth Application
 
-### Create an application that can be authenticated by your GitHub account
-
----
----
+## *Create an application that can be authenticated by your GitHub account*
 
 ### Set up GitHub OAuth Application
 
 In this off-platform project, you will be using GitHub to authenticate our web application. Before we start coding, we need to register an OAuth application in GitHub. If you don’t have a GitHub account, you can sign up here.
 
 First, navigate to your GitHub “Settings” page by clicking on your GitHub icon.  
-*Settings Page*
 
 Select “Developer settings” in the sidebar.  
-*Developer Settings Page*
 
 Select “OAuth Apps” in the sidebar of the Developer settings page. Click on the “Register a new application” button.  
-*OAuth App*
 
 Lastly, fill out the form with the following information:  
 
@@ -96,17 +90,14 @@ Next, implement the deserializeUser method on passport by passing a callback fun
 #### Part 5 — Implement OAuth Routes
 
 Let’s implement a new route in the “Routes” section for authenticating with passport. We’ll use the .get() method on app to the route /auth/github and pass as a middleware function, passport.authenticate(). passport.authenticate() takes two arguments— first the strategy employed, 'github', and for the second argument, pass the scope of the grant as an object. Use scope as a key and the value set to an array containing 'user'. When visiting /auth/github, the client will be redirected to GitHub for authorizing.
-Hint
 
 Next, implement the Authorization callback URL, which was defined in the GitHub application settings. This is where GitHub will redirect after a user authorizes it. Using the Express .get() method, define a route to '/auth/github/callback', and pass passport.authenticate() as a middleware function. Inside passport.authenticate(), pass the first argument 'github' for the scope, then as a second argument pass an object. Inside the object set the redirect URLs. Set the failureRedirect key to '/login', to redirect users back to the login page in the event of a failed authorization. Then set the successRedirect key to '/' to redirect users to the home page after a successful authorization attempt.
-Hint
 
 Now, we will need to protect the /account route to make it only accessible if a user is logged in. Inside the existing /account route, pass ensureAuthenticated as a middleware function to the route before the callback function that returns the render() function.
-Hint
 
 Finally, define the ensureAuthenticated() function to handle verifying if a request is authenticated. At the bottom of app.js, declare a function named ensureAuthenticated() with three parameters- req, res, and next. Use an if statement to check if req is valid using the .isAuthenticated() method. If the request is valid, return the next() function, otherwise use res.redirect() to direct to the /login page.
-Hint
-Review
+
+### Review
 
 Congratulations! You just created an OAuth flow that connects to a GitHub account. Restart the server and log in to the app using your GitHub account. When you are logged in, you can go to the /account page and see details from your GitHub account displayed.
 

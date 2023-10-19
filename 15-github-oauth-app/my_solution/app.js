@@ -23,11 +23,11 @@ passport.use(new GitHubStrategy({
 	clientSecret: process.env.GITHUB_CLIENT_SECRET,
 	callbackURL: "http://localhost:3000/auth/github/callback",
 },
-	function (request, accessToken, refreshToken, profile, done) {
+	function (accessToken, refreshToken, profile, done) {	// find the user
 		return done(null, profile);
 	}));
 
-
+// To facilitate login sessions, Passport serializes and deserializes user instances to and from the session. 
 passport.serializeUser(function (user, done) {
 	done(null, user);
 });
@@ -37,12 +37,10 @@ passport.deserializeUser(function (user, done) {
 });
 
 
-
+//  initialize Passport
 app.use(passport.initialize());
+// configure app to use Passport Session
 app.use(passport.session());
-
-
-
 
 
 app.set('views', __dirname + '/views');
@@ -52,19 +50,16 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 
-
-
-/*
- * Routes
-*/
-
+// Routes
 app.get('/', (req, res) => {
 	res.render('index', { user: req.user });
 })
 
-app.get('/account', (req, res) => {
-	res.render('account', { user: req.user });
-});
+app.get('/account',
+	ensureAuthenticated,
+	(req, res) => {
+		res.render('account', { user: req.user });
+	});
 
 app.get('/login', (req, res) => {
 	res.render('login', { user: req.user });
@@ -75,16 +70,31 @@ app.get('/logout', (req, res) => {
 	res.redirect('/');
 });
 
+// Protected route
+app.get('/auth/github',
+	passport.authenticate(
+		'github',
+		{ scope: ['user'] }
+	)
+)
+
+// This is where GitHub will redirect after a user authorizes it (or does not)
+app.get('/auth/github/callback',
+	passport.authenticate(
+		'github',
+		{
+			successRedirect: '/login',
+			failureRedirect: '/'
+		}
+	)
+)
 
 
-
-/*
- * Listener
-*/
-
+// Listener
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-/*
- * ensureAuthenticated Callback Function
-*/
-
+// ensureAuthenticated Callback Function
+function ensureAuthenticated(req, res, next) {
+	// console.log(req.isAuthenticated())
+	return req.isAuthenticated() ? next() : res.redirect('/login')
+}
