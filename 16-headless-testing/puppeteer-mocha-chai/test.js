@@ -5,7 +5,7 @@ const globalVariables = _.pick(global, ['browser', 'expect']);
 
 // puppeteer options
 const opts = {
-    // headless: false,
+    headless: false,
     slowMo: 100,
     timeout: 10000
 };
@@ -72,31 +72,29 @@ describe('sample test', function () {
         expect(await page.$$(ERROR_MODAL_SELECTOR)).to.be.deep.equal([])
     });
 
-    it('should be able to login', async function () {
-        const ALL_BUTTONS_SELECTOR = 'button';
-        let allButtons, loginBtn;
+    it('should be displaying login button', async function () {
+        const LOGIN_BUTTON_SELECTOR = 'button';
+        let loginBtn;
 
-        await page.waitForTimeout(ALL_BUTTONS_SELECTOR);
-        allButtons = await page.$$eval(ALL_BUTTONS_SELECTOR, buttons => {
-            return buttons.map(btn => btn.textContent);
-        });
+        await page.waitForTimeout(LOGIN_BUTTON_SELECTOR);
+        loginBtn = await page.$(LOGIN_BUTTON_SELECTOR)
+        const btnText = await page.evaluate(loginBtn => loginBtn.textContent, loginBtn);
 
-        console.log(allButtons)
-
-        loginBtn = allButtons.find(btn => btn.textContent === "LOGIN TO SPOTIFY")
-
-
-        expect(loginBtn).to.exist();
+        expect(btnText).to.equal("Login to Spotify");
     });
-
-
-    /*
-        it('should not display ErrorModal', async function () {
-            const ERROR_MODAL_SELECTOR = '.ErrorModal';
     
-            await page.waitForTimeout(ERROR_MODAL_SELECTOR);
-    
-            expect(await page.$$(ERROR_MODAL_SELECTOR)).to.have.lengthOf(1);
-        });
-    */
-});
+    // DOES NOT WORK!!!
+    it('should click login button', async function () {
+        const LOGIN_BUTTON_SELECTOR = 'button';
+        let loginBtn;
+
+        await page.waitForTimeout(LOGIN_BUTTON_SELECTOR);
+        loginBtn = await page.$(LOGIN_BUTTON_SELECTOR)
+        const btnText = await page.evaluate(loginBtn => loginBtn.textContent, loginBtn);
+        
+        loginBtn.click();
+        console.log(loginBtn, "button has been clicked")
+
+        expect(page.url()).to.include("https://accounts.spotify.com/en/login?");
+    });
+})
