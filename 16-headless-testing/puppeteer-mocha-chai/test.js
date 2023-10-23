@@ -3,6 +3,7 @@ const { expect } = require('chai');
 const _ = require('lodash');
 const globalVariables = _.pick(global, ['browser', 'expect']);
 
+
 // puppeteer options
 const opts = {
     headless: false,
@@ -26,6 +27,10 @@ after(function () {
 
 
 describe('sample test', function () {
+    // By default, Mocha tests have a 2 second timeout (which means that the test needs to be completed in 2 seconds).
+    // You can increase it (in milliseconds) as follows:
+    this.timeout(8000); // this test can take up to 8 seconds
+
     let page;
 
     before(async function () {
@@ -41,7 +46,6 @@ describe('sample test', function () {
     // TESTS
     it('should work', async function () {
         console.log(await browser.version());
-
         expect(true).to.be.true;
     });
 
@@ -49,16 +53,18 @@ describe('sample test', function () {
         expect(await page.title()).to.eql('Spotify Playlist Creator');
     });
 
-    it('should have a heading', async function () {
+    it('should have correct heading', async function () {
         const HEADING_SELECTOR = 'h1';
         let heading;
+
+        page.waitForSelector(HEADING_SELECTOR)
+
         /*
         page.$eval takes two arguments - selector and pageFunction. 
         It runs a document.querySelector in the browser environment and passes the result to the pageFunction. 
         Finally, it resolves with the value returned by pageFunction. 
         In this case, we are just returning the text for h1 tag.
         */
-        await page.waitForTimeout(HEADING_SELECTOR);
         heading = await page.$eval(HEADING_SELECTOR, heading => heading.innerText);
 
         expect(heading).to.eql('Spotify Playlist Creator');
@@ -67,7 +73,8 @@ describe('sample test', function () {
     it('should not display ErrorModal', async function () {
         const ERROR_MODAL_SELECTOR = '.ErrorModal';
 
-        await page.waitForTimeout(ERROR_MODAL_SELECTOR);
+        page.waitForSelector(ERROR_MODAL_SELECTOR)
+
         // The method runs document.querySelectorAll within the page. If no elements match the selector, the return value resolves to []
         expect(await page.$$(ERROR_MODAL_SELECTOR)).to.be.deep.equal([])
     });
@@ -76,23 +83,24 @@ describe('sample test', function () {
         const LOGIN_BUTTON_SELECTOR = 'button';
         let loginBtn;
 
-        await page.waitForTimeout(LOGIN_BUTTON_SELECTOR);
+        page.waitForSelector(LOGIN_BUTTON_SELECTOR);
+
         loginBtn = await page.$(LOGIN_BUTTON_SELECTOR)
         const btnText = await page.evaluate(loginBtn => loginBtn.textContent, loginBtn);
 
         expect(btnText).to.equal("Login to Spotify");
     });
-    
+
     // DOES NOT WORK!!!
     it('should click login button', async function () {
         const LOGIN_BUTTON_SELECTOR = 'button';
         let loginBtn;
 
-        await page.waitForTimeout(LOGIN_BUTTON_SELECTOR);
+        page.waitForSelector(LOGIN_BUTTON_SELECTOR);
+
         loginBtn = await page.$(LOGIN_BUTTON_SELECTOR)
-        const btnText = await page.evaluate(loginBtn => loginBtn.textContent, loginBtn);
-        
-        loginBtn.click();
+
+        await loginBtn.click();
         console.log(loginBtn, "button has been clicked")
 
         expect(page.url()).to.include("https://accounts.spotify.com/en/login?");
