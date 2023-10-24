@@ -91,7 +91,6 @@ describe('sample test', function () {
         expect(btnText).to.equal("Login to Spotify");
     });
 
-    // DOES NOT WORK!!!
     it('should click login button', async function () {
         const LOGIN_BUTTON_SELECTOR = 'button';
         let loginBtn;
@@ -103,6 +102,12 @@ describe('sample test', function () {
         await loginBtn.click();
         console.log(loginBtn, "button has been clicked")
 
+        /*
+        cy.on("url:changed", (newUrl) => {
+            expect(newUrl).to.contain("https://accounts.spotify.com/en/login?continue=https%3A%2F%2Faccounts.spotify.com%2Fauthorize%3Fscope%3Dplaylist-modify-private%2Bplaylist-modify-public%26response_type%3Dtoken%26redirect_uri%3Dhttps%253A%252F%252Fsplendid-cannoli-3d964e.netlify.app%252F%26client_id%3D729d39534cfd4763a631878608423ba6")
+        })
+        */
+        await page.waitForNavigation();
         expect(page.url()).to.include("https://accounts.spotify.com/en/login?");
     });
 })
