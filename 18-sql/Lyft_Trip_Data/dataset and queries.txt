@@ -1,0 +1,73 @@
+id 	date 	pickup 	dropoff 	rider_id 	car_id 	type 	cost
+1001 	2017-12-05 	06:45 	07:10 	102 	1 	X 	28.66
+1002 	2017-12-05 	08:00 	08:15 	101 	3 	POOL 	9.11
+1003 	2017-12-05 	09:30 	09:50 	104 	4 	X 	24.98
+1004 	2017-12-05 	13:40 	14:05 	105 	1 	X 	31.27
+1005 	2017-12-05 	15:15 	16:00 	103 	2 	POOL 	18.95
+1006 	2017-12-05 	18:20 	18:55 	101 	3 	XL 	78.52
+id 	first 	last 	username 	rating 	total_trips 	referred
+101 	Sonny 	Li 	@sonnynomnom 	4.66 	352 	
+102 	Laura 	Breiman 	@lauracle 	4.99 	687 	101
+103 	Kassa 	Korley 	@kassablanca 	4.63 	42 	
+104 	Yakov 	Kagan 	@yakovkagan 	4.52 	1910 	103
+id 	model 	OS 	status 	trips_completed
+1 	Ada 	Ryzac 	active 	82
+2 	Ada 	Ryzac 	active 	30
+3 	Turing XL 	Ryzac 	active 	164
+4 	Akira 	Finux 	maintenance 	22
+
+
+
+SELECT * FROM trips;
+SELECT * FROM riders;
+SELECT * FROM cars;
+
+SELECT *
+FROM riders
+CROSS JOIN cars; 
+
+-- Suppose we want to create a Trip Log with the trips and its users.
+-- Find the columns to join between trips and riders and combine the two tables using a LEFT JOIN.
+-- Let trips be the left table.
+SELECT trips.id, riders.first, riders.last, trips.cost
+FROM trips
+LEFT JOIN riders
+ON trips.rider_id = riders.id;
+
+-- Suppose we want to create a link between the trips and the cars used during those trips.
+-- Find the columns to join on and combine the trips and cars table using an INNER JOIN.
+SELECT trips.id, trips.car_id, cars.model, cars.os
+FROM trips
+INNER JOIN cars
+ON trips.car_id = cars.id;
+
+-- The new riders data are in! There are three new users this month.
+-- Stack the riders table on top of the new table named riders2.
+-- For stacking one dataset on top of another, we use UNION:
+SELECT *
+FROM riders
+UNION
+SELECT *
+FROM riders2;
+
+SELECT AVG(cost) as 'Average cost per trip'
+FROM trips;
+
+-- irregular users, used Lyft less than 500 times
+WITH combinedCustomers as
+(SELECT *
+FROM riders
+UNION
+SELECT *
+FROM riders2)
+  SELECT first, last 
+  FROM combinedCustomers 
+  WHERE combinedCustomers.total_trips < 500;
+
+  SELECT COUNT(*) as 'Active Cars'
+  FROM cars
+  WHERE status = "active";
+
+ 
+
+
