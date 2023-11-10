@@ -71,12 +71,7 @@ VALUES
     (32, 'Linear magnetic hall sensors', 'V1-024', 6),
     (33, 'Flame sensor', 'V1-026', 4),
     (34, 'Sensitive microphone sensor', 'V1-037', 4),
-    (
-        35,
-        'Temperature and humidity sensor',
-        'V1-015',
-        1
-    ),
+    (35, 'Temperature and humidity sensor', 'V1-015', 1),
     (36, 'XY-axis joystick', 'V1-023', 4),
     (37, 'Metal touch sensor', 'V1-036', 3),
     (38, 'Voltage sensor', 'KR-12', 5),
