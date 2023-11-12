@@ -1,0 +1,7 @@
+(front)
+INPUT            ,([a-z])
+OUTPUT           , '$1
+
+(back)
+INPUT           ([a-z]),
+OUTPUT          $1', 
