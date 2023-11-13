@@ -5,3 +5,7 @@ OUTPUT           , '$1
 (back)
 INPUT           ([a-z]),
 OUTPUT          $1', 
+
+(quotes for dates)
+INPUT           ([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])
+OUTPUT          '$1'
