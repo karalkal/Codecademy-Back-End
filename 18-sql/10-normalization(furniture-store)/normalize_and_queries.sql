@@ -8,7 +8,7 @@ FROM store
 WHERE item_3_id IS NOT NULL;
 
 select COUNT(customer_id)  from store;				-- 100 total
-select COUNT(distinct(customer_id)) from store;		-- but only 80 dfistinct => 20 with more than one order
+select COUNT(distinct(customer_id)) from store;		-- but only 80 distinct => 20 with more than one order
 
 -- create customer
 CREATE TABLE customer AS 
@@ -65,6 +65,25 @@ REFERENCES customer(id);
 ALTER TABLE orders_items
 ADD FOREIGN KEY (order_id) REFERENCES "order"(id),
 ADD FOREIGN KEY (item_id) REFERENCES item(id);
+
+
+-- QUERIES
+SELECT * FROM cc_user.store
+ORDER by order_date;
+
+SELECT DISTINCT(customer_email) FROM cc_user.store 
+WHERE order_date < '2019-08-17'
+ORDER by customer_email;
+
+
+SELECT email
+FROM cc_user.customer, cc_user.order
+WHERE customer.id = cc_user.order.id
+AND cc_user.order.date < '2019-08-17'
+ORDER by email;
+
+
+
 
 
 
