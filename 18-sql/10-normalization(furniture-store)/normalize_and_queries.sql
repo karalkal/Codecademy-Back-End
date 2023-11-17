@@ -83,6 +83,40 @@ AND cc_user.order.date < '2019-08-17'
 ORDER by email;
 
 
+-- return the number of orders containing each unique item from STORE
+-- (for example, two orders contain item 1, two orders contain item 2, four orders contain item 3, etc.)
+SELECT * from cc_user.store;
+
+
+WITH all_items AS
+	(SELECT item_1_id as item_id, item_1_name as item_name from cc_user.store
+
+	UNION all
+	SELECT item_2_id as item_id, item_2_name as item_name from CC_user.store
+	WHERE item_2_id IS NOT NULL
+
+	UNION all
+	SELECT item_3_id as item_id, item_3_name as item_name from CC_user.store
+	WHERE item_3_id IS NOT NULL
+				  )
+SELECT COUNT(item_id) as times_appearing, item_id, item_name
+FROM all_items
+GROUP by item_id, item_name
+ORDER by COUNT(item_id) DESC;
+
+-- return the number of orders containing each unique item from normalized
+SELECT COUNT(item_id), item_id, cc_user.item.name as item_name
+FROM cc_user.order
+
+JOIN cc_user.orders_items
+ON cc_user.order.id =  cc_user.orders_items.order_id
+
+JOIN cc_user.item
+ON cc_user.orders_items.item_id = cc_user.item.id
+
+GROUP by item_id, item.name
+ORDER by COUNT(item_id) DESC;
+
 
 
 
