@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: Online Order API
+  description: A basic API for working with Swagger tools.
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /orders:
+    summary: Get all orders data.
+    description: This path is used to retrieve all of the orders from order.json
+    get:
+      tags:
+      - Orders
+      summary: GET all orders
+      description: Retrieve all orders info from orders.json
+      operationId: getOrders
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              examples:
+                orders:
+                  value: "{\"orders\":[{\"name\":\"Carey Maynard\",\"id\":\"001\"\
+                    ,\"state\":\"pending\"},{\"name\":\"Angelo Ayala\",\"id\":\"002\"\
+                    ,\"state\":\"canceled\"},{\"name\":\"Regina Yates\",\"id\":\"\
+                    003\",\"state\":\"pending\"},{\"name\":\"Elliott Mcclure\",\"\
+                    id\":\"004\",\"state\":\"pending\"}]}"
+        default:
+          description: Default error sample response
+      x-swagger-router-controller: Orders
+  /neworder:
+    summary: Add new order.
+    description: This path is used to add a new order to orders.json
+    post:
+      tags:
+      - New Order
+      summary: POST new order
+      description: Adds new order to orders.json
+      operationId: addOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        "201":
+          description: created
+        "400":
+          description: Invalid Argument Provided
+        "404":
+          description: Order not found
+        default:
+          description: Default error sample response
+      x-swagger-router-controller: NewOrder
+  /update/{id}:
+    summary: Updating order by modifying state.
+    description: This path is used to change the status of an order matching the provided
+      id. It modifies the state attribute of each order
+    put:
+      tags:
+      - Update Order
+      summary: PUT to update state of order by id.
+      description: Update the state of an order with a matching id in orders.json
+      operationId: updateOrder
+      parameters:
+      - name: id
+        in: path
+        description: The id of the order.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: updated
+        "400":
+          description: Invalid Argument Provided
+        "404":
+          description: Order not found
+        default:
+          description: Default error sample response
+      x-swagger-router-controller: UpdateOrder
+  /delete/{id}:
+    summary: Delete item by ID.
+    description: This path is used to delete an order with a matching id
+    delete:
+      tags:
+      - Delete Order
+      summary: DELETE order by id
+      description: Delete an order with a matching id from orders.json
+      operationId: deleteOrder
+      parameters:
+      - name: id
+        in: path
+        description: The id of the order.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: deleted
+        "400":
+          description: Invalid Argument Provided
+        "404":
+          description: Order not found
+        default:
+          description: Default error sample response
+      x-swagger-router-controller: DeleteOrder
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        state:
+          type: string
+      xml:
+        name: Order
