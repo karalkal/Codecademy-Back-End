@@ -89,7 +89,40 @@ INSERT INTO label(name) VALUES
 ('ELECTRA'),
 ('Debemur Morti Productions');
 
-INSERT INTO band (name,	country)
-VALUES
-('nirvana', 'USA');
+-- must drop error INSERT INTO band (name,	country) VALUES ('nirvana', 'USA');
+
+-- Allow NULL price
+ALTER TABLE album ALTER COLUMN price DROP NOT NULL;
+
+-- we need FKeys to be band and label names, not ids
+ALTER TABLE album drop COLUMN band_id;
+ALTER TABLE album drop COLUMN label_id;
+ALTER TABLE album ADD COLUMN band_name text NOT NULL;
+ALTER TABLE album
+  ADD CONSTRAINT band_name_fk
+  FOREIGN KEY (band_name)
+  REFERENCES band(name);
+ALTER TABLE album ALTER COLUMN band_name SET NOT NULL;
+-- test - will return error
+-- INSERT INTO album(name, cover, release_year) VALUES('MONOLITHE III','https://www.metal-archives.com/images/3/5/3/7/353714.jpg?5121',2012);
+ALTER TABLE album ADD COLUMN label_name text NOT NULL;
+ALTER TABLE album
+  ADD CONSTRAINT label_name_fk
+  FOREIGN KEY (label_name)
+  REFERENCES label(name);
+
+
+INSERT INTO album(name, cover, release_year, band_name, label_name) VALUES
+('MONOLITHE III',
+ 'https://www.metal-archives.com/images/3/5/3/7/353714.jpg?5121',
+ 2012,
+'Monolithe',
+'Debemur Morti Productions');
+
+-- one band cannot have 2 album entries with same name
+ALTER TABLE album  ADD UNIQUE (name, band_name);
+-- INSERT INTO album(name, cover, release_year, band_name, label_name) VALUES
+-- ('MONOLITHE III', 'XXXX', 2012,'Monolithe','XXXX');
+
+
 
