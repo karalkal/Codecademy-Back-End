@@ -1,3 +1,17 @@
+-- capitalize all entries to ensure uniqueness, i.e. no nirvana and Nirvana in DB
+create function capitalize_name() 
+  returns trigger
+as
+$$
+begin
+  new.name = lower(new.name);
+  new.name = initcap(new.name);
+  return new;
+end;
+$$
+language plpgsql;
+
+
 CREATE TABLE IF NOT EXISTS band (
 	id		INTEGER			GENERATED ALWAYS AS IDENTITY	PRIMARY KEY,
 	name	text			NOT NULL UNIQUE,
@@ -29,10 +43,22 @@ CREATE TABLE IF NOT EXISTS album (
 	label_id		integer			REFERENCES label(id)
 );
 
-CREATE TABLE IF NOT EXISTS genre (
-	id		INTEGER			GENERATED ALWAYS AS IDENTITY	PRIMARY KEY,
-	name	text			NOT NULL UNIQUE
-);
+CREATE TRIGGER capitalize_album_trg
+   before update or insert on album
+   for each row
+   execute procedure capitalize_name();
+CREATE TRIGGER capitalize_label_trg
+   before update or insert on label
+   for each row
+   execute procedure capitalize_name();
+CREATE TRIGGER genre_trg
+   before update or insert on genre
+   for each row
+   execute procedure capitalize_name();
+CREATE TRIGGER capitalize_band_trg
+   before update or insert on band
+   for each row
+   execute procedure capitalize_name();
 
 --many-to-many album-genre -> cross-reference (aka join) table.
     -- foreign keys referencing the primary keys of the two member tables
@@ -45,17 +71,25 @@ CREATE TABLE IF NOT EXISTS album_genre(
 
 INSERT INTO band (name,	country)
 VALUES
-('Alice in Chains', 'USA'),
-('Soundgarden', 'USA'),
-('Nirvana', 'USA'),
-('Kyuss', 'USA'),
-('Mayhem', 'Norway'), 
-('Monolithe', 'France'),
-('Hypocrisy', 'Sweden'),
-('The Ocean', 'Germany');
+('aLice in Chains', 'USA'),
+('SoundGARden', 'USA'),
+('nirvana', 'USA'),
+('KyuSS', 'USA'),
+('MAYHEM', 'Norway'), 
+('MonoLITHE', 'France'),
+('HypocrisY', 'Sweden'),
+('the Ocean', 'Germany');
 
 INSERT INTO genre(name)
 VALUES ('grunge'), ('post-metal'), ('black metal'), ('doom metal'), ('funeral doom'), ('death metal'), ('stoner rock');
 
+INSERT INTO label(name) VALUES
+('Century media RecordS'),
+('napalm records'),
+('ELECTRA'),
+('Debemur Morti Productions');
 
+INSERT INTO band (name,	country)
+VALUES
+('nirvana', 'USA');
 
