@@ -1,0 +1,549 @@
+openapi: 3.0.3
+info:
+  title: Swagger Vinyl Store - OpenAPI 3.0
+  description: backend for a learning project with basic CRUD functionality with typical item-user-order functionality
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: https://localstore:3000/api/v1
+paths:
+  /albums:
+    get:
+      tags:
+        - albums
+      summary: Returns album inventory
+      description: Returns album inventory
+      operationId: getAlbums
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+        - api_key: []
+    post:
+      tags:
+        - albums
+      summary: Add a new album to the store
+      description: Add a new album to the store
+      operationId: addAlbum
+      requestBody:
+        description: Create a new album in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Album'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Album'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'          
+        '405':
+          description: Invalid input
+      security:
+        - albumstore_auth:
+            - write:albums
+            - read:albums
+  # /albums/findByTags:
+  #   get:
+  #     tags:
+  #       - albums
+  #     summary: Finds Albums by tags
+  #     description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  #     operationId: findAlbumsByTags
+  #     parameters:
+  #       - name: tags
+  #         in: query
+  #         description: Tags to filter by
+  #         required: false
+  #         explode: true
+  #         schema:
+  #           type: array
+  #           items:
+  #             type: string
+  #     responses:
+  #       '200':
+  #         description: successful operation
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 $ref: '#/components/schemas/Album'          
+  #           application/xml:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 $ref: '#/components/schemas/Album'
+  #       '400':
+  #         description: Invalid tag value
+  #     security:
+  #       - albumstore_auth:
+  #           - write:albums
+  #           - read:albums
+  /albums/{albumId}:
+    get:
+      tags:
+        - albums
+      summary: Find album by ID
+      description: Returns a single album
+      operationId: getAlbumById
+      parameters:
+        - name: albumId
+          in: path
+          description: ID of album to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Album not found
+      security:
+        - api_key: []
+        - albumstore_auth:
+            - write:albums
+            - read:albums
+    put:
+      tags:
+        - albums
+      summary: Updates a album in the store with form data
+      description: ''
+      operationId: updateAlbumWithForm
+      parameters:
+        - name: albumId
+          in: path
+          description: ID of album that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Album not found
+      security:
+        - albumstore_auth:
+            - write:albums
+            - read:albums
+    delete:
+      tags:
+        - albums
+      summary: Deletes a album
+      description: delete a album
+      operationId: deleteAlbum
+      parameters:
+        - name: albumId
+          in: path
+          description: Album id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Album not found
+      security:
+        - albumstore_auth:
+            - write:albums
+            - read:albums
+  /orders:
+    post:
+      tags:
+        - orders
+      summary: Place an order for a album
+      description: Place a new order in the store
+      operationId: placeOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '405':
+          description: Invalid input
+  /orders/{orderId}:
+    get:
+      tags:
+        - orders
+      summary: Find purchase order by ID
+      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
+      operationId: getOrderById
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that needs to be fetched
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Order not found
+    delete:
+      tags:
+        - orders
+      summary: Delete purchase order by ID
+      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      operationId: deleteOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Order not found
+  /users:
+    post:
+      tags:
+        - users
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/login:
+    get:
+      tags:
+        - users
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: false
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied
+  /users/logout:
+    get:
+      tags:
+        - users
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /users/{username}:
+    get:
+      tags:
+        - users
+      summary: Get user by user name
+      description: ''
+      operationId: getUserByName
+      parameters:
+        - name: username
+          in: path
+          description: 'The name that needs to be fetched. Use user1 for testing. '
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - users
+      summary: Update user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+        - name: username
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+    delete:
+      tags:
+        - users
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+components:
+  schemas:
+    Band:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Slayer
+        country:
+          type: string
+          example: Bulgaria
+    Genre:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: gothic metal
+    Label:
+      type: object
+      properties:
+        name:
+          type: string
+          example: gothic metal
+    Album:
+      required:
+        - name
+        - cover
+        - band_name
+        - label_name
+      type: object
+      properties:
+        name:
+          type: string
+          example: The Wall
+        cover:
+          type: string
+          example: some url with cover art of The Wall
+        band_name:
+          $ref: '#/components/schemas/Band'
+        label_name:
+          $ref: '#/components/schemas/Label'
+        summary:
+          type: string
+        duration:
+          type: integer
+          minimum: 0
+        format:
+          type: string
+        release_year:
+          type: integer
+          minimum: 1900
+        colour:
+          type: string
+        quantity:
+          type: integer
+          minimum: 0
+        price:
+          type: number
+          minimum: 0
+    Order:
+      type: object
+      properties:
+        albumId:
+          type: integer
+          format: int64
+          example: 198772
+        quantity:
+          type: integer
+          format: int32
+          example: 7
+        shipDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Order Status
+          example: approved
+          enum:
+            - placed
+            - approved
+            - delivered
+        complete:
+          type: boolean
+      xml:
+        name: order
+    User:
+      type: object
+      required:
+        - f_name
+        - l_name
+        - email
+        - password_hash
+      properties:
+        f_name:
+          type: string
+          example: theUser
+        l_name:
+          type: string
+          example: theUser
+        email:
+          type: string
+          example: email@domain.com
+        password_hash:
+          type: string
+        house_number:
+          type: integer  
+        street_name:
+          type: string
+          example: Downing Street
+        city:
+          type: string
+        country:
+          type: string
+        is_admin:
+          type: boolean
+  requestBodies:
+    Album:
+      description: Album object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Album'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Album'
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+  securitySchemes:
+    albumstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://albumstore3.swagger.io/oauth/authorize
+          scopes:
+            write:albums: modify albums in your account
+            read:albums: read your albums
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
