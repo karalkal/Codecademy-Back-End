@@ -1,3 +1,9 @@
+-- check connection port
+SELECT *
+FROM pg_settings
+WHERE name = 'port';
+
+
 -- capitalize all entries to ensure uniqueness, i.e. no nirvana and Nirvana in DB
 create function capitalize_name() 
   returns trigger
