@@ -4,7 +4,7 @@ const { createCustomError } = require('../errors/custom-error')
 
 
 const getAllAlbums = (req, res) => {
-  pool.query('SELECT id, name, band_name, cover, release_year FROM album ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT id, name, band_name, cover, release_year, price FROM album ORDER BY id ASC', (error, results) => {
     res.status(StatusCodes.OK).json(results.rows)
   })
 }
