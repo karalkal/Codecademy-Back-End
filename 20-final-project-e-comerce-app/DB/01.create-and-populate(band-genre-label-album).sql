@@ -126,10 +126,14 @@ INSERT INTO album(name, cover, release_year, band_name, label_name) VALUES
 'Monolithe',
 'Debemur Morti Productions');
 
--- one band cannot have 2 album entries with same name
+-- one band cannot have 2 album entries with same name and same coloured vinyl
 ALTER TABLE album  ADD UNIQUE (name, band_name, colour);
 -- INSERT INTO album(name, cover, release_year, band_name, label_name) VALUES
 -- ('MONOLITHE III', 'XXXX', 2012,'Monolithe','XXXX');
+
+-- check UNIQUEs
+SELECT constraint_name FROM information_schema.table_constraints
+    WHERE table_name='album' AND constraint_type='UNIQUE';
 
 
 
