@@ -16,7 +16,7 @@ const getAlbumById = (req, res, next) => {
         return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
     }
     pool.query(`SELECT * FROM album WHERE id=${albumId}`, (error, results) => {
-        if (results.rowCount === 0) {
+        if (results && results.rowCount === 0) {
             // create error object ---> go to next middleware, eventually errorHandler
             return next(createCustomError(`No album with id ${albumId}`, StatusCodes.NOT_FOUND))
         }
@@ -34,6 +34,7 @@ const createAlbum = (req, res, next) => {
     const insertQuery = createInsertQuery("album", albumData)
 
     pool.query(insertQuery, (error, results) => {
+        console.log("OPPA", results.rowCount)
         if (error) {
             if (error.code = '23505') {  // code: '23505', detail: 'Key (cover)=(test) already exists.'
                 return next(createCustomError(error.detail, StatusCodes.BAD_REQUEST))
@@ -51,9 +52,11 @@ const deleteAlbum = (req, res, next) => {
         return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
     }
 
-    pool.query(`DELETE FROM album WHERE id=${albumId}`, (error, results) => {
+    const deleteQuery = createDeleteQuery("album", albumId)
+
+    pool.query(deleteQuery, (error, results) => {
         // rowCount: 1 if item is notFound, otherwise 0
-        if (results.rowCount === 0) {
+        if (results && results.rowCount === 0) {
             return next(createCustomError(`No album with id ${albumId}`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.NO_CONTENT).send()
@@ -76,7 +79,17 @@ const updateAlbum = (req, res, next) => {
     const updateQuery = createUpdateQuery("album", albumId, updatedAlbumData)
 
     pool.query(updateQuery, (error, results) => {
-        if (error) { throw error }
+        // rowCount: 1 if item is notFound, otherwise 0
+        // BUT this is not actually an error, so check if results object is returned
+        if (results && results.rowCount === 0) {
+            return next(createCustomError(`No album with id ${albumId}`, StatusCodes.NOT_FOUND))
+        }
+        if (error) {
+            if (error.code = '23505') {  // code: '23505', detail: 'Key (cover)=(test) already exists.'
+                return next(createCustomError(error.detail, StatusCodes.BAD_REQUEST))
+            }   // if another type of error just throw
+            throw error
+        }
         res.status(StatusCodes.OK).json(results.rows)
     })
 }
@@ -90,10 +103,17 @@ function createInsertQuery(tableName, albumToAdd) {
     return { text, values }   // as object
 }
 
+function createDeleteQuery(tableName, albumId) {
+    const text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
+    const values = [albumId]
+
+    return { text, values }   // as object
+}
+
 function createUpdateQuery(tableName, albumId, albumData) {
-    const text = 'UPDATE ' + tableName + ' SET ' + ' name = $1' + ' cover = $2' + ' release_year = $3'
-        + ' band_name = $4' + ' label_name = $5' + 'summary = $6' + ' duration = $7'
-        + ' format = $8' + ' price = $9' + '  colour = $10' + ' quantity = $11'
+    const text = 'UPDATE ' + tableName + ' SET ' + ' name = $1,' + ' cover = $2,' + ' release_year = $3,'
+        + ' band_name = $4,' + ' label_name = $5,' + 'summary = $6,' + ' duration = $7,'
+        + ' format = $8,' + ' price = $9,' + '  colour = $10,' + ' quantity = $11'
         + ' WHERE id = ' + albumId + ' RETURNING * '
     const values = [albumData.name, albumData.cover, albumData.release_year, albumData.band_name, albumData.label_name,
     albumData.summary, albumData.duration, albumData.format, albumData.price, albumData.colour, albumData.quantity]
