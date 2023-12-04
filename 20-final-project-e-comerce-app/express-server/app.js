@@ -21,7 +21,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // Mount apiRouter at the '/api' path.
-app.use("/api", parentRouter);
+app.use("/api/v1", parentRouter);
 
 // error handlers
 // This middleware must be mounted at the very bottom of the call stack, after all the other declarations

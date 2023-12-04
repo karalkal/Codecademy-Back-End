@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS album (
 	band_id			integer			REFERENCES band(id),
 	label_id		integer			REFERENCES label(id)
 );
+-- NB SEE BELOW band_id and label_id are replaced, price becomes nullable
 
 CREATE TRIGGER capitalize_album_trg
    before update or insert on album
@@ -126,7 +127,7 @@ INSERT INTO album(name, cover, release_year, band_name, label_name) VALUES
 'Debemur Morti Productions');
 
 -- one band cannot have 2 album entries with same name
-ALTER TABLE album  ADD UNIQUE (name, band_name);
+ALTER TABLE album  ADD UNIQUE (name, band_name, colour);
 -- INSERT INTO album(name, cover, release_year, band_name, label_name) VALUES
 -- ('MONOLITHE III', 'XXXX', 2012,'Monolithe','XXXX');
 
