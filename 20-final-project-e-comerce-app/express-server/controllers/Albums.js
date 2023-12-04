@@ -39,6 +39,22 @@ const createAlbum = (req, res, next) => {
     })
 }
 
+const deleteAlbum = (req, res, next) => {
+    const { albumId } = req.params
+    // check if id is invalid format
+    if (isNaN(albumId) || Number(albumId) <= 0) {
+        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
+    }
+
+    pool.query(`DELETE FROM album WHERE id=${albumId}`, (error, results) => {
+        // rowCount: 1 if item is notFound, otherwise 0
+        if (results.rowCount === 0) {
+            return next(createCustomError(`No album with id ${albumId}`, StatusCodes.NOT_FOUND))
+        }
+        res.status(StatusCodes.NO_CONTENT)
+    })
+}
+
 function createInsertQuery(albumToAdd) {
     const text = 'INSERT INTO album  (name, cover, release_year, band_name, label_name, summary, duration, format, price, colour, quantity) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *'
     const values = [
@@ -47,9 +63,7 @@ function createInsertQuery(albumToAdd) {
     ]
 
     return { text, values }   // as object
-
-
 }
 
-module.exports = { getAllAlbums, getAlbumById, createAlbum }
+module.exports = { getAllAlbums, getAlbumById, createAlbum, deleteAlbum }
 
