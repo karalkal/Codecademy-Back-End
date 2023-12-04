@@ -25,16 +25,21 @@ const getAlbumById = (req, res, next) => {
 }
 
 const createAlbum = (req, res, next) => {
-    const albumToAdd = req.body
+    const albumData = req.body
     // These cannot be NULL, validation will be carried out in FE beforehand anyway
-    if (!albumToAdd.name || !albumToAdd.cover || !albumToAdd.release_year || !albumToAdd.band_name || !albumToAdd.label_name) {
+    if (!albumData.name || !albumData.cover || !albumData.release_year || !albumData.band_name || !albumData.label_name) {
         return next(createCustomError('Cannot create - essential data missing', StatusCodes.BAD_REQUEST))
     }
     // If containing minimum required data
-    const insertQuery = createInsertQuery(albumToAdd)
+    const insertQuery = createInsertQuery("album", albumData)
 
     pool.query(insertQuery, (error, results) => {
-        if (error) { throw error }
+        if (error) {
+            if (error.code = '23505') {  // code: '23505', detail: 'Key (cover)=(test) already exists.'
+                return next(createCustomError(error.detail, StatusCodes.BAD_REQUEST))
+            }   // if another type of error just throw
+            throw error
+        }
         res.status(StatusCodes.CREATED).json(results.rows)
     })
 }
@@ -51,19 +56,49 @@ const deleteAlbum = (req, res, next) => {
         if (results.rowCount === 0) {
             return next(createCustomError(`No album with id ${albumId}`, StatusCodes.NOT_FOUND))
         }
-        res.status(StatusCodes.NO_CONTENT)
+        res.status(StatusCodes.NO_CONTENT).send()
     })
 }
 
-function createInsertQuery(albumToAdd) {
-    const text = 'INSERT INTO album  (name, cover, release_year, band_name, label_name, summary, duration, format, price, colour, quantity) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *'
-    const values = [
-        albumToAdd.name, albumToAdd.cover, albumToAdd.release_year, albumToAdd.band_name, albumToAdd.label_name,
-        albumToAdd.summary, albumToAdd.duration, albumToAdd.format, albumToAdd.price, albumToAdd.colour, albumToAdd.quantity
-    ]
+const updateAlbum = (req, res, next) => {
+    const { albumId } = req.params
+    const updatedAlbumData = req.body
+    // check if id is invalid format
+    if (isNaN(albumId) || Number(albumId) <= 0) {
+        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
+    }
+    // check if non-nullable fields contain data
+    if (!updatedAlbumData.name || !updatedAlbumData.cover || !updatedAlbumData.release_year || !updatedAlbumData.band_name || !updatedAlbumData.label_name) {
+        return next(createCustomError('Cannot create - essential data missing', StatusCodes.BAD_REQUEST))
+    }
+
+    // If containing minimum required data
+    const updateQuery = createUpdateQuery("album", albumId, updatedAlbumData)
+
+    pool.query(updateQuery, (error, results) => {
+        if (error) { throw error }
+        res.status(StatusCodes.OK).json(results.rows)
+    })
+}
+
+function createInsertQuery(tableName, albumToAdd) {
+    const text = 'INSERT INTO ' + tableName + ' (name, cover, release_year, band_name, label_name, summary, duration, format, price, colour, quantity)'
+        + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *'
+    const values = [albumToAdd.name, albumToAdd.cover, albumToAdd.release_year, albumToAdd.band_name, albumToAdd.label_name,
+    albumToAdd.summary, albumToAdd.duration, albumToAdd.format, albumToAdd.price, albumToAdd.colour, albumToAdd.quantity]
 
     return { text, values }   // as object
 }
 
-module.exports = { getAllAlbums, getAlbumById, createAlbum, deleteAlbum }
+function createUpdateQuery(tableName, albumId, albumData) {
+    const text = 'UPDATE ' + tableName + ' SET ' + ' name = $1' + ' cover = $2' + ' release_year = $3'
+        + ' band_name = $4' + ' label_name = $5' + 'summary = $6' + ' duration = $7'
+        + ' format = $8' + ' price = $9' + '  colour = $10' + ' quantity = $11'
+        + ' WHERE id = ' + albumId + ' RETURNING * '
+    const values = [albumData.name, albumData.cover, albumData.release_year, albumData.band_name, albumData.label_name,
+    albumData.summary, albumData.duration, albumData.format, albumData.price, albumData.colour, albumData.quantity]
 
+    return { text, values }   // as object
+}
+
+module.exports = { getAllAlbums, getAlbumById, createAlbum, deleteAlbum, updateAlbum }
