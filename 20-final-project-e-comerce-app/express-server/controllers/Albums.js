@@ -11,7 +11,6 @@ const getAllAlbums = (req, res) => {
 
 const getAlbumById = (req, res, next) => {
     const { albumId } = req.params
-    console.log(albumId)
     // check if id is invalid format
     if (!Number.isInteger(Number(albumId)) || Number(albumId) <= 0) {
         return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
@@ -77,13 +76,11 @@ const updateAlbum = (req, res, next) => {
         return next(createCustomError('Cannot create - essential data missing', StatusCodes.BAD_REQUEST))
     }
     // If containing minimum required data
-    const updateQuery = createUpdateQuery("album", albumId, updatedAlbumData)
+    const updateQuery = createUpdateQuery("album", albumId, updatedAlbumData);
 
     pool.query(updateQuery, (error, results) => {
-        console.log(error)
-        // rowCount: 1 if item is notFound, otherwise 0
-        // BUT this is not actually an error, so check if results object is returned
-        if (!results || results.rowCount === 0) {
+        // if no id rowCount is zero
+        if (!results || results.rowCount !== 1) {
             return next(createCustomError(`No album with id ${albumId}`, StatusCodes.NOT_FOUND))
         }
         if (error) {
@@ -118,12 +115,9 @@ function createUpdateQuery(tableName, albumId, albumData) {
         + ' band_name = $4,' + ' label_name = $5,' + 'summary = $6,' + ' duration = $7,'
         + ' format = $8,' + ' price = $9,' + '  colour = $10,' + ' quantity = $11'
         + ' WHERE id = ' + albumId + ' RETURNING * '
-    console.log(albumData)
 
     const values = [albumData.name, albumData.cover, albumData.release_year, albumData.band_name, albumData.label_name,
-        albumData.summary, albumData.duration, albumData.format, albumToAdd.price || 0, albumToAdd.colour || "black", albumData.quantity]
-    console.log(albumData)
-    console.log(values)
+    albumData.summary, albumData.duration, albumData.format, albumData.price || 0, albumData.colour || "black", albumData.quantity]
 
     return { text, values }   // as object
 }
