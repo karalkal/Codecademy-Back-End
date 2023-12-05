@@ -17,6 +17,9 @@ function verifyNonNullableFields(entity, data) {
             label_name: data.label_name
         }
     }
+    if (entity === "band") {
+        essentialData = { name: data.name }
+    }
 
     //generic validation
     for (let key in essentialData) {

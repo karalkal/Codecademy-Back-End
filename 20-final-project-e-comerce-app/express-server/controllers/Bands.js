@@ -5,8 +5,8 @@ const { idIntegerValidator, verifyNonNullableFields } = require('../utils-valida
 const { createCustomError } = require('../errors/custom-error')
 
 
-const getAllAlbums = (req, res, next) => {
-    pool.query('SELECT id, name, band_name, cover, release_year, colour, price FROM album ORDER BY id ASC', (error, results) => {
+const getAllBands = (req, res, next) => {
+    pool.query('SELECT id, name, country FROM band ORDER BY id ASC', (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
@@ -14,12 +14,12 @@ const getAllAlbums = (req, res, next) => {
     })
 }
 
-const getAlbumById = (req, res, next) => {
-    const { albumId } = req.params
-    const idIsInteger = idIntegerValidator(albumId);
-    if (!idIsInteger) next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
+const getBandById = (req, res, next) => {
+    const { bandId } = req.params
+    const idIsInteger = idIntegerValidator(bandId);
+    if (!idIsInteger) next(createCustomError('Band id must be positive integer', StatusCodes.BAD_REQUEST));
 
-    pool.query(`SELECT * FROM album WHERE id=${albumId}`, (error, results) => {
+    pool.query(`SELECT * FROM band WHERE id=${bandId}`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
@@ -29,24 +29,24 @@ const getAlbumById = (req, res, next) => {
             console.log("ROWS:\n", results.rowCount, results.rowCount == false)   // DEMO     
         */
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {            // create error object ---> go to next middleware, eventually errorHandler
-            return next(createCustomError(`No album with id ${albumId} found`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`No band with id ${bandId} found`, StatusCodes.NOT_FOUND))
         }
 
         res.status(StatusCodes.OK).json(results.rows[0])
     })
 }
 
-const createAlbum = (req, res, next) => {
-    const albumData = req.body
+const createBand = (req, res, next) => {
+    const bandData = req.body
 
     // These cannot be NULL, validation will be carried out in FE beforehand anyway
-    const undefinedProperty = verifyNonNullableFields("album", albumData);
+    const undefinedProperty = verifyNonNullableFields("band", bandData);
     if (undefinedProperty) {
         return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
-    
+
     // If containing minimum required data
-    const insertQuery = createInsertQuery("album", albumData)
+    const insertQuery = createInsertQuery("band", bandData)
 
     pool.query(insertQuery, (error, results) => {
         if (error) {
@@ -54,57 +54,56 @@ const createAlbum = (req, res, next) => {
         }
         // Not sure if we can get any different but just in case -> rowCount: 1 if item is notFound, otherwise 0
         if (results.rowCount && results.rowCount !== 1) {
-            return next(createCustomError(`Could not create album with id ${albumId}`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`Could not create band with id ${bandId}`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.CREATED).json(results.rows[0])
     })
 }
 
-const deleteAlbum = (req, res, next) => {
-    const { albumId } = req.params
-    const idIsInteger = idIntegerValidator(albumId);
+const deleteBand = (req, res, next) => {
+    const { bandId } = req.params
+    const idIsInteger = idIntegerValidator(bandId);
     if (!idIsInteger) {
-        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
+        return next(createCustomError('Band id must be positive integer', StatusCodes.BAD_REQUEST));
     }
-    const deleteQuery = createDeleteQuery("album", albumId)
+    const deleteQuery = createDeleteQuery("band", bandId)
 
     pool.query(deleteQuery, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {
-            return next(createCustomError(`No album with id ${albumId} found`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`No band with id ${bandId} found`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.NO_CONTENT).send()
     })
 }
 
-const updateAlbum = (req, res, next) => {
-    const { albumId } = req.params;
-    const updatedAlbumData = req.body;
+const updateBand = (req, res, next) => {
+    const { bandId } = req.params;
+    const updatedBandData = req.body;
 
-    const idIsInteger = idIntegerValidator(albumId);
+    const idIsInteger = idIntegerValidator(bandId);
     if (!idIsInteger) {
-        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
+        return next(createCustomError('Band id must be positive integer', StatusCodes.BAD_REQUEST));
     }
-    const undefinedProperty = verifyNonNullableFields("album", updatedAlbumData);
+    const undefinedProperty = verifyNonNullableFields("band", updatedBandData);
     if (undefinedProperty) {
         return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
 
-    const updateQuery = createUpdateQuery("album", albumId, updatedAlbumData);
-    // console.log("QUERY PARAMS:\n", updateQuery)
+    const updateQuery = createUpdateQuery("band", bandId, updatedBandData);
 
     pool.query(updateQuery, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {
-            return next(createCustomError(`No album with id ${albumId} found`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`No band with id ${bandId} found`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.OK).json(results.rows)
     })
 }
 
 
-module.exports = { getAllAlbums, getAlbumById, createAlbum, deleteAlbum, updateAlbum }
+module.exports = { getAllBands, getBandById, createBand, deleteBand, updateBand }
