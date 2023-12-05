@@ -1,10 +1,11 @@
 const { StatusCodes } = require('http-status-codes')
-const { pool, client } = require('../db/connect')
+const { pool } = require('../db/connect')
+const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../utils-validators/queryCreators')
+const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/idIntegerValidator')
 const { createCustomError } = require('../errors/custom-error')
-const {createInsertQuery, createDeleteQuery, createUpdateQuery} = require('../utils/queryCreators')
 
 
-const getAllAlbums = (req, res) => {
+const getAllAlbums = (req, res, next) => {
     pool.query('SELECT id, name, band_name, cover, release_year, colour, price FROM album ORDER BY id ASC', (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
@@ -15,10 +16,9 @@ const getAllAlbums = (req, res) => {
 
 const getAlbumById = (req, res, next) => {
     const { albumId } = req.params
-    // check if id is invalid format
-    if (!Number.isInteger(Number(albumId)) || Number(albumId) <= 0) {
-        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
-    }
+    const idIsInteger = idIntegerValidator(albumId);
+    if (!idIsInteger) next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
+
     pool.query(`SELECT * FROM album WHERE id=${albumId}`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
@@ -38,11 +38,13 @@ const getAlbumById = (req, res, next) => {
 
 const createAlbum = (req, res, next) => {
     const albumData = req.body
-    // These cannot be NULL, validation will be carried out in FE beforehand anyway
-    if (!albumData.name || !albumData.cover || !albumData.release_year || !albumData.band_name || !albumData.label_name) {
-        return next(createCustomError('Cannot create - essential data missing', StatusCodes.BAD_REQUEST))
-    }
 
+    // These cannot be NULL, validation will be carried out in FE beforehand anyway
+    const undefinedProperty = verifyNonNullableFields("album", albumData);
+    if (undefinedProperty) {
+        return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
+    }
+    
     // If containing minimum required data
     const insertQuery = createInsertQuery("album", albumData)
 
@@ -60,11 +62,10 @@ const createAlbum = (req, res, next) => {
 
 const deleteAlbum = (req, res, next) => {
     const { albumId } = req.params
-    // check if id is invalid format
-    if (!Number.isInteger(Number(albumId)) || Number(albumId) <= 0) {
-        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
+    const idIsInteger = idIntegerValidator(albumId);
+    if (!idIsInteger) {
+        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
     }
-
     const deleteQuery = createDeleteQuery("album", albumId)
 
     pool.query(deleteQuery, (error, results) => {
@@ -81,13 +82,14 @@ const deleteAlbum = (req, res, next) => {
 const updateAlbum = (req, res, next) => {
     const { albumId } = req.params;
     const updatedAlbumData = req.body;
-    // check if id is invalid format
-    if (!Number.isInteger(Number(albumId)) || Number(albumId) <= 0) {
-        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST))
+
+    const idIsInteger = idIntegerValidator(albumId);
+    if (!idIsInteger) {
+        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
     }
-    // check if non-nullable fields contain data
-    if (!updatedAlbumData.name || !updatedAlbumData.cover || !updatedAlbumData.release_year || !updatedAlbumData.band_name || !updatedAlbumData.label_name) {
-        return next(createCustomError('Cannot create - essential data missing', StatusCodes.BAD_REQUEST))
+    const undefinedProperty = verifyNonNullableFields("album", updatedAlbumData);
+    if (undefinedProperty) {
+        return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
 
     const updateQuery = createUpdateQuery("album", albumId, updatedAlbumData);
