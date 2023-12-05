@@ -89,7 +89,7 @@ const updateAlbum = (req, res, next) => {
     }
     const undefinedProperty = verifyNonNullableFields("album", updatedAlbumData);
     if (undefinedProperty) {
-        return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
+        return next(createCustomError(`Cannot update: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
 
     const updateQuery = createUpdateQuery("album", albumId, updatedAlbumData);

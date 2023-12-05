@@ -9,10 +9,15 @@ function createInsertQuery(tableName, dataToInsert) {
             dataToInsert.summary, dataToInsert.duration, dataToInsert.format, dataToInsert.price || 0, dataToInsert.colour || "black", dataToInsert.quantity
         ]
     }
-    if (tableName === "band") {
+    if (tableName === "band") {     // BAND
         text = 'INSERT INTO ' + tableName + ' (name, country)'
             + ' VALUES ($1, $2) RETURNING *'
         values = [dataToInsert.name, dataToInsert.country]
+    }
+    if (tableName === "label" || tableName === "genre") {   // LABEL or GENRE
+        text = 'INSERT INTO ' + tableName + ' (name)'
+            + ' VALUES ($1) RETURNING *'
+        values = [dataToInsert.name]
     }
 
     return { text, values }   // as object
@@ -41,6 +46,12 @@ function createUpdateQuery(tableName, albumId, albumData) {
         text = 'UPDATE ' + tableName + ' SET ' + ' name = $1,' + ' country = $2' + ' WHERE id = ' + albumId + ' RETURNING * '
         values = [albumData.name, albumData.country]
     }
+    if (tableName === "label" || tableName === "genre") {   // LABEL or GENRE
+        text = 'UPDATE ' + tableName + ' SET ' + ' name = $1' + ' WHERE id = ' + albumId + ' RETURNING * '
+        values = [albumData.name]
+
+    }
+
     return { text, values }   // as object
 }
 

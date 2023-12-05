@@ -89,7 +89,7 @@ const updateBand = (req, res, next) => {
     }
     const undefinedProperty = verifyNonNullableFields("band", updatedBandData);
     if (undefinedProperty) {
-        return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
+        return next(createCustomError(`Cannot update: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
 
     const updateQuery = createUpdateQuery("band", bandId, updatedBandData);
