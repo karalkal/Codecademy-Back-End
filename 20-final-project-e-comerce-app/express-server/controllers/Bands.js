@@ -19,7 +19,13 @@ const getBandById = (req, res, next) => {
     const idIsInteger = idIntegerValidator(bandId);
     if (!idIsInteger) next(createCustomError('Band id must be positive integer', StatusCodes.BAD_REQUEST));
 
-    pool.query(`SELECT * FROM band WHERE id=${bandId}`, (error, results) => {
+    pool.query(`SELECT *,
+                        array (SELECT album.name from album 
+                            where band.name = album.band_name
+                            order by album.release_year
+                ) as discography
+                FROM band
+                WHERE band.id = ${bandId}`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
