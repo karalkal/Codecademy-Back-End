@@ -19,7 +19,13 @@ const getAlbumById = (req, res, next) => {
     const idIsInteger = idIntegerValidator(albumId);
     if (!idIsInteger) next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
 
-    pool.query(`SELECT * FROM album WHERE id=${albumId}`, (error, results) => {
+    pool.query(`SELECT *, 
+                array(select genre.name 
+                        from genre 
+                        LEFT JOIN album_genre 
+                        on genre.id = album_genre.genre_id) as genre_array
+                from album
+                where album.id = 1;`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
