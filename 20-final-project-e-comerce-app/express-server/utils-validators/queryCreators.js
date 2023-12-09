@@ -19,6 +19,13 @@ function createInsertQuery(tableName, dataToInsert) {
             + ' VALUES ($1) RETURNING *'
         values = [dataToInsert.name]
     }
+    if (tableName === "album_genre") {
+        text = 'INSERT INTO ' + tableName + ' (album_id, genre_id)'
+        + ' VALUES ($1, $2) RETURNING *'
+        values = [dataToInsert.albumId, dataToInsert.genreId]
+
+    }
+
 
     return { text, values }   // as object
 }

@@ -11,6 +11,8 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 
 const PORT = process.env.PORT || 3000;
 
+require("express-async-errors");
+
 // middleware for handling CORS requests from index.html
 app.use(cors())
 

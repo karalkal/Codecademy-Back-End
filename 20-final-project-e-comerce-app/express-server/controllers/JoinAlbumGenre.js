@@ -22,13 +22,11 @@ const getAllAlbumGenres = (req, res, next) => {
 
 const getAlbumGenreById = (req, res, next) => {
     const { albumId, genreId } = req.params
-    console.log(albumId, genreId)
     const albumIdIsInteger = idIntegerValidator(albumId);
     const genreIdIsInteger = idIntegerValidator(genreId)
     if (!albumIdIsInteger || !genreIdIsInteger) {
         return next(createCustomError('Album and Genre IDs must be positive integers', StatusCodes.BAD_REQUEST));
     }
-    console.log("ui")
     pool.query(`SELECT 	genre.name as "Genre", album.* from album
                     LEFT JOIN album_genre
                     on album.id = album_genre.album_id
@@ -48,19 +46,21 @@ const getAlbumGenreById = (req, res, next) => {
 }
 
 const createAlbumGenre = (req, res, next) => {
-    const albumGenreData = req.body
-    const undefinedProperty = verifyNonNullableFields("albumGenre", albumGenreData);
-    if (undefinedProperty) {
-        return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
+    const { albumId, genreId } = req.body   // in body, not params
+    const albumIdIsInteger = idIntegerValidator(albumId);
+    const genreIdIsInteger = idIntegerValidator(genreId)
+    if (!albumIdIsInteger || !genreIdIsInteger) {
+        return next(createCustomError('Album and Genre IDs must be positive integers', StatusCodes.BAD_REQUEST));
     }
-    const insertQuery = createInsertQuery("albumGenre", albumGenreData)
+
+    const insertQuery = createInsertQuery("album_genre", { albumId, genreId })  // table_name, send args as object
 
     pool.query(insertQuery, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (results.rowCount && results.rowCount !== 1) {
-            return next(createCustomError(`Could not create albumGenre with id ${albumGenreId}`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`Could not create record in album_genre with id ${albumId}/${genreId}`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.CREATED).json(results.rows[0])
     })
@@ -112,4 +112,4 @@ const updateAlbumGenre = (req, res, next) => {
 }
 
 
-module.exports = { getAllAlbumGenres, getAlbumGenreById, createAlbumGenre, deleteAlbumGenre, updateAlbumGenre }
+module.exports = { getAllAlbumGenres, getAlbumGenreById, createAlbumGenre, deleteAlbumGenre, updateAlbumGenre, createAlbumGenre }
