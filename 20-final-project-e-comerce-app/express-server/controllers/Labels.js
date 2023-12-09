@@ -1,7 +1,7 @@
 const { StatusCodes } = require('http-status-codes')
 const { pool } = require('../db/connect')
 const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../utils-validators/queryCreators')
-const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/idIntegerValidator')
+const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/validators')
 const { createCustomError } = require('../errors/custom-error')
 
 
@@ -46,7 +46,7 @@ const createLabel = (req, res, next) => {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (results.rowCount && results.rowCount !== 1) {
-            return next(createCustomError(`Could not create label with id ${labelId}`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`Could not create label`, StatusCodes.BAD_REQUEST))
         }
         res.status(StatusCodes.CREATED).json(results.rows[0])
     })

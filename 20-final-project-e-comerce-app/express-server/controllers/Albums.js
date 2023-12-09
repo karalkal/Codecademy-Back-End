@@ -1,7 +1,7 @@
 const { StatusCodes } = require('http-status-codes')
 const { pool } = require('../db/connect')
 const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../utils-validators/queryCreators')
-const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/idIntegerValidator')
+const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/validators')
 const { createCustomError } = require('../errors/custom-error')
 
 
@@ -65,7 +65,7 @@ const createAlbum = (req, res, next) => {
         }
         // Not sure if we can get any different but just in case -> rowCount: 1 if item is notFound, otherwise 0
         if (results.rowCount && results.rowCount !== 1) {
-            return next(createCustomError(`Could not create album with id ${albumId}`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`Could not create album`, StatusCodes.BAD_REQUEST))
         }
         res.status(StatusCodes.CREATED).json(results.rows[0])
     })

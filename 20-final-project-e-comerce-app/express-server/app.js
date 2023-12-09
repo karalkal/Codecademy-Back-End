@@ -27,8 +27,8 @@ app.use("/api/v1", parentRouter);
 
 // error handlers
 // This middleware must be mounted at the very bottom of the call stack, after all the other declarations
-app.use(notFoundMiddleware);
-app.use(errorHandlerMiddleware);
+// app.use(notFoundMiddleware);
+// app.use(errorHandlerMiddleware);
 
 app.listen(PORT, console.log("I'm all ears at port", PORT))
 

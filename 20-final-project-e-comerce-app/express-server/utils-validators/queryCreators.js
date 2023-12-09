@@ -24,6 +24,16 @@ function createInsertQuery(tableName, dataToInsert) {
             + ' VALUES ($1, $2) RETURNING *'
         values = [dataToInsert.albumId, dataToInsert.genreId]
     }
+    if (tableName === "db_user") {
+        text = 'INSERT INTO ' + tableName + ' (f_name, l_name, email, password_hash, house_number, street_name, city, country, is_admin, is_contributor) '
+            + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *'
+        values = [      // password MUST be received as hashed value
+            dataToInsert.f_name, dataToInsert.l_name, dataToInsert.email, dataToInsert.password_hash, dataToInsert.house_number,
+            dataToInsert.street_name, dataToInsert.city, dataToInsert.country, dataToInsert.is_admin, dataToInsert.is_contributor
+        ]
+
+        console.log(text, values)
+    }
 
     return { text, values }   // as object
 }
