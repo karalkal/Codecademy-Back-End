@@ -87,31 +87,7 @@ const deleteAlbumGenre = (req, res, next) => {
     })
 }
 
-const updateAlbumGenre = (req, res, next) => {
-    const { albumGenreId } = req.params;
-    const updatedAlbumGenreData = req.body;
-
-    const idIsInteger = idIntegerValidator(albumGenreId);
-    if (!idIsInteger) {
-        return next(createCustomError('AlbumGenre id must be positive integer', StatusCodes.BAD_REQUEST));
-    }
-    const undefinedProperty = verifyNonNullableFields("album_genre", updatedAlbumGenreData);
-    if (undefinedProperty) {
-        return next(createCustomError(`Cannot update: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
-    }
-
-    const updateQuery = createUpdateQuery("albumGenre", albumGenreId, updatedAlbumGenreData);
-
-    pool.query(updateQuery, (error, results) => {
-        if (error) {
-            return next(createCustomError(error, StatusCodes.BAD_REQUEST))
-        }
-        if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {
-            return next(createCustomError(`No albumGenre with id ${albumGenreId} found`, StatusCodes.NOT_FOUND))
-        }
-        res.status(StatusCodes.OK).json(results.rows)
-    })
-}
+// updating this table is an overkill, makes more sense to delete and then re-create
 
 
-module.exports = { getAllAlbumGenres, getAlbumGenreById, createAlbumGenre, deleteAlbumGenre, updateAlbumGenre, createAlbumGenre }
+module.exports = { getAllAlbumGenres, getAlbumGenreById, createAlbumGenre, deleteAlbumGenre }

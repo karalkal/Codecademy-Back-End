@@ -9,7 +9,6 @@ joinAlbumsGenresRouter.get("/", getAllAlbumGenres);
 joinAlbumsGenresRouter.get("/:albumId/:genreId", getAlbumGenreById);
 joinAlbumsGenresRouter.post("/", createAlbumGenre);
 joinAlbumsGenresRouter.delete("/:albumId/:genreId", deleteAlbumGenre);
-// joinAlbumsGenresRouter.put("/:genreId", updateGenre);
-
+// updating this table is an overkill, makes more sense to delete and then re-create
 
 module.exports = joinAlbumsGenresRouter

@@ -43,26 +43,25 @@ function createDeleteQuery(tableName, firstArg, secondArd) {
     return { text, values }   // as object
 }
 
-function createUpdateQuery(tableName, albumId, albumData) {
+function createUpdateQuery(tableName, itemId, updatedData) {
     let text
     let values
     if (tableName === "album") {
         text = 'UPDATE ' + tableName + ' SET ' + ' name = $1,' + ' cover = $2,' + ' release_year = $3,'
             + ' band_name = $4,' + ' label_name = $5,' + 'summary = $6,' + ' duration = $7,'
             + ' format = $8,' + ' price = $9,' + '  colour = $10,' + ' quantity = $11'
-            + ' WHERE id = ' + albumId + ' RETURNING * '
+            + ' WHERE id = ' + itemId + ' RETURNING * '
 
-        values = [albumData.name, albumData.cover, albumData.release_year, albumData.band_name, albumData.label_name,
-        albumData.summary, albumData.duration, albumData.format, albumData.price || 0, albumData.colour || "black", albumData.quantity]
+        values = [updatedData.name, updatedData.cover, updatedData.release_year, updatedData.band_name, updatedData.label_name,
+        updatedData.summary, updatedData.duration, updatedData.format, updatedData.price || 0, updatedData.colour || "black", updatedData.quantity]
     }
     if (tableName === "band") {
-        text = 'UPDATE ' + tableName + ' SET ' + ' name = $1,' + ' country = $2' + ' WHERE id = ' + albumId + ' RETURNING * '
-        values = [albumData.name, albumData.country]
+        text = 'UPDATE ' + tableName + ' SET ' + ' name = $1,' + ' country = $2' + ' WHERE id = ' + itemId + ' RETURNING * '
+        values = [updatedData.name, updatedData.country]
     }
     if (tableName === "label" || tableName === "genre") {   // LABEL or GENRE
-        text = 'UPDATE ' + tableName + ' SET ' + ' name = $1' + ' WHERE id = ' + albumId + ' RETURNING * '
-        values = [albumData.name]
-
+        text = 'UPDATE ' + tableName + ' SET ' + ' name = $1' + ' WHERE id = ' + itemId + ' RETURNING * '
+        values = [updatedData.name]
     }
 
     return { text, values }   // as object
