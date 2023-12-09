@@ -8,7 +8,7 @@ const { createCustomError } = require('../errors/custom-error')
 const getAllAlbumGenres = (req, res, next) => {
     pool.query(`SELECT 	album.id as "Album ID", genre.id as "Genre ID", 
                 album.name as "Album Name", album.band_name as "Band", genre.name as "Genre" from album
-                    LEFT JOIN album_genre
+                    RIGHT JOIN album_genre
                     on album.id = album_genre.album_id
                     LEFT JOIN genre 
                     on genre.id = album_genre.genre_id
@@ -38,7 +38,7 @@ const getAlbumGenreById = (req, res, next) => {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {            // create error object ---> go to next middleware, eventually errorHandler
-            return next(createCustomError(`No albumGenre with id ${albumGenreId} found`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`No result for albumID:${albumId}/genreID:${genreId} found`, StatusCodes.NOT_FOUND))
         }
 
         res.status(StatusCodes.OK).json(results.rows[0])
