@@ -134,6 +134,43 @@ ALTER TABLE album  ADD UNIQUE (name, band_name, colour);
 -- check UNIQUEs
 SELECT constraint_name FROM information_schema.table_constraints
     WHERE table_name='album' AND constraint_type='UNIQUE';
+    
+    
+-- inserting in intermediary table - need existing ids
+INSERT into album_genre (album_id, genre_id)
+	values (1, 1)
+
+-- for genre display related albums as array via intermediary table
+SELECT genre.name,
+array(select album.name
+        from album 
+		LEFT JOIN album_genre 
+		on album.id = album_genre.album_id
+	 	WHERE album_genre.genre_id = 6) as album_array		
+from genre
+where genre.id = 6;
+
+-- for album display related genres as array
+SELECT *, array(
+	SELECT genre.name 
+    from genre 
+    LEFT JOIN album_genre 
+    on genre.id = album_genre.genre_id
+	WHERE album.id = album_genre.album_id
+    ) as genre_array
+FROM album
+WHERE album.id = 1;
+
+-- get related genres for album				
+SELECT 	genre.name as "Genre", album.* from album
+                LEFT JOIN album_genre
+                on album.id = album_genre.album_id
+                LEFT JOIN genre 
+                on genre.id = album_genre.genre_id
+				WHERE album.id = 1;
+
+			
+
 
 
 
