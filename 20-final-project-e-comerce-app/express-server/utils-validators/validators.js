@@ -41,7 +41,7 @@ function verifyNonNullableFields(entity, data) {
 
 
 function stringLengthValidator(str, minLen, maxLen) {
-    if (str.length < minLen && str.length > maxLen) {
+    if (str.length < minLen || str.length > maxLen) {
         return true
     }
     return false

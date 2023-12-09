@@ -5,14 +5,13 @@ const bcrypt = require('bcryptjs')
 const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../utils-validators/queryCreators')
 const { verifyNonNullableFields, stringLengthValidator, emailValidator } = require('../utils-validators/validators')
 const { createCustomError } = require('../errors/custom-error')
+const { createJWT } = require('../utils-validators/jwt')
 
 // const register = async (req, res, next) => { res.send({ "reg works": true }) }
 
 const register = async (req, res, next) => {
   const userData = req.body
-  console.log(req.body)
   // Validations
-  // f_name, l_name, email, password cannot be NULL, validation will be carried out in FE beforehand anyway
   const undefinedProperty = verifyNonNullableFields("db_user", userData);
   if (undefinedProperty) {
     return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
@@ -38,27 +37,23 @@ const register = async (req, res, next) => {
   // Encrypt password
   const salt = await bcrypt.genSalt(10)
   userData.password_hash = await bcrypt.hash(userData.password, salt)
-  console.log(userData)
+  delete userData.password    // just in case
 
-  // Create the user
-  // If containing minimum required data
+  // Create the user and return jwt if successful, error if not
   const insertQuery = createInsertQuery("db_user", userData)
 
   pool.query(insertQuery, (error, results) => {
     if (error) {
-      console.log("OPPA", error)
       return next(createCustomError(error, StatusCodes.BAD_REQUEST))
     }
     // Not sure if we can get any different but just in case -> rowCount: 1 if item is notFound, otherwise 0
     if (results.rowCount && results.rowCount !== 1) {
       return next(createCustomError(`Could not create user`, StatusCodes.BAD_REQUEST))
     }
-    res.status(StatusCodes.CREATED).json(results.rows[0])
+    // all is successful
+    let jwtToken = createJWT(results.rows[0].email)
+    res.status(StatusCodes.CREATED).json({ email: results.rows[0].email, jwtToken })
   })
-
-  // const user = await User.create({ ...req.body })
-  // const token = user.createJWT()
-  // res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token })
 }
 
 const login = async (req, res, next) => { res.send({ "reg works": true }) }

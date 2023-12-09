@@ -31,8 +31,6 @@ function createInsertQuery(tableName, dataToInsert) {
             dataToInsert.f_name, dataToInsert.l_name, dataToInsert.email, dataToInsert.password_hash, dataToInsert.house_number,
             dataToInsert.street_name, dataToInsert.city, dataToInsert.country, dataToInsert.is_admin, dataToInsert.is_contributor
         ]
-
-        console.log(text, values)
     }
 
     return { text, values }   // as object

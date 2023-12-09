@@ -34,7 +34,6 @@ const getAlbumGenreById = (req, res, next) => {
                     on genre.id = album_genre.genre_id
                     WHERE album.id = ${albumId} and genre.id=${genreId};`, (error, results) => {
         if (error) {
-            console.log(error)
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {            // create error object ---> go to next middleware, eventually errorHandler
