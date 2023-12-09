@@ -22,12 +22,15 @@ const getAlbumById = (req, res, next) => {
     }
 
     pool.query(`SELECT *, 
-                array(select genre.name 
-                        from genre 
-                        LEFT JOIN album_genre 
-                        on genre.id = album_genre.genre_id) as genre_array
-                from album
-                where album.id = 1;`, (error, results) => {
+            array(
+                SELECT genre.name 
+                from genre 
+                LEFT JOIN album_genre 
+                ON genre.id = album_genre.genre_id
+                WHERE album_genre.album_id = ${albumId}
+                ) as genre_array
+            from album
+            where album.id = ${albumId};`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }

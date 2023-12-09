@@ -23,7 +23,7 @@ const getGenreById = (req, res, next) => {
 
     pool.query(`SELECT genre.name,
                 array(
-                    select album.name
+                    SELECT album.name
                     from album 
                     LEFT JOIN album_genre 
                     ON album.id = album_genre.album_id
