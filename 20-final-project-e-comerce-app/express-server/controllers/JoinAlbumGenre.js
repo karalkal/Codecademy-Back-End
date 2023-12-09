@@ -67,12 +67,14 @@ const createAlbumGenre = (req, res, next) => {
 }
 
 const deleteAlbumGenre = (req, res, next) => {
-    const { albumGenreId } = req.params
-    const idIsInteger = idIntegerValidator(albumGenreId);
-    if (!idIsInteger) {
-        return next(createCustomError('AlbumGenre id must be positive integer', StatusCodes.BAD_REQUEST));
+    const { albumId, genreId } = req.params
+    const albumIdIsInteger = idIntegerValidator(albumId);
+    const genreIdIsInteger = idIntegerValidator(genreId)
+    if (!albumIdIsInteger || !genreIdIsInteger) {
+        return next(createCustomError('Album and Genre IDs must be positive integers', StatusCodes.BAD_REQUEST));
     }
-    const deleteQuery = createDeleteQuery("albumGenre", albumGenreId)
+
+    const deleteQuery = createDeleteQuery("album_genre", albumId, genreId)  // table_name, send args as object
 
     pool.query(deleteQuery, (error, results) => {
         if (error) {
@@ -93,7 +95,7 @@ const updateAlbumGenre = (req, res, next) => {
     if (!idIsInteger) {
         return next(createCustomError('AlbumGenre id must be positive integer', StatusCodes.BAD_REQUEST));
     }
-    const undefinedProperty = verifyNonNullableFields("albumGenre", updatedAlbumGenreData);
+    const undefinedProperty = verifyNonNullableFields("album_genre", updatedAlbumGenreData);
     if (undefinedProperty) {
         return next(createCustomError(`Cannot update: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }

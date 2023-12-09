@@ -21,18 +21,24 @@ function createInsertQuery(tableName, dataToInsert) {
     }
     if (tableName === "album_genre") {
         text = 'INSERT INTO ' + tableName + ' (album_id, genre_id)'
-        + ' VALUES ($1, $2) RETURNING *'
+            + ' VALUES ($1, $2) RETURNING *'
         values = [dataToInsert.albumId, dataToInsert.genreId]
-
     }
-
 
     return { text, values }   // as object
 }
 
-function createDeleteQuery(tableName, albumId) {
-    let text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
-    let values = [albumId]
+function createDeleteQuery(tableName, firstArg, secondArd) {
+    let text
+    let values
+    if (["album", "band", "genre", "label"].includes(tableName)) {
+        text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
+        values = [firstArg]
+    }
+    if (tableName === "album_genre") {
+        text = 'DELETE FROM ' + tableName + ' WHERE album_id=$1 AND genre_id=$2'
+        values = [firstArg, secondArd]
+    }
 
     return { text, values }   // as object
 }
