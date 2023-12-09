@@ -17,7 +17,9 @@ const getAllAlbums = (req, res, next) => {
 const getAlbumById = (req, res, next) => {
     const { albumId } = req.params
     const idIsInteger = idIntegerValidator(albumId);
-    if (!idIsInteger) next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
+    if (!idIsInteger) {
+        return next(createCustomError('Album id must be positive integer', StatusCodes.BAD_REQUEST));
+    }
 
     pool.query(`SELECT *, 
                 array(select genre.name 
@@ -50,7 +52,7 @@ const createAlbum = (req, res, next) => {
     if (undefinedProperty) {
         return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
-    
+
     // If containing minimum required data
     const insertQuery = createInsertQuery("album", albumData)
 

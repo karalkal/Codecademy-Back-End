@@ -6,12 +6,13 @@ const { createCustomError } = require('../errors/custom-error')
 
 
 const getAllAlbumGenres = (req, res, next) => {
-    pool.query(`SELECT genre.name as "Genre", album.name as "Album Name", album.band_name as "Band" from album
-                LEFT JOIN album_genre
-                on album.id = album_genre.album_id
-                LEFT JOIN genre 
-                on genre.id = album_genre.genre_id
-                GROUP by genre.name, album.name, album.band_name;`, (error, results) => {
+    pool.query(`SELECT 	album.id as "Album ID", genre.id as "Genre ID", 
+                album.name as "Album Name", album.band_name as "Band", genre.name as "Genre" from album
+                    LEFT JOIN album_genre
+                    on album.id = album_genre.album_id
+                    LEFT JOIN genre 
+                    on genre.id = album_genre.genre_id
+                    GROUP by album.id, album.name, album.band_name, genre.id, genre.name;`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
@@ -20,12 +21,22 @@ const getAllAlbumGenres = (req, res, next) => {
 }
 
 const getAlbumGenreById = (req, res, next) => {
-    const { albumGenreId } = req.params
-    const idIsInteger = idIntegerValidator(albumGenreId);
-    if (!idIsInteger) next(createCustomError('AlbumGenre id must be positive integer', StatusCodes.BAD_REQUEST));
-
-    pool.query(`SELECT * FROM albumGenre WHERE id=${albumGenreId}`, (error, results) => {
+    const { albumId, genreId } = req.params
+    console.log(albumId, genreId)
+    const albumIdIsInteger = idIntegerValidator(albumId);
+    const genreIdIsInteger = idIntegerValidator(genreId)
+    if (!albumIdIsInteger || !genreIdIsInteger) {
+        return next(createCustomError('Album and Genre IDs must be positive integers', StatusCodes.BAD_REQUEST));
+    }
+    console.log("ui")
+    pool.query(`SELECT 	genre.name as "Genre", album.* from album
+                    LEFT JOIN album_genre
+                    on album.id = album_genre.album_id
+                    LEFT JOIN genre 
+                    on genre.id = album_genre.genre_id
+                    WHERE album.id = ${albumId} and genre.id=${genreId};`, (error, results) => {
         if (error) {
+            console.log(error)
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {            // create error object ---> go to next middleware, eventually errorHandler

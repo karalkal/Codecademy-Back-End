@@ -17,7 +17,9 @@ const getAllGenres = (req, res, next) => {
 const getGenreById = (req, res, next) => {
     const { genreId } = req.params
     const idIsInteger = idIntegerValidator(genreId);
-    if (!idIsInteger) next(createCustomError('Genre id must be positive integer', StatusCodes.BAD_REQUEST));
+    if (!idIsInteger) {
+        return next(createCustomError('Genre id must be positive integer', StatusCodes.BAD_REQUEST));
+    }
 
     pool.query(`SELECT genre.name,
                 array(select album.name

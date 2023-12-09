@@ -17,7 +17,9 @@ const getAllLabels = (req, res, next) => {
 const getLabelById = (req, res, next) => {
     const { labelId } = req.params
     const idIsInteger = idIntegerValidator(labelId);
-    if (!idIsInteger) next(createCustomError('Label id must be positive integer', StatusCodes.BAD_REQUEST));
+    if (!idIsInteger) {
+        return next(createCustomError('Label id must be positive integer', StatusCodes.BAD_REQUEST));
+    }
 
     pool.query(`SELECT * FROM label WHERE id=${labelId}`, (error, results) => {
         if (error) {

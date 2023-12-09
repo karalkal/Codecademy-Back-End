@@ -17,7 +17,9 @@ const getAllBands = (req, res, next) => {
 const getBandById = (req, res, next) => {
     const { bandId } = req.params
     const idIsInteger = idIntegerValidator(bandId);
-    if (!idIsInteger) next(createCustomError('Band id must be positive integer', StatusCodes.BAD_REQUEST));
+    if (!idIsInteger) {
+        return next(createCustomError('Band id must be positive integer', StatusCodes.BAD_REQUEST));
+    }
 
     pool.query(`SELECT *,
                         array (SELECT album.name from album 
