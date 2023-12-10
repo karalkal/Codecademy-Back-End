@@ -34,16 +34,38 @@ const getUserById = (req, res, next) => {
     })
 }
 
-const createUser = (req, res, next) => {
+// essentially identical to register in Auth, only different res.json and will have different access rights
+const createUser = async (req, res, next) => {
     const userData = req.body
-
-    // These cannot be NULL, validation will be carried out in FE beforehand anyway
+    // Validations
     const undefinedProperty = verifyNonNullableFields("db_user", userData);
     if (undefinedProperty) {
         return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
 
-    // If containing minimum required data
+    const passTooShort = stringLengthValidator(userData.password, 4, 35)  // min, max
+    if (passTooShort) {
+        return next(createCustomError(`Password must be between 4 and 35 chars`, StatusCodes.BAD_REQUEST));
+    }
+    const f_nameTooShort = stringLengthValidator(userData.f_name, 3, 44)  // min, max
+    if (f_nameTooShort) {
+        return next(createCustomError(`First Name must be between 3 and 44 chars`, StatusCodes.BAD_REQUEST));
+    }
+    const l_nameTooShort = stringLengthValidator(userData.l_name, 3, 44)  // min, max
+    if (l_nameTooShort) {
+        return next(createCustomError(`Last Name must be between 3 and 44 chars`, StatusCodes.BAD_REQUEST));
+    }
+    const emailIsValid = emailValidator(userData.email)    // regex checks for VALID
+    if (!emailIsValid) {
+        return next(createCustomError(`Invalid email format`, StatusCodes.BAD_REQUEST));
+    }
+
+    // Encrypt password
+    const salt = await bcrypt.genSalt(10)
+    userData.password_hash = await bcrypt.hash(userData.password, salt)
+    delete userData.password    // just in case
+
+    // Create the user and return jwt if successful, error if not
     const insertQuery = createInsertQuery("db_user", userData)
 
     pool.query(insertQuery, (error, results) => {
@@ -54,7 +76,8 @@ const createUser = (req, res, next) => {
         if (results.rowCount && results.rowCount !== 1) {
             return next(createCustomError(`Could not create user`, StatusCodes.BAD_REQUEST))
         }
-        res.status(StatusCodes.CREATED).json(results.rows[0])
+        // If all is good
+        res.status(StatusCodes.CREATED).json(results.rows)
     })
 }
 
