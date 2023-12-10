@@ -39,7 +39,7 @@ function createInsertQuery(tableName, dataToInsert) {
 function createDeleteQuery(tableName, firstArg, secondArd) {
     let text
     let values
-    if (["album", "band", "genre", "label"].includes(tableName)) {
+    if (["album", "band", "genre", "label", "db_user"].includes(tableName)) {
         text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
         values = [firstArg]
     }

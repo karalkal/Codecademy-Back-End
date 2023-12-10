@@ -37,13 +37,13 @@ const createUser = (req, res, next) => {
     const userData = req.body
 
     // These cannot be NULL, validation will be carried out in FE beforehand anyway
-    const undefinedProperty = verifyNonNullableFields("user", userData);
+    const undefinedProperty = verifyNonNullableFields("db_user", userData);
     if (undefinedProperty) {
         return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
 
     // If containing minimum required data
-    const insertQuery = createInsertQuery("user", userData)
+    const insertQuery = createInsertQuery("db_user", userData)
 
     pool.query(insertQuery, (error, results) => {
         if (error) {
@@ -63,7 +63,7 @@ const deleteUser = (req, res, next) => {
     if (!idIsInteger) {
         return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
     }
-    const deleteQuery = createDeleteQuery("user", userId)
+    const deleteQuery = createDeleteQuery("db_user", userId)
 
     pool.query(deleteQuery, (error, results) => {
         if (error) {
