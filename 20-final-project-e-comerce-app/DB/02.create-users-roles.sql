@@ -20,20 +20,17 @@ CREATE TABLE IF NOT EXISTS db_user (
 	is_admin boolean DEFAULT FALSE,
 	is_contributor boolean DEFAULT FALSE,
 		CONSTRAINT address_unique UNIQUE (house_number, street_name, city, country)
-);
 
--- {	"f_name": "aaaa",	"l_name": "aaaa",	"email": "aaaa@aa.aa",
--- 	"password": "kkkk",	"street_name": "",
--- 	"city": "",	"country": ""   }
+);
 
 -- replace "" values with NULL
 CREATE function replace_empty_str_with_null() 
 RETURNS trigger as 
 $$ begin 
-	new.house_number = NULLIF(old.house_number, 0);
-	new.street_name = NULLIF(old.street_name, '');
-	new.city = NULLIF(old.city, '');
-	new.country = NULLIF(old.country, '');
+	new.house_number = NULLIF(new.house_number, 0);
+	new.street_name = NULLIF(new.street_name, '');
+	new.city = NULLIF(new.city, '');
+	new.country = NULLIF(new.country, '');
 return new;
 end;
 $$ language plpgsql;
@@ -43,3 +40,6 @@ UPDATE
 	or
 INSERT
 	ON db_user for each row execute procedure replace_empty_str_with_null();
+	
+select * from db_user where email = 'aa@aa.aa';
+

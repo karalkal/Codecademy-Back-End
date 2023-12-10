@@ -71,6 +71,17 @@ function createUpdateQuery(tableName, itemId, updatedData) {
         text = 'UPDATE ' + tableName + ' SET ' + ' name = $1' + ' WHERE id = ' + itemId + ' RETURNING * '
         values = [updatedData.name]
     }
+    if (tableName === "db_user") {
+        text = 'UPDATE ' + tableName + ' SET ' + 'f_name = $1,' + 'l_name = $2,' + 'email = $3,'
+            + 'password_hash = $4,' + 'house_number = $5,' + 'street_name = $6,' + 'city = $7,'
+            + 'country = $8,' + 'is_admin = $9,' + 'is_contributor = $10'
+            + ' WHERE id = ' + itemId + ' RETURNING * '
+
+        values = [      // password MUST be received as hashed value
+            updatedData.f_name, updatedData.l_name, updatedData.email, updatedData.password_hash, updatedData.house_number,
+            updatedData.street_name, updatedData.city, updatedData.country, updatedData.is_admin, updatedData.is_contributor
+        ]
+    }
 
     return { text, values }   // as object
 }
