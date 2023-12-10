@@ -63,23 +63,23 @@ const register = async (req, res, next) => {
 
 
 // const login = async (req, res, next) => { res.send({ "reg works": true }) }
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body
 
   if (!email || !password) {
     return next(createCustomError(`Email and password fields cannot be empty`, StatusCodes.UNAUTHORIZED));
   }
   // get email and password_hash
-  pool.query(`SELECT * FROM db_user WHERE email = '${email}'`, (error, results) => {
+  pool.query(`SELECT * FROM db_user WHERE email = '${email}'`, async (error, results) => { // need async to allow bcrypt.compare asynchronous
     if (error) {
       return next(createCustomError(error, StatusCodes.UNAUTHORIZED))
     }
     if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {  // no such user
       return next(createCustomError(`No user with email ${email} found`, StatusCodes.UNAUTHORIZED))
     }
-    const { password_hash } = results.rows[0].password_hash
+    const { password_hash } = results.rows[0]
     // verify password
-    const isPasswordCorrect = bcrypt.compare(password, password_hash)   //  bcrypt.compare(myPlaintextPassword, hash, function(err, result) {}
+    const isPasswordCorrect = await bcrypt.compare(password, password_hash)   //  bcrypt.compare(myPlaintextPassword, hash, function(err, result) {}
     if (!isPasswordCorrect) {
       return next(createCustomError(`Invalid password`, StatusCodes.UNAUTHORIZED))
     }
