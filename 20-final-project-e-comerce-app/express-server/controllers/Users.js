@@ -116,11 +116,9 @@ const updateUser = async (req, res, next) => {
 
     pool.query(updateQuery, (error, results) => {
         if (error) {
-            console.log(error)
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {
-            console.log(results)
             return next(createCustomError(`No user with id ${userId} found`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.OK).json(results.rows)
