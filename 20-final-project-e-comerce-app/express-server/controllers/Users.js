@@ -2,13 +2,13 @@ const { StatusCodes } = require('http-status-codes')
 const { pool } = require('../db/connect')
 const bcrypt = require('bcryptjs')
 
-const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../utils-validators/queryCreators')
+const { createInsertQuery } = require('../utils-validators/queryCreators')
 const { verifyNonNullableFields, stringLengthValidator, emailValidator } = require('../utils-validators/validators')
-const { createCustomError } = require('../errors/custom-error')
+const { createCustomError, CustomAPIError } = require('../errors/custom-error')
 const { createJWT } = require('../utils-validators/jwt')
 
-// const register = async (req, res, next) => { res.send({ "reg works": true }) }
 
+// const register = async (req, res, next) => { res.send({ "reg works": true }) }
 const register = async (req, res, next) => {
   const userData = req.body
   // Validations
@@ -50,36 +50,50 @@ const register = async (req, res, next) => {
     if (results.rowCount && results.rowCount !== 1) {
       return next(createCustomError(`Could not create user`, StatusCodes.BAD_REQUEST))
     }
-    // all is successful
+    // If all is good
     let jwtToken = createJWT(results.rows[0].email)
-    res.status(StatusCodes.CREATED).json({ email: results.rows[0].email, jwtToken })
+    res.status(StatusCodes.CREATED).json({
+      email: results.rows[0].email,
+      first_name: results.rows[0].f_name,
+      last_name: results.rows[0].l_name,
+      token: jwtToken
+    })
   })
 }
 
-const login = async (req, res, next) => { res.send({ "reg works": true }) }
 
-
-/*
+// const login = async (req, res, next) => { res.send({ "reg works": true }) }
 const login = async (req, res) => {
   const { email, password } = req.body
 
   if (!email || !password) {
-    throw new BadRequestError('Please provide email and password')
+    return next(createCustomError(`Email and password fields cannot be empty`, StatusCodes.UNAUTHORIZED));
   }
-  const user = await User.findOne({ email })
-  if (!user) {
-    throw new UnauthenticatedError('Invalid Credentials')
-  }
-  const isPasswordCorrect = await user.comparePassword(password)
-  if (!isPasswordCorrect) {
-    throw new UnauthenticatedError('Invalid Credentials')
-  }
-  // compare password
-  const token = user.createJWT()
-  res.status(StatusCodes.OK).json({ user: { name: user.name }, token })
+  // get email and password_hash
+  pool.query(`SELECT * FROM db_user WHERE email = '${email}'`, (error, results) => {
+    if (error) {
+      return next(createCustomError(error, StatusCodes.UNAUTHORIZED))
+    }
+    if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {  // no such user
+      return next(createCustomError(`No user with email ${email} found`, StatusCodes.UNAUTHORIZED))
+    }
+    const { password_hash } = results.rows[0].password_hash
+    // verify password
+    const isPasswordCorrect = bcrypt.compare(password, password_hash)   //  bcrypt.compare(myPlaintextPassword, hash, function(err, result) {}
+    if (!isPasswordCorrect) {
+      return next(createCustomError(`Invalid password`, StatusCodes.UNAUTHORIZED))
+    }
+    // If all is good
+    let jwtToken = createJWT(results.rows[0].email)
+    res.status(StatusCodes.CREATED).json({
+      email: results.rows[0].email,
+      first_name: results.rows[0].f_name,
+      last_name: results.rows[0].l_name,
+      token: jwtToken
+    })
+  })
 }
 
-*/
 
 module.exports = {
   register,
