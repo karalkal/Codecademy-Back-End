@@ -45,8 +45,9 @@ const getBandById = (req, res, next) => {
 }
 
 const createBand = (req, res, next) => {
-    const bandData = req.body
-
+    // from authentication middleware we must have user prop attached to req
+    const bandData = req.body;
+    console.log(req.user)
     // These cannot be NULL, validation will be carried out in FE beforehand anyway
     const undefinedProperty = verifyNonNullableFields("band", bandData);
     if (undefinedProperty) {

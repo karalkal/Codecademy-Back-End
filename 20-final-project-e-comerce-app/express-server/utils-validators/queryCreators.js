@@ -29,7 +29,7 @@ function createInsertQuery(tableName, dataToInsert) {
             + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *'
         values = [      // password MUST be received as hashed value
             dataToInsert.f_name, dataToInsert.l_name, dataToInsert.email, dataToInsert.password_hash, dataToInsert.house_number,
-            dataToInsert.street_name, dataToInsert.city, dataToInsert.country, dataToInsert.is_admin, dataToInsert.is_contributor
+            dataToInsert.street_name, dataToInsert.city, dataToInsert.country, dataToInsert.is_admin || false, dataToInsert.is_contributor || false
         ]
     }
 

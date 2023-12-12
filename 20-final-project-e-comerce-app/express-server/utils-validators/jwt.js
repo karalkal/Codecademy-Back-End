@@ -2,9 +2,14 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
-function createJWT(email) {
+function createJWT(userId, email, is_contributor, is_admin) {
+    console.log("sending to sign:", userId, email, is_contributor, is_admin)
     const token = jwt.sign(
-        { email }, process.env.JWT_SECRET,
+        {
+            user:
+                { userId: userId, email: email, is_contributor: is_contributor, is_admin: is_admin }
+        },
+        process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_LIFETIME }
     )
     return token

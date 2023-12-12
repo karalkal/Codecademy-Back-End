@@ -51,7 +51,8 @@ const register = async (req, res, next) => {
       return next(createCustomError(`Could not create user`, StatusCodes.BAD_REQUEST))
     }
     // If all is good
-    let jwtToken = createJWT(results.rows[0].email)
+    let jwtToken = createJWT(results.rows[0].id, results.rows[0].email)
+    // this function will expect 4 params (including is_contributor, is_admin). These remain undefined upon registration.
     res.status(StatusCodes.CREATED).json({
       email: results.rows[0].email,
       first_name: results.rows[0].f_name,
@@ -83,7 +84,8 @@ const login = async (req, res, next) => {
       return next(createCustomError(`Invalid password`, StatusCodes.UNAUTHORIZED))
     }
     // If all is good
-    let jwtToken = createJWT(results.rows[0].email)
+    let jwtToken = createJWT(results.rows[0].id, results.rows[0].email, results.rows[0].is_contributor, results.rows[0].is_admin)
+    // this function will expect 4 params (including is_contributor, is_admin). These remain undefined upon registration.
     res.status(StatusCodes.CREATED).json({
       email: results.rows[0].email,
       first_name: results.rows[0].f_name,
