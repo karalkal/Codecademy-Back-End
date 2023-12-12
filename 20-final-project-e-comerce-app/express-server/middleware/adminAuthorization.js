@@ -3,7 +3,7 @@ const { StatusCodes } = require('http-status-codes')
 const { createCustomError } = require('../errors/custom-error')
 
 
-const userAuthentication = async (req, res, next) => {
+const adminAuthorization = async (req, res, next) => {
   // check header
   const authHeader = req.headers.authorization
   if (!authHeader || !authHeader.startsWith('Bearer')) {
@@ -14,6 +14,9 @@ const userAuthentication = async (req, res, next) => {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET)
     // attach the user to request
+    if (!payload.user.is_admin){
+      return next(createCustomError(`Insufficient privileges to access this route`, StatusCodes.UNAUTHORIZED))
+    }
     req.user = payload.user
     next()
   } catch (error) {
@@ -21,4 +24,4 @@ const userAuthentication = async (req, res, next) => {
   }
 }
 
-module.exports = userAuthentication
+module.exports = adminAuthorization

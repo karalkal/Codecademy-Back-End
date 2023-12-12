@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 function createJWT(userId, email, is_contributor, is_admin) {
-    console.log("sending to sign:", userId, email, is_contributor, is_admin)
     const token = jwt.sign(
         {
             user:
