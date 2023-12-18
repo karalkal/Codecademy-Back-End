@@ -32,6 +32,12 @@ function createInsertQuery(tableName, dataToInsert) {
             dataToInsert.street_name, dataToInsert.city, dataToInsert.country, dataToInsert.is_admin || false, dataToInsert.is_contributor || false
         ]
     }
+    if (tableName === "purchase") {
+        text = 'INSERT INTO ' + tableName + ' (total, placed_on, fulfilled_on, user_id) '
+            + ' VALUES ($1, $2, $3, $4) RETURNING *'
+        values = [dataToInsert.total, dataToInsert.placed_on || null, dataToInsert.fulfilled_on || null, dataToInsert.user_id]
+    }
+
 
     return { text, values }   // as object
 }
@@ -46,6 +52,10 @@ function createDeleteQuery(tableName, firstArg, secondArd) {
     if (tableName === "album_genre") {
         text = 'DELETE FROM ' + tableName + ' WHERE album_id=$1 AND genre_id=$2'
         values = [firstArg, secondArd]
+    }
+    if (tableName === "purchase") {
+        text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
+        values = [firstArg]
     }
 
     return { text, values }   // as object
@@ -81,6 +91,10 @@ function createUpdateQuery(tableName, itemId, updatedData) {
             updatedData.f_name, updatedData.l_name, updatedData.email, updatedData.password_hash, updatedData.house_number,
             updatedData.street_name, updatedData.city, updatedData.country, updatedData.is_admin, updatedData.is_contributor
         ]
+    }
+    if (tableName === "purchase") {
+        text = 'UPDATE ' + tableName + ' SET ' + 'total = $1,' + 'placed_on = $2,' + 'fulfilled_on = $3,' + 'user_id = $4' + ' WHERE id = ' + itemId + 'RETURNING *'
+        values = [updatedData.total, updatedData.placed_on || null, updatedData.fulfilled_on || null, updatedData.user_id]
     }
 
     return { text, values }   // as object

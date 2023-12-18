@@ -8,6 +8,7 @@ const genresRouter = require('./genresRouter.js');
 const joinAlbumsGenresRouter = require('./joinAlbumsGenresRouter.js');
 const authRouter = require('./authRouter.js');
 const usersRouter = require('./usersRouter.js');
+const ordersRouter = require('./ordersRouter.js');
 
 const apiRouter = express.Router();
 
@@ -21,6 +22,8 @@ apiRouter.use("/join_genres_albums", joinAlbumsGenresRouter);
 apiRouter.use("/auth", authRouter)
 
 apiRouter.use("/users", usersRouter);
+
+apiRouter.use("/orders", ordersRouter);
 
 
 
