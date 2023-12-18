@@ -10,7 +10,18 @@ const { createJWT } = require('../utils-validators/jwt')
 
 // const register = async (req, res, next) => { res.send({ "reg works": true }) }
 const register = async (req, res, next) => {
-  const userData = req.body
+  // allow only account creation excluding is_admin and is_contributor
+  const userData = {
+    f_name: req.body.f_name,
+    l_name: req.body.l_name,
+    email: req.body.email,
+    password: req.body.password,
+    house_number: req.body.house_number,
+    street_name: req.body.street_name,
+    city: req.body.city,
+    country: req.body.country
+  }
+
   // Validations
   const undefinedProperty = verifyNonNullableFields("db_user", userData);
   if (undefinedProperty) {

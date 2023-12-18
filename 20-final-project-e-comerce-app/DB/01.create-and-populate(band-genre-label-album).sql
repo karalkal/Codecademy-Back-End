@@ -138,7 +138,7 @@ SELECT constraint_name FROM information_schema.table_constraints
     
 -- inserting in intermediary table - need existing ids
 INSERT into album_genre (album_id, genre_id)
-	values (1, 1)
+	values (1, 1);
 
 -- for genre display related albums as array via intermediary table
 SELECT genre.name,

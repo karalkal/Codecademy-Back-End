@@ -5,8 +5,10 @@ const pool = new Pool({
     host: 'localhost',
     database: 'vinyl_shop',
     password: 'postgres',
-    port: 5433,
+    port: 5432,
 })
+
+// port is 5433 on desktop !!!!
 
 
 module.exports = { pool }
