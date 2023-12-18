@@ -1,0 +1,1076 @@
+{
+	"info": {
+		"_postman_id": "6fd731a7-c809-4178-a90f-16d3eefbaca2",
+		"name": "vinyl-shop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "REGISTER user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"f_name\": \"cccc\",\n\t\"l_name\": \"cccc\",\n\t\"email\": \"cc@cc.cc\",\n\t\"password\": \"cccc\",\n\t\"house_number\": 33,\n\t\"street_name\":  \"Big street\",\n\t\"city\": \"London\",\n\t\"country\": \"France\",\n\t\"is_admin\": true,\n\t\"is_contributor\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"aa@aa.aa\",\n\t\"password\": \"aaaa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "albums",
+			"item": [
+				{
+					"name": "GET all ALBUMS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/albums",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALBUM by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/albums/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"albums",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ALBUM",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3NjA3NSwiZXhwIjoxNzAyODYyNDc1fQ.U4pnIYnJiGZuI0siD7XWHWZDLYifGUO5Cb86XJ-4Qt8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Monolithe Ii\",\n        \"band_name\": \"Monolithe\",\n        \"cover\": \"to delete later\",\n        \"release_year\": 2012,\n        \"colour\": \"black\",\n        \"label_name\": \"Debemur Morti Productions\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/albums",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ALBUM by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2NDQ0MCwiZXhwIjoxNzAyOTUwODQwfQ.2DS6ktYu178BkllX8c3W9m7k7wL1mwO56-Wy-KeY90o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/albums/5",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"albums",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ALBUM by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2NDQ0MCwiZXhwIjoxNzAyOTUwODQwfQ.2DS6ktYu178BkllX8c3W9m7k7wL1mwO56-Wy-KeY90o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Monolithe Iii\",\n    \"cover\": \"https://www.metal-archives.com/images/3/5/3/7/353714.jpg?5121\",\n    \"colour\": \"updated_color\",\n    \"price\": null,\n    \"band_name\": \"Monolithe\",\n    \"release_year\": 2012,\n    \"label_name\": \"Debemur Morti Productions\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/albums/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"albums",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bands",
+			"item": [
+				{
+					"name": "GET all BANDS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/bands",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bands"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET band and related ALBUMS array",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/bands/9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bands",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST BAND",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \"name\": \"Afghan Whigs\",\n        \"country\": \"USA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/bands",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bands"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE BAND",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \"name\": \"The updated name\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/bands/9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bands",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE BAND",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/bands/9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"bands",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "join genre/album",
+			"item": [
+				{
+					"name": "GET all GENRE/ALBUM (join table)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/join_genres_albums",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"join_genres_albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET single GENRE/ALBUM (join table)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/join_genres_albums/1/5",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"join_genres_albums",
+								"1",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST GENRE/ALBUM relation (join table)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n\"albumId\": 1, \"genreId\": 5\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/join_genres_albums",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"join_genres_albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE GENRE/ALBUM (join table)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/join_genres_albums/1/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"join_genres_albums",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "genres",
+			"item": [
+				{
+					"name": "GET all GENRES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/genres",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"genres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GENRE and related ALBUMS array",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/genres/10",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"genres",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST GENRE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \"name\": \"Punk\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/genres",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"genres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE GENRE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \"name\": \"Crust Punk\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/genres/8",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"genres",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE genre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/genres/10",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"genres",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "labels",
+			"item": [
+				{
+					"name": "GET all LABELS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/labels",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET LABEL and related ALBUMS array",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/labels/4",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"labels",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST LABEL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{       \n     \"name\": \"Sub Pop\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/labels",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE LABEL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \"name\": \"Sub Pop\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/labels/6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"labels",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE LABEL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/labels/5",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"labels",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "GET all USERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USER by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users/6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"f_name\": \"dddd\",\n    \"l_name\": \"dddd\",\n    \"email\": \"dd@dd.dd\",\n    \"password\": \"dddd\",\n    \"house_number\": 44,\n    \"street_name\": \"Big street\",\n    \"city\": \"London\",\n    \"country\": \"France\",\n    \"is_admin\": false,\n    \"is_contributor\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"f_name\": \"dddd\",\n    \"l_name\": \"dddd\",\n    \"email\": \"dd@dd.dd\",\n    \"password\": \"dddd\",\n    \"house_number\": 44,\n    \"street_name\": \"UPDATED\",\n    \"city\": \"London\",\n    \"country\": \"France\",\n    \"is_admin\": false,\n    \"is_contributor\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users/9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "GET all ORDERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/orders",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ORDER by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/orders/6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"orders",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": 0,\n    \"user_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/orders",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"f_name\": \"dddd\",\n    \"l_name\": \"dddd\",\n    \"email\": \"dd@dd.dd\",\n    \"password\": \"dddd\",\n    \"house_number\": 44,\n    \"street_name\": \"UPDATED\",\n    \"city\": \"London\",\n    \"country\": \"France\",\n    \"is_admin\": false,\n    \"is_contributor\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/orders/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"orders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:3000/api/v1",
+			"type": "default"
+		}
+	]
+}
