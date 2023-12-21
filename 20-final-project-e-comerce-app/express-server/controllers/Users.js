@@ -18,8 +18,11 @@ const getAllUsers = (req, res, next) => {
 
 const getUserById = (req, res, next) => {
     // middleware creates req.user
-    console.log(req.user)
     const { userId } = req.params
+    // only admins and the user themself can access this route
+    if (Number(userId) !== req.user.userId && !req.user.is_admin) {
+        return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
+    }
     const idIsInteger = idIntegerValidator(userId);
     if (!idIsInteger) {
         return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
