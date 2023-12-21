@@ -1,17 +1,16 @@
 const express = require('express');
-const { getAllOrders, getOrderById, createOrder, deleteOrder, updateOrder } = require('../controllers/Orders');
+const { getCartByUserId, createCart, deleteCart, updateCart } = require('../controllers/Cart');
 const userAuthentication = require('../middleware/userAuthentication');
 const adminAuthorization = require('../middleware/adminAuthorization');
 
 // you need to set mergeParams: true on the router,
 // if you want to access params from the parent router
-const ordersRouter = express.Router({ mergeParams: true });
+const cartRouter = express.Router({ mergeParams: true });
 
-ordersRouter.get("/", getAllOrders);
-ordersRouter.get("/:orderId", getOrderById);
-ordersRouter.post("/", userAuthentication, adminAuthorization, createOrder);
-ordersRouter.delete("/:orderId", userAuthentication, adminAuthorization, deleteOrder);
-ordersRouter.put("/:orderId", userAuthentication, adminAuthorization, updateOrder);
+cartRouter.get("/:userId", userAuthentication, getCartByUserId);
+cartRouter.post("/", userAuthentication, adminAuthorization, createCart);
+cartRouter.delete("/:userId", userAuthentication, adminAuthorization, deleteCart);
+cartRouter.put("/:userId", userAuthentication, adminAuthorization, updateCart);
 
 
-module.exports = ordersRouter
+module.exports = cartRouter
