@@ -58,6 +58,10 @@ function createDeleteQuery(tableName, firstArg, secondArd) {
         text = 'DELETE FROM ' + tableName + ' WHERE album_id=$1 AND genre_id=$2'
         values = [firstArg, secondArd]
     }
+    if (tableName === "cart") {
+        text = 'DELETE FROM ' + tableName + ' WHERE cart_no=$1'
+        values = [firstArg]
+    }
     if (tableName === "purchase") {
         text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
         values = [firstArg]

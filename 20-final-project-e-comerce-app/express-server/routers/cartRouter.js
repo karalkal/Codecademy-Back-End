@@ -8,9 +8,9 @@ const adminAuthorization = require('../middleware/adminAuthorization');
 const cartRouter = express.Router({ mergeParams: true });
 
 cartRouter.get("/:userId", userAuthentication, getCartByUserId);
-cartRouter.post("/", userAuthentication, createCart);
-cartRouter.delete("/:userId", userAuthentication, deleteCart);
-cartRouter.put("/:userId", userAuthentication, updateCart);
+cartRouter.post("/", userAuthentication, createCart);   // used to add items
+cartRouter.delete("/", userAuthentication, deleteCart);
+cartRouter.put("/:userId", userAuthentication, updateCart); // used to remove items
 
 
 module.exports = cartRouter

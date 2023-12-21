@@ -13,7 +13,7 @@ INSERT into cart (cart_no, album_id, user_id) 	values (1, 1, 1);
 INSERT into cart (cart_no, album_id, user_id) 	values (1, 1, 1);
 -- and orders others
 INSERT into cart (cart_no, album_id, user_id) 	values (1, 9, 1);
-INSERT into cart (cart_no, album_id, user_id) 	values (1, 12, 1);
+INSERT into cart (cart_no, album_id, user_id) 	values (1, 1, 1);
 
 
 drop table if exists purchase;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS purchase(
 		total numeric(5, 2) DEFAULT 0,
 		placed_on time,
 		fulfilled_on time,
-		cart_id integer REFERENCES cart(id) UNIQUE,
+-- 		cart_id integer REFERENCES cart(id) UNIQUE,
 		user_id integer REFERENCES db_user(id)		
 	);
 
@@ -36,11 +36,7 @@ FROM cart
 JOIN album ON cart.album_id = album.id
 JOIN db_user on cart.user_id = db_user.id;
 
-select * from cart;
 
-INSERT into purchase (cart_id, user_id) values (1, 1);
-INSERT into purchase (cart_id, user_id) values (2, 1);
-select * from purchase;
 
 
 
