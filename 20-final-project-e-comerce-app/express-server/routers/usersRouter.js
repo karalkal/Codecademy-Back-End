@@ -7,11 +7,16 @@ const adminAuthorization = require('../middleware/adminAuthorization');
 // if you want to access params from the parent router
 const usersRouter = express.Router({ mergeParams: true });
 
-usersRouter.get("/", userAuthentication, getAllUsers);              // only authorised users can see profiles
-usersRouter.get("/:userId", userAuthentication, getUserById);       // users restricted to own profiles only, admins allowed too
-usersRouter.post("/", userAuthentication, adminAuthorization, createUser);
-usersRouter.delete("/:userId", userAuthentication, adminAuthorization, deleteUser);
-usersRouter.put("/:userId", userAuthentication, adminAuthorization, updateUser); // allow user to update themselves?, remove auth
+// only logged in users can see profiles (restricted data - no password, email, address etc)
+usersRouter.get("/", userAuthentication, getAllUsers);
+
+// admins can create users on the fly, normal users use register instead
+usersRouter.post("/", adminAuthorization, createUser);
+
+// users restricted to view, update, delete own profiles only, admins allowed too
+usersRouter.get("/:userId", userAuthentication, getUserById);
+usersRouter.delete("/:userId", userAuthentication, deleteUser);
+usersRouter.put("/:userId", userAuthentication, updateUser);
 
 
 module.exports = usersRouter

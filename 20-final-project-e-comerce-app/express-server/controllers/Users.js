@@ -21,11 +21,7 @@ const getUserById = (req, res, next) => {
     const { userId } = req.params
     // only admins and the user themself can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
-        return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
-    }
-    const idIsInteger = idIntegerValidator(userId);
-    if (!idIsInteger) {
-        return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
+        return next(createCustomError('Only logged in user and admins can view this profile', StatusCodes.BAD_REQUEST));
     }
 
     pool.query(`SELECT * FROM db_user WHERE db_user.id = ${userId}`, (error, results) => {
@@ -88,10 +84,12 @@ const createUser = async (req, res, next) => {
 
 const deleteUser = (req, res, next) => {
     const { userId } = req.params
-    const idIsInteger = idIntegerValidator(userId);
-    if (!idIsInteger) {
-        return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
+    // middleware creates req.user
+    // only admins and the user themself can access this route
+    if (Number(userId) !== req.user.userId && !req.user.is_admin) {
+        return next(createCustomError('Only logged in user and admins can delete this profile', StatusCodes.BAD_REQUEST));
     }
+
     const deleteQuery = createDeleteQuery("db_user", userId)
 
     pool.query(deleteQuery, (error, results) => {
@@ -106,18 +104,14 @@ const deleteUser = (req, res, next) => {
 }
 
 const updateUser = async (req, res, next) => {
-    // middleware creates req.user
     const { userId } = req.params
+    // middleware creates req.user
     // only admins and the user themself can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
-        return next(createCustomError('Only logged in user and admins can update profile', StatusCodes.BAD_REQUEST));
+        return next(createCustomError('Only logged in user and admins can update this profile', StatusCodes.BAD_REQUEST));
     }
     const updatedUserData = req.body;
 
-    const idIsInteger = idIntegerValidator(userId);
-    if (!idIsInteger) {
-        return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
-    }
     const undefinedProperty = verifyNonNullableFields("db_user", updatedUserData);
     if (undefinedProperty) {
         return next(createCustomError(`Cannot update: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
