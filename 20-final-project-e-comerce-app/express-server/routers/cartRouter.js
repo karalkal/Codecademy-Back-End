@@ -8,9 +8,9 @@ const adminAuthorization = require('../middleware/adminAuthorization');
 const cartRouter = express.Router({ mergeParams: true });
 
 cartRouter.get("/:userId", userAuthentication, getCartByUserId);
-cartRouter.post("/", userAuthentication, adminAuthorization, createCart);
-cartRouter.delete("/:userId", userAuthentication, adminAuthorization, deleteCart);
-cartRouter.put("/:userId", userAuthentication, adminAuthorization, updateCart);
+cartRouter.post("/", userAuthentication, createCart);
+cartRouter.delete("/:userId", userAuthentication, deleteCart);
+cartRouter.put("/:userId", userAuthentication, updateCart);
 
 
 module.exports = cartRouter

@@ -19,7 +19,7 @@ const getAllUsers = (req, res, next) => {
 const getUserById = (req, res, next) => {
     // middleware creates req.user
     const { userId } = req.params
-    // only admins and the user themself can access this route
+    // only admins and the user themselves can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
         return next(createCustomError('Only logged in user and admins can view this profile', StatusCodes.BAD_REQUEST));
     }
@@ -85,7 +85,7 @@ const createUser = async (req, res, next) => {
 const deleteUser = (req, res, next) => {
     const { userId } = req.params
     // middleware creates req.user
-    // only admins and the user themself can access this route
+    // only admins and the user themselves can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
         return next(createCustomError('Only logged in user and admins can delete this profile', StatusCodes.BAD_REQUEST));
     }
@@ -106,7 +106,7 @@ const deleteUser = (req, res, next) => {
 const updateUser = async (req, res, next) => {
     const { userId } = req.params
     // middleware creates req.user
-    // only admins and the user themself can access this route
+    // only admins and the user themselves can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
         return next(createCustomError('Only logged in user and admins can update this profile', StatusCodes.BAD_REQUEST));
     }

@@ -32,6 +32,11 @@ function createInsertQuery(tableName, dataToInsert) {
             dataToInsert.street_name, dataToInsert.city, dataToInsert.country, dataToInsert.is_admin || false, dataToInsert.is_contributor || false
         ]
     }
+    if (tableName === "cart") {
+        text = 'INSERT INTO ' + tableName + ' (cart_no, album_id, user_id) '
+            + ' VALUES ($1, $2, $3) RETURNING *'
+        values = [dataToInsert.cart_no, dataToInsert.album_id, dataToInsert.user_id]
+    }
     if (tableName === "purchase") {
         text = 'INSERT INTO ' + tableName + ' (total, placed_on, fulfilled_on, user_id) '
             + ' VALUES ($1, $2, $3, $4) RETURNING *'

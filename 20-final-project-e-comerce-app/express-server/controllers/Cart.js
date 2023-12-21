@@ -13,7 +13,7 @@ const getCartByUserId = (req, res, next) => {
         return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
     }
     // middleware creates req.user
-    // only admins and the user themself can access this route
+    // only admins and the user themselves can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
         return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
     }
@@ -36,15 +36,25 @@ const getCartByUserId = (req, res, next) => {
     })
 }
 
+// USED FOR ADDING ITEMS TO CART
 const createCart = async (req, res, next) => {
-    const orderData = req.body
-    // Validations
-    const undefinedProperty = verifyNonNullableFields("order", orderData);
-    if (undefinedProperty) {
-        return next(createCustomError(`Cannot create: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
+    const cartData = req.body
+    // all must be inetegers
+    const cartNoIsInteger = idIntegerValidator(cartData.cart_no);
+    const albumIdIsInteger = idIntegerValidator(cartData.album_id);
+    const userIdIsInteger = idIntegerValidator(cartData.user_id);
+    if (!cartNoIsInteger || !albumIdIsInteger || !userIdIsInteger) {
+        return next(createCustomError('All fields must be positive integers', StatusCodes.BAD_REQUEST));
     }
 
-    const insertQuery = createInsertQuery("purchase", orderData)
+    // only admins and the user themselves can access this route- middleware creates req.user
+    // NB - Here userId is not param but is within body
+    const userId = req.body.user_id
+    if (Number(userId) !== req.user.userId && !req.user.is_admin) {
+        return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
+    }
+    
+    const insertQuery = createInsertQuery("cart", cartData)
 
     pool.query(insertQuery, (error, results) => {
         if (error) {
@@ -52,13 +62,14 @@ const createCart = async (req, res, next) => {
         }
         // Not sure if we can get any different but just in case -> rowCount: 1 if item is notFound, otherwise 0
         if (results.rowCount && results.rowCount !== 1) {
-            return next(createCustomError(`Could not create user`, StatusCodes.BAD_REQUEST))
+            return next(createCustomError(`Could not create cart`, StatusCodes.BAD_REQUEST))
         }
         // If all is good
-        res.status(StatusCodes.CREATED).json(results.rows)
+        res.status(StatusCodes.CREATED).json({"msg": `added to cart: ${JSON.stringify(results.rows[0])}`})
     })
 }
 
+// EMPTY CART
 const deleteCart = (req, res, next) => {
     const { orderId } = req.params
     const idIsInteger = idIntegerValidator(orderId);
@@ -78,6 +89,7 @@ const deleteCart = (req, res, next) => {
     })
 }
 
+// USED FOR REMOVING ITEMS FROM CART
 const updateCart = async (req, res, next) => {
     const { orderId } = req.params;
     const updatedOrderData = req.body;

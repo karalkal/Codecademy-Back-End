@@ -37,7 +37,7 @@ const getOrderByOrderId = (req, res, next) => {
 const getOrdersByUserId = (req, res, next) => {
     // middleware creates req.user
     const { userId } = req.params
-    // only admins and the user themself can access this route
+    // only admins and the user themselves can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
         return next(createCustomError('You ain\'t gonna get that', StatusCodes.BAD_REQUEST));
     }

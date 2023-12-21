@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"f_name\": \"cccc\",\n\t\"l_name\": \"cccc\",\n\t\"email\": \"cc@cc.cc\",\n\t\"password\": \"cccc\",\n\t\"house_number\": 33,\n\t\"street_name\":  \"Big street\",\n\t\"city\": \"London\",\n\t\"country\": \"France\",\n\t\"is_admin\": true,\n\t\"is_contributor\": true\n}",
+							"raw": "{\n\t\"f_name\": \"eeee\",\n\t\"l_name\": \"eeee\",\n\t\"email\": \"ee@ee.ee\",\n\t\"password\": \"eeee\",\n\t\"house_number\": 55,\n\t\"street_name\":  \"Big street\",\n\t\"city\": \"London\",\n\t\"country\": \"France\",\n\t\"is_admin\": true,\n\t\"is_contributor\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,7 +110,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3NjA3NSwiZXhwIjoxNzAyODYyNDc1fQ.U4pnIYnJiGZuI0siD7XWHWZDLYifGUO5Cb86XJ-4Qt8",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3Mzc5OCwiZXhwIjoxNzAzMjYwMTk4fQ.gnkEJdnWymTGPDKkl22Fl-X7ICIyYwHGqPcQVb8gVwY",
 									"type": "string"
 								}
 							]
@@ -119,7 +119,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"name\": \"Monolithe Ii\",\n        \"band_name\": \"Monolithe\",\n        \"cover\": \"to delete later\",\n        \"release_year\": 2012,\n        \"colour\": \"black\",\n        \"label_name\": \"Debemur Morti Productions\"\n}",
+							"raw": "{\n        \"name\": \"\",\n        \"band_name\": \"Blut Aus Nord\",\n        \"cover\": \"https://www.metal-archives.com/images/1/3/3/4/133408.jpg?5003\",\n        \"release_year\": 1996,\n        \"colour\": \"black\",\n        \"price\": 31,\n        \"quantity\": 8,\n        \"label_name\": \"Candlelight Records\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -183,7 +183,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2NDQ0MCwiZXhwIjoxNzAyOTUwODQwfQ.2DS6ktYu178BkllX8c3W9m7k7wL1mwO56-Wy-KeY90o",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE2OTc5OSwiZXhwIjoxNzAzMjU2MTk5fQ.nJ-12nf-Y9bab6w3KULVKMAANr9BXwrAALjjZa72Msg",
 									"type": "string"
 								}
 							]
@@ -192,7 +192,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Monolithe Iii\",\n    \"cover\": \"https://www.metal-archives.com/images/3/5/3/7/353714.jpg?5121\",\n    \"colour\": \"updated_color\",\n    \"price\": null,\n    \"band_name\": \"Monolithe\",\n    \"release_year\": 2012,\n    \"label_name\": \"Debemur Morti Productions\"\n}",
+							"raw": "{\n        \"name\": \"Mort\",\n        \"band_name\": \"Blut Aus Nord\",\n        \"cover\": \"https://www.metal-archives.com/images/1/3/3/4/133408.jpg?5003\",\n        \"release_year\": 1996,\n        \"colour\": \"black\",\n        \"price\": 31,\n        \"quantity\": 8,\n        \"label_name\": \"Candlelight Records\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -200,13 +200,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/albums/1",
+							"raw": "{{URL}}/albums/29",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"albums",
-								"1"
+								"29"
 							]
 						}
 					},
@@ -260,7 +260,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3MzUzNiwiZXhwIjoxNzAzMjU5OTM2fQ.9O73mghodPMwSeQ28NeMB79ZCVHH1Iv84lhvOX_DmvU",
 									"type": "string"
 								}
 							]
@@ -269,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{        \"name\": \"Afghan Whigs\",\n        \"country\": \"USA\"\n}",
+							"raw": "{        \"name\": \"Blut aus Nord\",\n        \"country\": \"France\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -296,7 +296,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3MzUzNiwiZXhwIjoxNzAzMjU5OTM2fQ.9O73mghodPMwSeQ28NeMB79ZCVHH1Iv84lhvOX_DmvU",
 									"type": "string"
 								}
 							]
@@ -305,7 +305,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{        \"name\": \"The updated name\"\n}",
+							"raw": "{        \"name\": \"Evoken\",\n        \"country\": \"USA\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -313,13 +313,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/bands/9",
+							"raw": "{{URL}}/bands/17",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bands",
-								"9"
+								"17"
 							]
 						}
 					},
@@ -341,13 +341,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/bands/9",
+							"raw": "{{URL}}/bands/17",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bands",
-								"9"
+								"17"
 							]
 						}
 					},
@@ -668,7 +668,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE2OTc5OSwiZXhwIjoxNzAzMjU2MTk5fQ.nJ-12nf-Y9bab6w3KULVKMAANr9BXwrAALjjZa72Msg",
 									"type": "string"
 								}
 							]
@@ -677,7 +677,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{       \n     \"name\": \"Sub Pop\"\n}",
+							"raw": "{       \n     \"name\": \"Candlelight Records\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -704,7 +704,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3Mzc5OCwiZXhwIjoxNzAzMjYwMTk4fQ.gnkEJdnWymTGPDKkl22Fl-X7ICIyYwHGqPcQVb8gVwY",
 									"type": "string"
 								}
 							]
@@ -721,13 +721,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/labels/6",
+							"raw": "{{URL}}/labels/10",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"labels",
-								"6"
+								"10"
 							]
 						}
 					},
@@ -741,7 +741,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjc3ODg2NywiZXhwIjoxNzAyODY1MjY3fQ.kxRxeBVbuRuJtW79gAe0rG35RU9Y5EAjOfXDdMxHCf0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3Mzc5OCwiZXhwIjoxNzAzMjYwMTk4fQ.gnkEJdnWymTGPDKkl22Fl-X7ICIyYwHGqPcQVb8gVwY",
 									"type": "string"
 								}
 							]
@@ -749,13 +749,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/labels/5",
+							"raw": "{{URL}}/labels/10",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"labels",
-								"5"
+								"10"
 							]
 						}
 					},
@@ -769,15 +769,26 @@
 				{
 					"name": "GET all USERS",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzExNzI1MSwiZXhwIjoxNzAzMjAzNjUxfQ.6ZZs0fQOPObjg7WtCFbo9HhC9gIAgKbpmoby9kpzY6M",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/users",
+							"raw": "{{URL}}/users/",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"users"
+								"users",
+								""
 							]
 						}
 					},
@@ -786,6 +797,16 @@
 				{
 					"name": "GET USER by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3Mzc5OCwiZXhwIjoxNzAzMjYwMTk4fQ.gnkEJdnWymTGPDKkl22Fl-X7ICIyYwHGqPcQVb8gVwY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -809,7 +830,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3Mzc5OCwiZXhwIjoxNzAzMjYwMTk4fQ.gnkEJdnWymTGPDKkl22Fl-X7ICIyYwHGqPcQVb8gVwY",
 									"type": "string"
 								}
 							]
@@ -818,7 +839,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"f_name\": \"dddd\",\n    \"l_name\": \"dddd\",\n    \"email\": \"dd@dd.dd\",\n    \"password\": \"dddd\",\n    \"house_number\": 44,\n    \"street_name\": \"Big street\",\n    \"city\": \"London\",\n    \"country\": \"France\",\n    \"is_admin\": false,\n    \"is_contributor\": true\n}",
+							"raw": "{\n\t\"f_name\": \"gggg\",\n\t\"l_name\": \"gggg\",\n\t\"email\": \"ff@ff.ff\",\n\t\"password\": \"gggg\",\n\t\"house_number\": 55,\n\t\"street_name\":  \"Big street\",\n\t\"city\": \"London\",\n\t\"country\": \"France\",\n\t\"is_admin\": true,\n\t\"is_contributor\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -845,7 +866,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3Mzc5OCwiZXhwIjoxNzAzMjYwMTk4fQ.gnkEJdnWymTGPDKkl22Fl-X7ICIyYwHGqPcQVb8gVwY",
 									"type": "string"
 								}
 							]
@@ -905,11 +926,155 @@
 			]
 		},
 		{
+			"name": "carts",
+			"item": [
+				{
+					"name": "GET cart by USER ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzEzNTE5OSwiZXhwIjoxNzAzMjIxNTk5fQ.A8kZvHB6rKOWf3Xg5OHGG9dvOFuBou-AaRr5Djasq1I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/cart/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"cart",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": 0,\n    \"user_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/cart",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"total\": 18,\n    \"user_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/cart/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"cart",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/cart/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"cart",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "orders",
 			"item": [
 				{
 					"name": "GET all ORDERS",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NiwiZW1haWwiOiJkZEBkZC5kZCIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6ZmFsc2V9LCJpYXQiOjE3MDMxMzQyODUsImV4cCI6MTcwMzIyMDY4NX0.UpkCaHgoj26YMzhttohn8HfFBkGlmn3XmwBOzNqbZSA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -925,18 +1090,58 @@
 					"response": []
 				},
 				{
-					"name": "GET ORDER by ID",
+					"name": "GET order by ORDER ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzEyODM3OSwiZXhwIjoxNzAzMjE0Nzc5fQ.kHqsJ9TmPI4r3K8QhYBZX95_5mOpl32ariUqQz0aDOA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/orders/6",
+							"raw": "{{URL}}/orders/order/1",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"orders",
-								"6"
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET order by USER ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NiwiZW1haWwiOiJkZEBkZC5kZCIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6ZmFsc2V9LCJpYXQiOjE3MDMxMzQyODUsImV4cCI6MTcwMzIyMDY4NX0.UpkCaHgoj26YMzhttohn8HfFBkGlmn3XmwBOzNqbZSA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/orders/user/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"orders",
+								"user",
+								"2"
 							]
 						}
 					},
@@ -995,7 +1200,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"f_name\": \"dddd\",\n    \"l_name\": \"dddd\",\n    \"email\": \"dd@dd.dd\",\n    \"password\": \"dddd\",\n    \"house_number\": 44,\n    \"street_name\": \"UPDATED\",\n    \"city\": \"London\",\n    \"country\": \"France\",\n    \"is_admin\": false,\n    \"is_contributor\": true\n}",
+							"raw": "{\n    \"total\": 18,\n    \"user_id\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1003,13 +1208,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/users/6",
+							"raw": "{{URL}}/orders/3",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"users",
-								"6"
+								"orders",
+								"3"
 							]
 						}
 					},
@@ -1038,6 +1243,34 @@
 							"path": [
 								"orders",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ORDER by ID Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzEyODM3OSwiZXhwIjoxNzAzMjE0Nzc5fQ.kHqsJ9TmPI4r3K8QhYBZX95_5mOpl32ariUqQz0aDOA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/orders/6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"orders",
+								"6"
 							]
 						}
 					},
