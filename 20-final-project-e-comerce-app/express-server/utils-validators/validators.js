@@ -33,9 +33,9 @@ function verifyNonNullableFields(entity, data) {
         essentialData = { total: data.total, user_id: data.user_id }
     }
 
-    //generic validation, if any of the required properties is undefined, return its key, so it can be displayed in error message
+    //generic validation, if any of the required properties is undefined, return its key, so it can be displayed in error message, check for " " as well
     for (let key in essentialData) {
-        if (typeof essentialData[key] === "undefined") {
+        if (typeof essentialData[key] === "undefined" || essentialData[key].trim() === "") {
             return key
         }
     }
