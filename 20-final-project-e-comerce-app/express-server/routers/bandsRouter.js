@@ -10,9 +10,9 @@ const bandsRouter = express.Router({ mergeParams: true });
 // auth middlewares - all routes apart from these with get method are restricted for non-admin users
 bandsRouter.get("/", getAllBands);
 bandsRouter.get("/:bandId", getBandById);
-bandsRouter.post("/", userAuthentication, adminAuthorization, createBand);
-bandsRouter.delete("/:bandId", userAuthentication, adminAuthorization, deleteBand);
-bandsRouter.put("/:bandId", userAuthentication, adminAuthorization, updateBand);
+bandsRouter.post("/", adminAuthorization, createBand);
+bandsRouter.delete("/:bandId", adminAuthorization, deleteBand);
+bandsRouter.put("/:bandId", adminAuthorization, updateBand);
 
 
 module.exports = bandsRouter

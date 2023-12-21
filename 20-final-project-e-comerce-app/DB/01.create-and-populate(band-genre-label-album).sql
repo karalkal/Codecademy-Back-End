@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS genre (
 	name	text			NOT NULL UNIQUE
 );
 
+-- cover constraint removed later as it does not allow same cover with different colour vinyl
 CREATE TABLE IF NOT EXISTS album (
 	id				INTEGER			GENERATED ALWAYS AS IDENTITY	PRIMARY KEY,
 	name			text			NOT NULL,
@@ -168,6 +169,13 @@ SELECT 	genre.name as "Genre", album.* from album
                 LEFT JOIN genre 
                 on genre.id = album_genre.genre_id
 				WHERE album.id = 1;
+
+ALTER TABLE album
+DROP CONSTRAINT if exists album_cover_key;
+-- unique cover-color combination for specific year
+ALTER TABLE album  ADD UNIQUE (cover, release_year, colour);
+
+
 
 			
 

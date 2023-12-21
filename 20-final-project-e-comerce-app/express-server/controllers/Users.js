@@ -106,7 +106,12 @@ const deleteUser = (req, res, next) => {
 }
 
 const updateUser = async (req, res, next) => {
-    const { userId } = req.params;
+    // middleware creates req.user
+    const { userId } = req.params
+    // only admins and the user themself can access this route
+    if (Number(userId) !== req.user.userId && !req.user.is_admin) {
+        return next(createCustomError('Only logged in user and admins can update profile', StatusCodes.BAD_REQUEST));
+    }
     const updatedUserData = req.body;
 
     const idIsInteger = idIntegerValidator(userId);
