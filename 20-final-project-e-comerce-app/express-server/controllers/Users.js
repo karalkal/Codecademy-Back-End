@@ -8,7 +8,7 @@ const { createCustomError } = require('../errors/custom-error')
 
 
 const getAllUsers = (req, res, next) => {
-    pool.query('SELECT * FROM db_user ORDER BY id ASC', (error, results) => {
+    pool.query('SELECT id, f_name, l_name, city, country FROM db_user ORDER BY id ASC', (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
@@ -17,6 +17,8 @@ const getAllUsers = (req, res, next) => {
 }
 
 const getUserById = (req, res, next) => {
+    // middleware creates req.user
+    console.log(req.user)
     const { userId } = req.params
     const idIsInteger = idIntegerValidator(userId);
     if (!idIsInteger) {
