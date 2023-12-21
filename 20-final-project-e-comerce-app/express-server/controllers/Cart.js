@@ -1,55 +1,26 @@
 const { StatusCodes } = require('http-status-codes')
 const { pool } = require('../db/connect')
-const bcrypt = require('bcryptjs')
 
 const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../utils-validators/queryCreators')
 const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/validators')
 const { createCustomError } = require('../errors/custom-error')
 
 
-const getAllOrders = (req, res, next) => {
-    pool.query('SELECT * FROM purchase ORDER BY id ASC', (error, results) => {
-        if (error) {
-            return next(createCustomError(error, StatusCodes.BAD_REQUEST))
-        }
-        res.status(StatusCodes.OK).json(results.rows)
-    })
-}
-
-const getOrderByOrderId = (req, res, next) => {
-    const { orderId } = req.params
-    const idIsInteger = idIntegerValidator(orderId);
+const getCartByUserId = (req, res, next) => {
+    const { userId } = req.params
+    const idIsInteger = idIntegerValidator(userId);
     if (!idIsInteger) {
         return next(createCustomError('Order id must be positive integer', StatusCodes.BAD_REQUEST));
     }
 
-    pool.query(`SELECT * FROM purchase WHERE purchase.id = ${orderId}`, (error, results) => {
+    pool.query(`SELECT * FROM purchase WHERE purchase.id = ${userId}`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {            // create error object ---> go to next middleware, eventually errorHandler
-            return next(createCustomError(`No order with id ${orderId} found`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`No order with id ${userId} found`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.OK).json(results.rows[0])
-    })
-}
-
-const getOrdersByUserId = (req, res, next) => {
-    // middleware creates req.user
-    const { userId } = req.params
-    // only admins and the user themself can access this route
-    if (Number(userId) !== req.user.userId && !req.user.is_admin) {
-        return next(createCustomError('You ain\'t gonna get that', StatusCodes.BAD_REQUEST));
-    }
-
-    pool.query(`SELECT * FROM purchase WHERE purchase.user_id = ${userId}`, (error, results) => {
-        if (error) {
-            return next(createCustomError(error, StatusCodes.BAD_REQUEST))
-        }
-        if (typeof results.rowCount !== 'undefined' && results.rowCount === 0) {            // create error object ---> go to next middleware, eventually errorHandler
-            return next(createCustomError(`No orders for user ${userId} found`, StatusCodes.NOT_FOUND))
-        }
-        res.status(StatusCodes.OK).json(results.rows)
     })
 }
 
@@ -107,7 +78,7 @@ const updateOrder = async (req, res, next) => {
     if (undefinedProperty) {
         return next(createCustomError(`Cannot update: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
     }
-
+    
     const updateQuery = createUpdateQuery("purchase", orderId, updatedOrderData);
 
     pool.query(updateQuery, (error, results) => {
@@ -122,4 +93,4 @@ const updateOrder = async (req, res, next) => {
 }
 
 
-module.exports = { getAllOrders, getOrderByOrderId, getOrdersByUserId, createOrder, deleteOrder, updateOrder }
+module.exports = { getAllOrders, getOrderById: getCartByUserId, createOrder, deleteOrder, updateOrder }
