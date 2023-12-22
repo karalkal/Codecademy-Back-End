@@ -101,6 +101,7 @@ function createUpdateQuery(tableName, itemId, updatedData) {
             updatedData.street_name, updatedData.city, updatedData.country, updatedData.is_admin, updatedData.is_contributor
         ]
     }
+    
     if (tableName === "purchase") {
         text = 'UPDATE ' + tableName + ' SET ' + 'total = $1,' + 'placed_on = $2,' + 'fulfilled_on = $3,' + 'user_id = $4' + ' WHERE id = ' + itemId + 'RETURNING *'
         values = [updatedData.total, updatedData.placed_on || null, updatedData.fulfilled_on || null, updatedData.user_id]

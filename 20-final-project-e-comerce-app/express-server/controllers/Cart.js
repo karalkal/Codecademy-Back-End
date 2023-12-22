@@ -36,8 +36,9 @@ const getCartByUserId = (req, res, next) => {
     })
 }
 
-// USED FOR ADDING ITEMS TO CART
-const createCart = async (req, res, next) => {
+// USED FOR ADDING ITEMS TO CART - 
+// here each "cart" object will contain relation album - user with a specific cartNumber which is not id
+const createCartItem = async (req, res, next) => {
     const cartData = req.body
     // all must be inetegers
     const cartNoIsInteger = idIntegerValidator(cartData.cart_no);
@@ -69,8 +70,8 @@ const createCart = async (req, res, next) => {
     })
 }
 
-// DELETE CART - body has userId and cardId
-const deleteCart = (req, res, next) => {
+// EMPTY cart by cart number (NOT id) - body has cart_no and user_id
+const emptyCart = (req, res, next) => {
     const cartData = req.body
     // all must be inetegers
     const cartNoIsInteger = idIntegerValidator(cartData.cart_no);
@@ -102,31 +103,34 @@ const deleteCart = (req, res, next) => {
 }
 
 // USED FOR REMOVING ITEMS FROM CART
-const updateCart = async (req, res, next) => {
-    const { orderId } = req.params;
-    const updatedOrderData = req.body;
-
-    const idIsInteger = idIntegerValidator(orderId);
-    if (!idIsInteger) {
-        return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
-    }
-    const undefinedProperty = verifyNonNullableFields("purchase", updatedOrderData);
-    if (undefinedProperty) {
-        return next(createCustomError(`Cannot update: essential data missing - ${undefinedProperty}`, StatusCodes.BAD_REQUEST));
+const removeCartItem = async (req, res, next) => {
+    const updatedCartData = req.body
+    // all must be inetegers
+    const cartNoIsInteger = idIntegerValidator(updatedCartData.cart_no);
+    const albumIdIsInteger = idIntegerValidator(updatedCartData.album_id);
+    const userIdIsInteger = idIntegerValidator(updatedCartData.user_id);
+    if (!cartNoIsInteger || !albumIdIsInteger || !userIdIsInteger) {
+        return next(createCustomError('All fields must be positive integers', StatusCodes.BAD_REQUEST));
     }
 
-    const updateQuery = createUpdateQuery("purchase", orderId, updatedOrderData);
+    // only admins and the user themselves can access this route- middleware creates req.user
+    // NB - Here userId is not param but is within body
+    if (Number(req.body.user_id) !== req.user.userId && !req.user.is_admin) {
+        return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
+    }
+
+    const updateQuery = createUpdateQuery("cart", updatedCartData);
 
     pool.query(updateQuery, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
-        if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {
-            return next(createCustomError(`No order with id ${orderId} found`, StatusCodes.NOT_FOUND))
+        if (typeof results.rowCount !== 'undefined' && results.rowCount < 1) {
+            return next(createCustomError(`No cart with id ${orderId} found`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.OK).json(results.rows)
     })
 }
 
 
-module.exports = { getCartByUserId, createCart, deleteCart, updateCart }
+module.exports = { getCartByUserId, createCartItem, removeCartItem, emptyCart }
