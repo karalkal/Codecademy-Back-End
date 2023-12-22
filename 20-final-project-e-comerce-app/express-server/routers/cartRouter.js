@@ -8,7 +8,7 @@ const cartRouter = express.Router({ mergeParams: true });
 
 cartRouter.get("/:userId", userAuthentication, getCartByUserId);
 cartRouter.put("/add", userAuthentication, createCartItem);   // used to add items
-cartRouter.put("/remove", userAuthentication, removeCartItem); // used to remove items
+cartRouter.delete("/remove", userAuthentication, removeCartItem); // used to remove items
 cartRouter.delete("/", userAuthentication, emptyCart);  // empty cart
 
 

@@ -47,7 +47,7 @@ function createInsertQuery(tableName, dataToInsert) {
     return { text, values }   // as object
 }
 
-function createDeleteQuery(tableName, firstArg, secondArd) {
+function createDeleteQuery(tableName, firstArg, secondArg, thirdArg) {
     let text
     let values
     if (["album", "band", "genre", "label", "db_user"].includes(tableName)) {
@@ -56,11 +56,15 @@ function createDeleteQuery(tableName, firstArg, secondArd) {
     }
     if (tableName === "album_genre") {
         text = 'DELETE FROM ' + tableName + ' WHERE album_id=$1 AND genre_id=$2'
-        values = [firstArg, secondArd]
+        values = [firstArg, secondArg]
+    }       // used to empty cart and to remove item, will depend on first arg - cart_no or id
+    if (tableName === "cart" && firstArg === "empty") {
+        text = 'DELETE FROM ' + tableName + ' WHERE cart_no = $1 AND user_id = $2'
+        values = [secondArg, thirdArg]
     }
-    if (tableName === "cart") {
-        text = 'DELETE FROM ' + tableName + ' WHERE cart_no=$1'
-        values = [firstArg]
+    if (tableName === "cart" && firstArg === "remove_single") {
+        text = 'DELETE FROM ' + tableName + ' WHERE id = $1 AND user_id = $2'
+        values = [secondArg, thirdArg]
     }
     if (tableName === "purchase") {
         text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
@@ -101,7 +105,6 @@ function createUpdateQuery(tableName, itemId, updatedData) {
             updatedData.street_name, updatedData.city, updatedData.country, updatedData.is_admin, updatedData.is_contributor
         ]
     }
-    
     if (tableName === "purchase") {
         text = 'UPDATE ' + tableName + ' SET ' + 'total = $1,' + 'placed_on = $2,' + 'fulfilled_on = $3,' + 'user_id = $4' + ' WHERE id = ' + itemId + 'RETURNING *'
         values = [updatedData.total, updatedData.placed_on || null, updatedData.fulfilled_on || null, updatedData.user_id]

@@ -70,6 +70,33 @@ const createCartItem = async (req, res, next) => {
     })
 }
 
+// will get ID which is unique PK (not cart number), also user_id to check if authorised to remove
+const removeCartItem = async (req, res, next) => {
+    // all must be inetegers
+    const cartIDIsInteger = idIntegerValidator(req.body.id);
+    if (!cartIDIsInteger) {
+        return next(createCustomError('cart ID must be positive integer', StatusCodes.BAD_REQUEST));
+    }
+
+    // only admins and the user themselves can access this route- middleware creates req.user
+    // NB - Here userId is not param but is within body
+    if (Number(req.body.user_id) !== req.user.userId && !req.user.is_admin) {
+        return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
+    }
+
+    const deleteQuery = createDeleteQuery("cart", "remove_single", req.body.id, req.body.user_id);
+
+    pool.query(deleteQuery, (error, results) => {
+        if (error) {
+            return next(createCustomError(error, StatusCodes.BAD_REQUEST))
+        }
+        if (typeof results.rowCount !== 'undefined' && results.rowCount < 1) {
+            return next(createCustomError(`No cart with id ${req.body.id} found`, StatusCodes.NOT_FOUND))
+        }
+        res.status(StatusCodes.NO_CONTENT).send()
+    })
+}
+
 // EMPTY cart by cart number (NOT id) - body has cart_no and user_id
 const emptyCart = (req, res, next) => {
     const cartData = req.body
@@ -87,11 +114,13 @@ const emptyCart = (req, res, next) => {
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
         return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
     }
+    // does not work like below with cart_no send as argument
+    // text = 'DELETE FROM ' + tableName + ' WHERE $1 = $2;'
 
-    const deleteQuery = createDeleteQuery("cart", cartNo)
+    const deleteQuery = createDeleteQuery("cart", "empty", cartNo, userId)
+    console.log(deleteQuery)
 
     pool.query(deleteQuery, (error, results) => {
-        console.log(results)
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
@@ -99,36 +128,6 @@ const emptyCart = (req, res, next) => {
             return next(createCustomError(`No cart with number ${cartNo} found`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.NO_CONTENT).send()
-    })
-}
-
-// USED FOR REMOVING ITEMS FROM CART
-const removeCartItem = async (req, res, next) => {
-    const updatedCartData = req.body
-    // all must be inetegers
-    const cartNoIsInteger = idIntegerValidator(updatedCartData.cart_no);
-    const albumIdIsInteger = idIntegerValidator(updatedCartData.album_id);
-    const userIdIsInteger = idIntegerValidator(updatedCartData.user_id);
-    if (!cartNoIsInteger || !albumIdIsInteger || !userIdIsInteger) {
-        return next(createCustomError('All fields must be positive integers', StatusCodes.BAD_REQUEST));
-    }
-
-    // only admins and the user themselves can access this route- middleware creates req.user
-    // NB - Here userId is not param but is within body
-    if (Number(req.body.user_id) !== req.user.userId && !req.user.is_admin) {
-        return next(createCustomError('You ain\'t gonna go there', StatusCodes.BAD_REQUEST));
-    }
-
-    const updateQuery = createUpdateQuery("cart", updatedCartData);
-
-    pool.query(updateQuery, (error, results) => {
-        if (error) {
-            return next(createCustomError(error, StatusCodes.BAD_REQUEST))
-        }
-        if (typeof results.rowCount !== 'undefined' && results.rowCount < 1) {
-            return next(createCustomError(`No cart with id ${orderId} found`, StatusCodes.NOT_FOUND))
-        }
-        res.status(StatusCodes.OK).json(results.rows)
     })
 }
 
