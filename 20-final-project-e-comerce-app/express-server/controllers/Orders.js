@@ -42,7 +42,14 @@ const getOrdersByUserId = (req, res, next) => {
         return next(createCustomError('You can view your own orders only', StatusCodes.BAD_REQUEST));
     }
 
-    pool.query(`SELECT * FROM purchase WHERE purchase.user_id = ${userId}`, (error, results) => {
+    pool.query(`SELECT *, array(
+            SELECT album.id 
+            from album 
+            LEFT JOIN cart 
+            on cart.album_id = album.id
+            WHERE cart.user_id = ${userId}
+            ) as albums_ordered
+            FROM purchase `, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }

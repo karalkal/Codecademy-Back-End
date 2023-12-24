@@ -59,7 +59,16 @@ CREATE TRIGGER calculate_order_total
 INSERT into purchase ( cart_no, user_id)
 VALUES (1, 6);
 
-select *  from purchase;
+select *,  
+	array(
+		SELECT album.id 
+    	from album 
+    	LEFT JOIN cart 
+    	on cart.album_id = album.id
+		WHERE cart.user_id =6
+    	) as albums_ordered
+from purchase
+
 
 
 -- UPDATE purchase p
