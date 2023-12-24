@@ -15,27 +15,67 @@ INSERT into cart (cart_no, album_id, user_id) 	values (1, 1, 1);
 INSERT into cart (cart_no, album_id, user_id) 	values (1, 9, 1);
 INSERT into cart (cart_no, album_id, user_id) 	values (1, 1, 1);
 
-
 drop table if exists purchase;
+
 CREATE TABLE IF NOT EXISTS purchase(
 		id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-		total numeric(5, 2) DEFAULT 0,
-		placed_on time,
+		total numeric(5, 2),
+		placed_on TIMESTAMPTZ DEFAULT Now(),
 		fulfilled_on time,
--- 		cart_id integer REFERENCES cart(id) UNIQUE,
-		user_id integer REFERENCES db_user(id)		
+		cart_no INTEGER NOT NULL, -- need to get this value from cart(cart_no) and put it here as it will also relate to album-user
+		user_id integer REFERENCES db_user(id),
+	    UNIQUE (cart_no, user_id)
 	);
 
+-- copy cart no from cart, note this one is not unique and cannot be FK
+UPDATE purchase
+SET cart_no = (SELECT cart_no FROM cart WHERE user_id = cart.user_id);
 
-SELECT cart.id AS "Cart ID", cart.cart_no AS "Cart No",
-db_user.id as "User ID", db_user.email as "User email",
-album.id as "Album ID", album.name as "Album Name", album.band_name as "Band Name", 
-album.quantity as "Quantity", album.price as "Price"
-FROM cart
-JOIN album ON cart.album_id = album.id
-JOIN db_user on cart.user_id = db_user.id;
+-- calculte total
+CREATE OR REPLACE FUNCTION  autosum_product_price()
+RETURNS trigger AS
+	'begin
+		UPDATE purchase p
+		   SET total = c.total
+				FROM (SELECT cart.cart_no, SUM (album.price) AS total
+					FROM album
+					JOIN cart ON cart.album_id = album.id
+					GROUP BY cart.cart_no
+					) c 
+				WHERE p.cart_no = c.cart_no;				
+		
+	RETURN NEW; 
+	end;'
+LANGUAGE plpgsql;
 
 
+drop trigger if exists calculate_order_total ON purchase CASCADE;
+CREATE TRIGGER calculate_order_total
+  AFTER INSERT
+  ON purchase
+  EXECUTE PROCEDURE autosum_product_price();
+  
+  -- place order
+INSERT into purchase ( cart_no, user_id)
+VALUES (1, 6);
+
+select *  from purchase;
+
+
+-- UPDATE purchase p
+--     SET total = c.total
+-- FROM (SELECT cart.cart_no, SUM (album.price) AS total
+-- 		FROM album
+-- 		JOIN cart ON cart.album_id = album.id
+-- 	  	GROUP BY cart.cart_no
+--      ) c 
+-- WHERE p.cart_no = c.cart_no;
+
+
+-- select cart.id as "Cart ID", cart.cart_no, cart.user_id, album.name, album.band_name, album.colour, album.price, album.price from cart 
+-- JOIN album
+-- ON album.id = cart.album_id
+-- where cart.user_id = 6 and cart.cart_no = 1;
 
 
 
