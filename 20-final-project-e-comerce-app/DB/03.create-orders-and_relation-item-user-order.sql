@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS purchase(
 	);
 
 
-
 SELECT cart.id AS "Cart ID", cart.cart_no AS "Cart No",
 db_user.id as "User ID", db_user.email as "User email",
 album.id as "Album ID", album.name as "Album Name", album.band_name as "Band Name", 

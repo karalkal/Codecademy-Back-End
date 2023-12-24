@@ -1,12 +1,11 @@
 const { StatusCodes } = require('http-status-codes')
 const { pool } = require('../db/connect')
-const bcrypt = require('bcryptjs')
 
 const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../utils-validators/queryCreators')
 const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/validators')
 const { createCustomError } = require('../errors/custom-error')
 
-
+// route accessible to admins only
 const getAllOrders = (req, res, next) => {
     pool.query('SELECT * FROM purchase ORDER BY id ASC', (error, results) => {
         if (error) {
@@ -16,6 +15,7 @@ const getAllOrders = (req, res, next) => {
     })
 }
 
+// route accessible to admins only
 const getOrderByOrderId = (req, res, next) => {
     const { orderId } = req.params
     const idIsInteger = idIntegerValidator(orderId);
@@ -39,7 +39,7 @@ const getOrdersByUserId = (req, res, next) => {
     const { userId } = req.params
     // only admins and the user themselves can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
-        return next(createCustomError('You ain\'t gonna get that', StatusCodes.BAD_REQUEST));
+        return next(createCustomError('You can view your own orders only', StatusCodes.BAD_REQUEST));
     }
 
     pool.query(`SELECT * FROM purchase WHERE purchase.user_id = ${userId}`, (error, results) => {
