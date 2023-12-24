@@ -23,7 +23,18 @@ const getOrderByOrderId = (req, res, next) => {
         return next(createCustomError('Order id must be positive integer', StatusCodes.BAD_REQUEST));
     }
 
-    pool.query(`SELECT * FROM purchase WHERE purchase.id = ${orderId}`, (error, results) => {
+    pool.query(`SELECT distinct purchase.*, cart.cart_no, cart.user_id,
+array(
+		SELECT album.id 
+    	from album 
+    	LEFT JOIN cart 
+    	on cart.album_id = album.id
+		WHERE cart.cart_no = purchase.cart_no
+    	) as albums_ordered
+from purchase 
+LEFT JOIN cart 
+on cart.cart_no = purchase.cart_no
+where purchase.id = ${orderId};`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
