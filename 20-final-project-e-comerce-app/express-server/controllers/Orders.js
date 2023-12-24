@@ -54,6 +54,13 @@ const getOrdersByUserId = (req, res, next) => {
 }
 
 const createOrder = async (req, res, next) => {
+    // First check if the user is creating order for themselves - you cannot allow user 1 to create order for user 2
+    // only admins and the user themselves can access this route- middleware creates req.user
+    // NB - Here userId is not param but is within body
+    if (Number(req.body.user_id) !== req.user.userId && !req.user.is_admin) {
+        return next(createCustomError('You cannot create orders for other users, obviously', StatusCodes.BAD_REQUEST));
+    }
+
     const orderData = req.body
     // Validations
     const undefinedProperty = verifyNonNullableFields("order", orderData);

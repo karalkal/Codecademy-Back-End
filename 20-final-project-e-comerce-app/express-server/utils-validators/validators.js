@@ -33,7 +33,7 @@ function verifyNonNullableFields(entity, data) {
         essentialData = { cart_no: data.cart_no, album_id: data.album_id, user_id: data.user_id }
     }
     if (entity === "order") {
-        essentialData = { total: data.total, user_id: data.user_id }
+        essentialData = { total: data.cart_no, user_id: data.user_id }
     }
 
     //generic validation, if any of the required properties is undefined, return its key, so it can be displayed in error message, check for " " as well

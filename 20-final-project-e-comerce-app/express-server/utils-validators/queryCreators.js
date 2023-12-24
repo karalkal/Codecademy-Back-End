@@ -38,9 +38,9 @@ function createInsertQuery(tableName, dataToInsert) {
         values = [dataToInsert.cart_no, dataToInsert.album_id, dataToInsert.user_id]
     }
     if (tableName === "purchase") {
-        text = 'INSERT INTO ' + tableName + ' (total, placed_on, fulfilled_on, user_id) '
+        text = 'INSERT INTO ' + tableName + ' (cart_no, placed_on, fulfilled_on, user_id) '
             + ' VALUES ($1, $2, $3, $4) RETURNING *'
-        values = [dataToInsert.total, dataToInsert.placed_on || null, dataToInsert.fulfilled_on || null, dataToInsert.user_id]
+        values = [dataToInsert.cart_no, dataToInsert.placed_on || null, dataToInsert.fulfilled_on || null, dataToInsert.user_id]
     }
 
 
