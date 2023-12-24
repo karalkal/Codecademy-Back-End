@@ -24,17 +24,17 @@ const getOrderByOrderId = (req, res, next) => {
     }
 
     pool.query(`SELECT distinct purchase.*, cart.cart_no, cart.user_id,
-array(
-		SELECT album.id 
-    	from album 
-    	LEFT JOIN cart 
-    	on cart.album_id = album.id
-		WHERE cart.cart_no = purchase.cart_no
-    	) as albums_ordered
-from purchase 
-LEFT JOIN cart 
-on cart.cart_no = purchase.cart_no
-where purchase.id = ${orderId};`, (error, results) => {
+            array(
+                SELECT album.id 
+                from album 
+                LEFT JOIN cart 
+                on cart.album_id = album.id
+                WHERE cart.cart_no = purchase.cart_no
+                ) as albums_ordered
+            from purchase 
+            LEFT JOIN cart 
+            on cart.cart_no = purchase.cart_no
+            where purchase.id = ${orderId};`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
