@@ -88,20 +88,20 @@ from purchase
 
 
 
-select * from purchase;
+SELECT *, array(
+            SELECT album.id 
+            from album 
+            LEFT JOIN cart 
+            on cart.album_id = album.id
+            LEFT JOIN purchase 
+            on purchase.cart_no = cart.cart_no
+            WHERE cart.user_id = 1
+            AND purchase.id = 13
 
-select distinct purchase.*, cart.cart_no, cart.user_id,
-array(
-		SELECT album.id 
-    	from album 
-    	LEFT JOIN cart 
-    	on cart.album_id = album.id
-		WHERE cart.cart_no = purchase.cart_no
-    	) as albums_ordered
-from purchase 
-LEFT JOIN cart 
-on cart.cart_no = purchase.cart_no
-where purchase.id = 8;
+            ) as albums_ordered
+            FROM purchase            
+            WHERE purchase.user_id = 1
+            AND purchase.id = 13
 
 
 

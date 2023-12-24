@@ -5,9 +5,12 @@ const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../
 const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/validators')
 const { createCustomError } = require('../errors/custom-error')
 
-// route accessible to admins only
+// If regular user, they can view their own orders only
 const getAllOrders = (req, res, next) => {
-    pool.query('SELECT * FROM purchase ORDER BY id ASC', (error, results) => {
+    // getting req.user from auth middleware
+    const whereClause = req.user.is_admin ? '' : `WHERE purchase.user_id = ${req.user.userId}`
+
+    pool.query(`SELECT * FROM purchase ${whereClause} ORDER BY id ASC `, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
@@ -15,15 +18,15 @@ const getAllOrders = (req, res, next) => {
     })
 }
 
-// route accessible to admins only
+// REDUNDANT
+/*
 const getOrderByOrderId = (req, res, next) => {
     const { orderId } = req.params
     const idIsInteger = idIntegerValidator(orderId);
     if (!idIsInteger) {
         return next(createCustomError('Order id must be positive integer', StatusCodes.BAD_REQUEST));
     }
-
-    pool.query(`SELECT distinct purchase.*, cart.cart_no, cart.user_id,
+    pool.query(`SELECT distinct purchase.*,
             array(
                 SELECT album.id 
                 from album 
@@ -32,8 +35,7 @@ const getOrderByOrderId = (req, res, next) => {
                 WHERE cart.cart_no = purchase.cart_no
                 ) as albums_ordered
             from purchase 
-            LEFT JOIN cart 
-            on cart.cart_no = purchase.cart_no
+            
             where purchase.id = ${orderId};`, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
@@ -44,13 +46,14 @@ const getOrderByOrderId = (req, res, next) => {
         res.status(StatusCodes.OK).json(results.rows[0])
     })
 }
+*/
 
-const getOrdersByUserId = (req, res, next) => {
+const getOrdersByUserAndOrderId = (req, res, next) => {
     // middleware creates req.user
-    const { userId } = req.params
+    const { userId, orderId } = req.params
     // only admins and the user themselves can access this route
     if (Number(userId) !== req.user.userId && !req.user.is_admin) {
-        return next(createCustomError('You can view your own orders only', StatusCodes.BAD_REQUEST));
+        return next(createCustomError('Regular users can view their own orders only', StatusCodes.BAD_REQUEST));
     }
 
     pool.query(`SELECT *, array(
@@ -58,14 +61,21 @@ const getOrdersByUserId = (req, res, next) => {
             from album 
             LEFT JOIN cart 
             on cart.album_id = album.id
+            LEFT JOIN purchase 
+            on purchase.cart_no = cart.cart_no
             WHERE cart.user_id = ${userId}
+            AND purchase.id = ${orderId}
+
             ) as albums_ordered
-            FROM purchase `, (error, results) => {
+            FROM purchase            
+            WHERE purchase.user_id = ${userId}
+            AND purchase.id = ${orderId}
+            `, (error, results) => {
         if (error) {
             return next(createCustomError(error, StatusCodes.BAD_REQUEST))
         }
         if (typeof results.rowCount !== 'undefined' && results.rowCount === 0) {            // create error object ---> go to next middleware, eventually errorHandler
-            return next(createCustomError(`No orders for user ${userId} found`, StatusCodes.NOT_FOUND))
+            return next(createCustomError(`No order ${orderId} for user ${userId} found`, StatusCodes.NOT_FOUND))
         }
         res.status(StatusCodes.OK).json(results.rows)
     })
@@ -147,4 +157,4 @@ const updateOrder = async (req, res, next) => {
 }
 
 
-module.exports = { getAllOrders, getOrderByOrderId, getOrdersByUserId, createOrder, deleteOrder, updateOrder }
+module.exports = { getAllOrders, getOrdersByUserAndOrderId, createOrder, deleteOrder, updateOrder }

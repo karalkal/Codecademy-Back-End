@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllOrders, getOrderByOrderId, getOrdersByUserId, createOrder, deleteOrder, updateOrder } = require('../controllers/Orders');
+const { getAllOrders, getOrdersByUserAndOrderId, createOrder, deleteOrder, updateOrder } = require('../controllers/Orders');
 const userAuthentication = require('../middleware/userAuthentication');
 const adminAuthorization = require('../middleware/adminAuthorization');
 
@@ -7,12 +7,10 @@ const adminAuthorization = require('../middleware/adminAuthorization');
 // if you want to access params from the parent router
 const ordersRouter = express.Router({ mergeParams: true });
 
-// only admins can see all orders
-ordersRouter.get("/", adminAuthorization, getAllOrders);
-// url/order/order/id only admin can view by orderId
-ordersRouter.get("/order/:orderId", adminAuthorization, getOrderByOrderId);
-// url/order/user/id users can view their orders, admins too  
-ordersRouter.get("/user/:userId", userAuthentication, getOrdersByUserId);
+// users can view their orders only, admins can see all orders
+ordersRouter.get("/", userAuthentication, getAllOrders);
+// url/order/id/id - users can view their orders, admins too
+ordersRouter.get("/:userId/:orderId", userAuthentication, getOrdersByUserAndOrderId);
 // this is the route where an order is placed
 ordersRouter.post("/", userAuthentication, createOrder);
 // admins only can remove orders
