@@ -38,10 +38,9 @@ function createInsertQuery(tableName, dataToInsert) {
         values = [dataToInsert.cart_no, dataToInsert.album_id, dataToInsert.user_id]
     }
     if (tableName === "purchase") {
-        text = 'INSERT INTO ' + tableName + ' (cart_no, fulfilled_on, user_id) '
-            + ' VALUES ($1, $2, $3) RETURNING *'
-        // timestamp with Now() by default in DB
-        values = [dataToInsert.cart_no, dataToInsert.fulfilled_on || null, dataToInsert.user_id]
+        text = 'INSERT INTO ' + tableName + ' (cart_no, placed_on, fulfilled_on, user_id) '
+            + ' VALUES ($1, $2, $3, $4) RETURNING *'
+        values = [dataToInsert.cart_no, new Date(Date.now()), dataToInsert.fulfilled_on || null, dataToInsert.user_id]
     }
 
 
@@ -107,8 +106,10 @@ function createUpdateQuery(tableName, itemId, updatedData) {
         ]
     }
     if (tableName === "purchase") {
-        text = 'UPDATE ' + tableName + ' SET ' + 'total = $1,' + 'placed_on = $2,' + 'fulfilled_on = $3,' + 'user_id = $4' + ' WHERE id = ' + itemId + 'RETURNING *'
-        values = [updatedData.total, updatedData.placed_on || null, updatedData.fulfilled_on || null, updatedData.user_id]
+        let timestampOrNull = updatedData.fulfilled_on ? new Date(Date.now()) : null
+        text = 'UPDATE ' + tableName + ' SET ' + 'fulfilled_on = $1' + ' WHERE id = ' + itemId + ' RETURNING *'
+        // can pass true/false as argument, if not fulfilled -> NULL, otherwise timestamp
+        values = [timestampOrNull]
     }
 
     return { text, values }   // as object

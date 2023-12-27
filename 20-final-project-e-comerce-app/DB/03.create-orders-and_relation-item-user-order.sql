@@ -20,8 +20,8 @@ drop table if exists purchase;
 CREATE TABLE IF NOT EXISTS purchase(
 		id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 		total numeric(5, 2),
-		placed_on timestamp not null DEFAULT NOW(),
-		fulfilled_on time,
+		placed_on TIMESTAMP DEFAULT NULL,	-- js will timestamp both, former upon POST, latter upon UPDATE
+		fulfilled_on TIMESTAMP DEFAULT NULL,
 		cart_no INTEGER NOT NULL, -- need to get this value from cart(cart_no) and put it here as it will also relate to album-user
 		user_id integer REFERENCES db_user(id),
 	    UNIQUE (cart_no, user_id)
@@ -101,8 +101,6 @@ SELECT *, array(
             ) as albums_ordered
             FROM purchase            
             WHERE purchase.user_id = 1
-            AND purchase.id = 13
-
-
-
-
+            AND purchase.id = 13;
+			
+			

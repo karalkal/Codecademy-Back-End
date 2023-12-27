@@ -133,7 +133,6 @@ const deleteOrder = (req, res, next) => {
 const updateOrder = async (req, res, next) => {
     const { orderId } = req.params;
     const updatedOrderData = req.body;
-
     const idIsInteger = idIntegerValidator(orderId);
     if (!idIsInteger) {
         return next(createCustomError('User id must be positive integer', StatusCodes.BAD_REQUEST));
@@ -144,6 +143,7 @@ const updateOrder = async (req, res, next) => {
     }
 
     const updateQuery = createUpdateQuery("purchase", orderId, updatedOrderData);
+    console.log(updateQuery)
 
     pool.query(updateQuery, (error, results) => {
         if (error) {

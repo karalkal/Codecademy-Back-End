@@ -119,7 +119,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"name\": \"\",\n        \"band_name\": \"Blut Aus Nord\",\n        \"cover\": \"https://www.metal-archives.com/images/1/3/3/4/133408.jpg?5003\",\n        \"release_year\": 1996,\n        \"colour\": \"black\",\n        \"price\": 31,\n        \"quantity\": 8,\n        \"label_name\": \"Candlelight Records\"\n}",
+							"raw": "{\n        \"name\": \"to delete\",\n        \"band_name\": \"The Pogues\",\n        \"cover\": \"to delete\",\n        \"release_year\": 1991,\n        \"colour\": \"black\",\n        \"price\": 22,\n        \"quantity\": 1,\n        \"label_name\": \"Warner Music Group\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -240,13 +240,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/bands/9",
+							"raw": "{{URL}}/bands/19",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"bands",
-								"9"
+								"19"
 							]
 						}
 					},
@@ -269,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{        \"name\": \"Blut aus Nord\",\n        \"country\": \"France\"\n}",
+							"raw": "{        \"name\": \"The Pogues\",\n        \"country\": \"Ireland\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -677,7 +677,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{       \n     \"name\": \"Candlelight Records\"\n}",
+							"raw": "{       \n     \"name\": \"Warner Music Group\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -774,7 +774,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzExNzI1MSwiZXhwIjoxNzAzMjAzNjUxfQ.6ZZs0fQOPObjg7WtCFbo9HhC9gIAgKbpmoby9kpzY6M",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzYzNDM4NiwiZXhwIjoxNzAzNzIwNzg2fQ.t4_e8FYElH_ZNRxmZN-fDUDdetSoH0ittFrc0_KnTvY",
 									"type": "string"
 								}
 							]
@@ -802,7 +802,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzE3Mzc5OCwiZXhwIjoxNzAzMjYwMTk4fQ.gnkEJdnWymTGPDKkl22Fl-X7ICIyYwHGqPcQVb8gVwY",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NiwiZW1haWwiOiJkZEBkZC5kZCIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6ZmFsc2V9LCJpYXQiOjE3MDM0MzkzMjksImV4cCI6MTcwMzUyNTcyOX0.zRb1KQp8fzqzbsEK3j0U0JIpi5-RMQ1E8YptY971UCg",
 									"type": "string"
 								}
 							]
@@ -810,13 +810,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/users/6",
+							"raw": "{{URL}}/users/1",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"users",
-								"6"
+								"1"
 							]
 						}
 					},
@@ -936,7 +936,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzEzNTE5OSwiZXhwIjoxNzAzMjIxNTk5fQ.A8kZvHB6rKOWf3Xg5OHGG9dvOFuBou-AaRr5Djasq1I",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzYzNDM4NiwiZXhwIjoxNzAzNzIwNzg2fQ.t4_e8FYElH_ZNRxmZN-fDUDdetSoH0ittFrc0_KnTvY",
 									"type": "string"
 								}
 							]
@@ -957,23 +957,97 @@
 					"response": []
 				},
 				{
-					"name": "POST cart",
+					"name": "ADD item to cart",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzQzNDg0NSwiZXhwIjoxNzAzNTIxMjQ1fQ.6VNdMx179xcuSp1QG_YtfMs0frzzoZZoGG6tdSI-ZKg",
 									"type": "string"
 								}
 							]
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"total\": 0,\n    \"user_id\": 1\n}",
+							"raw": "{\n    \"cart_no\": 2, \n    \"album_id\": 13,\n    \"user_id\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/cart/add",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE item from cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NiwiZW1haWwiOiJkZEBkZC5kZCIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6ZmFsc2V9LCJpYXQiOjE3MDM0MzkzMjksImV4cCI6MTcwMzUyNTcyOX0.zRb1KQp8fzqzbsEK3j0U0JIpi5-RMQ1E8YptY971UCg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 53, \n    \"user_id\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/cart/remove",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"cart",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMPTY cart BY cart_no and user_id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzQzNDg0NSwiZXhwIjoxNzAzNTIxMjQ1fQ.6VNdMx179xcuSp1QG_YtfMs0frzzoZZoGG6tdSI-ZKg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cart_no\": 1, \n    \"user_id\": 6\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -987,71 +1061,6 @@
 							],
 							"path": [
 								"cart"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "UPDATE cart",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"total\": 18,\n    \"user_id\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/cart/3",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"cart",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE cart",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/cart/1",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"cart",
-								"1"
 							]
 						}
 					},
@@ -1070,7 +1079,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NiwiZW1haWwiOiJkZEBkZC5kZCIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6ZmFsc2V9LCJpYXQiOjE3MDMxMzQyODUsImV4cCI6MTcwMzIyMDY4NX0.UpkCaHgoj26YMzhttohn8HfFBkGlmn3XmwBOzNqbZSA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzYzNDM4NiwiZXhwIjoxNzAzNzIwNzg2fQ.t4_e8FYElH_ZNRxmZN-fDUDdetSoH0ittFrc0_KnTvY",
 									"type": "string"
 								}
 							]
@@ -1078,26 +1087,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/orders",
+							"raw": "{{URL}}/orders/",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"orders"
+								"orders",
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "GET order by ORDER ID",
+					"name": "GET single order by USER and ORDER IDs",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzEyODM3OSwiZXhwIjoxNzAzMjE0Nzc5fQ.kHqsJ9TmPI4r3K8QhYBZX95_5mOpl32ariUqQz0aDOA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzYzNDM4NiwiZXhwIjoxNzAzNzIwNzg2fQ.t4_e8FYElH_ZNRxmZN-fDUDdetSoH0ittFrc0_KnTvY",
 									"type": "string"
 								}
 							]
@@ -1105,42 +1115,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/orders/order/1",
+							"raw": "{{URL}}/orders/1/2",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"orders",
-								"order",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET order by USER ID",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NiwiZW1haWwiOiJkZEBkZC5kZCIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6ZmFsc2V9LCJpYXQiOjE3MDMxMzQyODUsImV4cCI6MTcwMzIyMDY4NX0.UpkCaHgoj26YMzhttohn8HfFBkGlmn3XmwBOzNqbZSA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/orders/user/2",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"orders",
-								"user",
+								"1",
 								"2"
 							]
 						}
@@ -1155,7 +1136,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzYzNDM4NiwiZXhwIjoxNzAzNzIwNzg2fQ.t4_e8FYElH_ZNRxmZN-fDUDdetSoH0ittFrc0_KnTvY",
 									"type": "string"
 								}
 							]
@@ -1164,7 +1145,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"total\": 0,\n    \"user_id\": 1\n}",
+							"raw": "{\n    \"cart_no\": 2,\n    \"user_id\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1184,14 +1165,14 @@
 					"response": []
 				},
 				{
-					"name": "UPDATE ORDER",
+					"name": "UPDATE ORDER(fulfilled timestamp or false)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzYzNDM4NiwiZXhwIjoxNzAzNzIwNzg2fQ.t4_e8FYElH_ZNRxmZN-fDUDdetSoH0ittFrc0_KnTvY",
 									"type": "string"
 								}
 							]
@@ -1200,7 +1181,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"total\": 18,\n    \"user_id\": 1\n}",
+							"raw": "{   \"id\": 2,\n    \"fulfilled_on\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1208,13 +1189,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/orders/3",
+							"raw": "{{URL}}/orders/4",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"orders",
-								"3"
+								"4"
 							]
 						}
 					},
@@ -1228,7 +1209,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMjg2OTc3NCwiZXhwIjoxNzAyOTU2MTc0fQ.NtJAEnvROoXSavJBY5gdOg0GdmX_myHzSCmXaxVIZig",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzYzNDM4NiwiZXhwIjoxNzAzNzIwNzg2fQ.t4_e8FYElH_ZNRxmZN-fDUDdetSoH0ittFrc0_KnTvY",
 									"type": "string"
 								}
 							]
@@ -1243,34 +1224,6 @@
 							"path": [
 								"orders",
 								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET ORDER by ID Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwiZW1haWwiOiJhYUBhYS5hYSIsImlzX2NvbnRyaWJ1dG9yIjp0cnVlLCJpc19hZG1pbiI6dHJ1ZX0sImlhdCI6MTcwMzEyODM3OSwiZXhwIjoxNzAzMjE0Nzc5fQ.kHqsJ9TmPI4r3K8QhYBZX95_5mOpl32ariUqQz0aDOA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/orders/6",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"orders",
-								"6"
 							]
 						}
 					},
