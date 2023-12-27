@@ -38,9 +38,10 @@ function createInsertQuery(tableName, dataToInsert) {
         values = [dataToInsert.cart_no, dataToInsert.album_id, dataToInsert.user_id]
     }
     if (tableName === "purchase") {
-        text = 'INSERT INTO ' + tableName + ' (cart_no, placed_on, fulfilled_on, user_id) '
-            + ' VALUES ($1, $2, $3, $4) RETURNING *'
-        values = [dataToInsert.cart_no, dataToInsert.placed_on || null, dataToInsert.fulfilled_on || null, dataToInsert.user_id]
+        text = 'INSERT INTO ' + tableName + ' (cart_no, fulfilled_on, user_id) '
+            + ' VALUES ($1, $2, $3) RETURNING *'
+        // timestamp with Now() by default in DB
+        values = [dataToInsert.cart_no, dataToInsert.fulfilled_on || null, dataToInsert.user_id]
     }
 
 

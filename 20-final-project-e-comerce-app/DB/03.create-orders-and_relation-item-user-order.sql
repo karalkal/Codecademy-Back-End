@@ -20,7 +20,7 @@ drop table if exists purchase;
 CREATE TABLE IF NOT EXISTS purchase(
 		id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 		total numeric(5, 2),
-		placed_on TIMESTAMPTZ DEFAULT Now(),
+		placed_on timestamp not null DEFAULT NOW(),
 		fulfilled_on time,
 		cart_no INTEGER NOT NULL, -- need to get this value from cart(cart_no) and put it here as it will also relate to album-user
 		user_id integer REFERENCES db_user(id),
@@ -67,7 +67,7 @@ select *,
     	on cart.album_id = album.id
 		WHERE cart.user_id =6
     	) as albums_ordered
-from purchase
+from purchase;
 
 
 

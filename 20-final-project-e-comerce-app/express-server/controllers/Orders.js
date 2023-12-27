@@ -18,8 +18,8 @@ const getAllOrders = (req, res, next) => {
     })
 }
 
-// REDUNDANT
 /*
+// REDUNDANT
 const getOrderByOrderId = (req, res, next) => {
     const { orderId } = req.params
     const idIsInteger = idIntegerValidator(orderId);
