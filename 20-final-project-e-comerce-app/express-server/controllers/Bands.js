@@ -4,7 +4,6 @@ const { createInsertQuery, createDeleteQuery, createUpdateQuery } = require('../
 const { idIntegerValidator, verifyNonNullableFields } = require('../utils-validators/validators')
 const { createCustomError } = require('../errors/custom-error')
 
-
 const getAllBands = (req, res, next) => {
     pool.query('SELECT id, name, country FROM band ORDER BY id ASC', (error, results) => {
         if (error) {

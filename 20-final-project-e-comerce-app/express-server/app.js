@@ -5,6 +5,8 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
 
+require('dotenv').config()
+
 const parentRouter = require('./routers/parentRouter');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
