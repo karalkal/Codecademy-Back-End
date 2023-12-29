@@ -57,7 +57,7 @@ CREATE TRIGGER calculate_order_total
   
   -- place order
 INSERT into purchase ( cart_no, user_id)
-VALUES (1, 6);
+VALUES (1, 1);
 
 select *,  
 	array(

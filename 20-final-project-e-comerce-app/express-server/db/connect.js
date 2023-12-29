@@ -8,6 +8,7 @@ const ELEPHANT_DB = process.env.ELEPHANT_DB
 
 console.log(ELEPHANT_PASS, ELEPHANT_URL)
 
+
 const pool = new Pool({
     user: ELEPHANT_USER,
     host: ELEPHANT_URL,
