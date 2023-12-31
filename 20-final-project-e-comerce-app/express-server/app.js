@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
 
+// extra security
+const helmet = require('helmet')
 const cors = require('cors')
+const xss = require('xss-clean')
+const rateLimiter = require('express-rate-limit')
+
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
 
@@ -15,8 +20,15 @@ const PORT = process.env.PORT || 3000;
 
 require("express-async-errors");
 
-// middleware for handling CORS requests from index.html
+app.set('trust proxy', 1)       // neede when deployed to heroku
+app.use(helmet())
 app.use(cors())
+app.use(xss())
+app.use(
+    rateLimiter({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    }))
 
 // Logging
 app.use(morgan('dev'));

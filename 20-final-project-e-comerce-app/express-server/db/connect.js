@@ -6,8 +6,6 @@ const ELEPHANT_PASS = process.env.ELEPHANT_PASS
 const ELEPHANT_USER = process.env.ELEPHANT_USER
 const ELEPHANT_DB = process.env.ELEPHANT_DB
 
-console.log(ELEPHANT_PASS, ELEPHANT_URL)
-
 
 const pool = new Pool({
     user: ELEPHANT_USER,
