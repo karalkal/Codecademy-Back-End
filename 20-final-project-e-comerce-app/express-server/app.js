@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 require("express-async-errors");
 
-app.set('trust proxy', 1)       // neede when deployed to heroku
+app.set('trust proxy', 1)       // needed when deployed to heroku
 app.use(helmet())
 app.use(cors())
 app.use(xss())
