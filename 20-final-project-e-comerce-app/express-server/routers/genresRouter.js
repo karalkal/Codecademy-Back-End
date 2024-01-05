@@ -7,11 +7,12 @@ const adminAuthorization = require('../middleware/adminAuthorization');
 // if you want to access params from the parent router
 const genresRouter = express.Router({ mergeParams: true });
 
+// anyone can view, only admins can create, update, delete
 genresRouter.get("/", getAllGenres);
 genresRouter.get("/:genreId", getGenreById);
-genresRouter.post("/", userAuthentication, adminAuthorization, createGenre);
-genresRouter.delete("/:genreId", userAuthentication, adminAuthorization, deleteGenre);
-genresRouter.put("/:genreId", userAuthentication, adminAuthorization, updateGenre);
+genresRouter.post("/", adminAuthorization, createGenre);
+genresRouter.delete("/:genreId", adminAuthorization, deleteGenre);
+genresRouter.put("/:genreId", adminAuthorization, updateGenre);
 
 
 module.exports = genresRouter

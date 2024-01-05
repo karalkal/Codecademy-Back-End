@@ -21,16 +21,24 @@ const getLabelById = (req, res, next) => {
         return next(createCustomError('Label id must be positive integer', StatusCodes.BAD_REQUEST));
     }
 
-    pool.query(`SELECT * FROM label WHERE id=${labelId}`, (error, results) => {
-        if (error) {
-            return next(createCustomError(error, StatusCodes.BAD_REQUEST))
-        }
-        if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {            // create error object ---> go to next middleware, eventually errorHandler
-            return next(createCustomError(`No label with id ${labelId} found`, StatusCodes.NOT_FOUND))
-        }
+    pool.query(`SELECT *,
+        array(
+            SELECT album.name
+            from album 
+            WHERE album.label_name = label.name
+            ) as album_array
+            FROM label
+            WHERE label.id = ${labelId};`
+        , (error, results) => {
+            if (error) {
+                return next(createCustomError(error, StatusCodes.BAD_REQUEST))
+            }
+            if (typeof results.rowCount !== 'undefined' && results.rowCount !== 1) {            // create error object ---> go to next middleware, eventually errorHandler
+                return next(createCustomError(`No label with id ${labelId} found`, StatusCodes.NOT_FOUND))
+            }
 
-        res.status(StatusCodes.OK).json(results.rows[0])
-    })
+            res.status(StatusCodes.OK).json(results.rows[0])
+        })
 }
 
 const createLabel = (req, res, next) => {

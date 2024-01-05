@@ -17,7 +17,7 @@ const adminAuthorization = async (req, res, next) => {
     if (!payload.user.is_admin){
       return next(createCustomError(`Insufficient privileges to access this route`, StatusCodes.UNAUTHORIZED))
     }
-    req.user = payload.user
+    req.user = payload.user   //attach the user object as prop to req
     next()
   } catch (error) {
     return next(createCustomError(`Error: ${error}`, StatusCodes.UNAUTHORIZED))

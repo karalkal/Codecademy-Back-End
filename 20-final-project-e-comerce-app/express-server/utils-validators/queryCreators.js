@@ -32,11 +32,22 @@ function createInsertQuery(tableName, dataToInsert) {
             dataToInsert.street_name, dataToInsert.city, dataToInsert.country, dataToInsert.is_admin || false, dataToInsert.is_contributor || false
         ]
     }
+    if (tableName === "cart") {
+        text = 'INSERT INTO ' + tableName + ' (cart_no, album_id, user_id) '
+            + ' VALUES ($1, $2, $3) RETURNING *'
+        values = [dataToInsert.cart_no, dataToInsert.album_id, dataToInsert.user_id]
+    }
+    if (tableName === "purchase") {
+        text = 'INSERT INTO ' + tableName + ' (cart_no, placed_on, fulfilled_on, user_id) '
+            + ' VALUES ($1, $2, $3, $4) RETURNING *'
+        values = [dataToInsert.cart_no, new Date(Date.now()), dataToInsert.fulfilled_on || null, dataToInsert.user_id]
+    }
+
 
     return { text, values }   // as object
 }
 
-function createDeleteQuery(tableName, firstArg, secondArd) {
+function createDeleteQuery(tableName, firstArg, secondArg, thirdArg) {
     let text
     let values
     if (["album", "band", "genre", "label", "db_user"].includes(tableName)) {
@@ -45,7 +56,19 @@ function createDeleteQuery(tableName, firstArg, secondArd) {
     }
     if (tableName === "album_genre") {
         text = 'DELETE FROM ' + tableName + ' WHERE album_id=$1 AND genre_id=$2'
-        values = [firstArg, secondArd]
+        values = [firstArg, secondArg]
+    }       // used to empty cart and to remove item, will depend on first arg - cart_no or id
+    if (tableName === "cart" && firstArg === "empty") {
+        text = 'DELETE FROM ' + tableName + ' WHERE cart_no = $1 AND user_id = $2'
+        values = [secondArg, thirdArg]
+    }
+    if (tableName === "cart" && firstArg === "remove_single") {
+        text = 'DELETE FROM ' + tableName + ' WHERE id = $1 AND user_id = $2'
+        values = [secondArg, thirdArg]
+    }
+    if (tableName === "purchase") {
+        text = 'DELETE FROM ' + tableName + ' WHERE id=$1'
+        values = [firstArg]
     }
 
     return { text, values }   // as object
@@ -81,6 +104,12 @@ function createUpdateQuery(tableName, itemId, updatedData) {
             updatedData.f_name, updatedData.l_name, updatedData.email, updatedData.password_hash, updatedData.house_number,
             updatedData.street_name, updatedData.city, updatedData.country, updatedData.is_admin, updatedData.is_contributor
         ]
+    }
+    if (tableName === "purchase") {
+        let timestampOrNull = updatedData.fulfilled_on ? new Date(Date.now()) : null
+        text = 'UPDATE ' + tableName + ' SET ' + 'fulfilled_on = $1' + ' WHERE id = ' + itemId + ' RETURNING *'
+        // can pass true/false as argument, if not fulfilled -> NULL, otherwise timestamp
+        values = [timestampOrNull]
     }
 
     return { text, values }   // as object
